@@ -1,0 +1,119 @@
+body {
+  background: url("../images/background.jpg") no-repeat center top fixed;
+  background-size: cover;
+}
+
+/* body:before
+ *
+ * content: ""
+ *
+ * display: block
+ *
+ * background: url("../images/background.jpg") no-repeat center top fixed
+ *
+ * //background-size: cover
+ *
+ * width: 1280px
+ *
+ * height: 720px
+ *
+ *
+ *
+ * filter: blur(5px) */
+.page-container {
+  grid-template-rows: 47px auto;
+  grid-template-areas: "header" "content";
+}
+
+.header {
+  position: fixed;
+  width: 100%;
+  z-index: 100;
+}
+.header .mx-auto {
+  margin-left: auto !important;
+}
+.header .ml-auto {
+  margin-left: 1rem !important;
+}
+.header .navbar {
+  border-bottom: 2px solid lightgray;
+}
+
+.content {
+  background-color: rgba(240, 240, 240, 0.9);
+  /* opacity: 0 */
+  align-self: stretch;
+  padding: 20px 60px;
+}
+.content .row {
+  justify-content: flex-start;
+}
+.content .col {
+  flex-grow: 0;
+}
+
+.book {
+  display: grid;
+  grid-template-areas: "book-cover" "book-title" "book-author" "book-rating";
+  width: max-content;
+  margin-bottom: 40px;
+  font-size: 0.9rem;
+}
+.book a,
+.book a:hover {
+  color: #222222;
+}
+
+.book-cover {
+  grid-area: book-cover;
+  text-align: center;
+}
+.book-cover img {
+  height: 300px;
+}
+
+.book-title {
+  grid-area: book-title;
+  text-align: left;
+  font-weight: bold;
+  margin-top: 5px;
+}
+
+.book-author {
+  grid-area: book-author;
+  text-align: left;
+  margin-top: -3px;
+}
+
+.book-rating {
+  grid-area: book-rating;
+  text-align: left;
+  margin: 7px 0px;
+  font-size: 0.9em;
+}
+
+.stars {
+  float: left;
+}
+
+.fa-star {
+  margin-right: 5px;
+}
+
+.fa-star-half {
+  position: absolute;
+  z-index: 1;
+  line-height: inherit;
+}
+
+.star-checked {
+  color: #ffe770;
+  text-shadow: 0 0 3px #222222;
+}
+
+.reviews-count {
+  float: right;
+}
+
+/*# sourceMappingURL=static/css/bookviews_search.css.map */

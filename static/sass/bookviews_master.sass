@@ -1,0 +1,124 @@
+@import _bookviews_variables
+
+//////////////////////////////////////////////////////////////////////////////////////////////
+
+// For debugging the layout
+//*
+//	border: 1px solid red
+
+body
+	margin: 0px
+	
+	font-family: "Open Sans", Helvetica, Arial, Sans-Serif
+	font-size: 100%
+
+// Main Grid
+.page-container
+	display: grid
+	grid-template-rows: $header-height auto $header-height * 2
+	grid-template-areas: "header" "content" "footer"
+	height: 100vh
+	width: 100%
+
+.header
+	grid-area: header
+
+	text-align: center
+
+	line-height: $header-height
+
+	color: white
+
+	//Bootstrap Customizations
+	.navbar
+		height: $header-height
+
+	.nav-link
+		padding: 0px
+
+	.dropdown-menu-right
+		right: -17px
+
+	.navbar-brand
+		padding: 0px
+
+.content
+	grid-area: content
+
+.footer
+	grid-area: footer
+
+// Logo
+%bookviews-logo
+	color: #006ecc
+
+	font-weight: bold
+
+.bookviews-logo-big
+	@extend %bookviews-logo
+	
+	font-size: 64px
+	text-shadow: 0 0 10px #ffffbe
+
+.bookviews-logo-header
+	@extend %bookviews-logo
+
+	//font-size: 
+
+// Search Bar
+%search-bar
+	input
+		background-color: hsl(0, 0%, 85%)
+		opacity: 0.9
+		
+		border: none
+		border-radius: 10px
+		
+		padding: 0.5rem
+
+		color: $darkest
+
+		font-size: 1.2rem
+
+		text-align: center
+		vertical-align: middle
+
+		&::placeholder
+			color: $darkest
+			opacity: 0.8
+
+			font-size: 1.2rem
+
+			vertical-align: middle
+
+		&:focus
+			background-color: hsl(0, 0%, 90%)
+			opacity: 1
+
+	// Bootstrap Customization
+	.btn
+		padding: .375rem 1.75rem
+		border-radius: 10px
+
+.search-bar-cover
+	@extend %search-bar
+	width: 800px
+
+.search-bar-header
+	@extend %search-bar
+
+	height: $header-height
+
+	input
+		font-size: 1rem
+		border-radius: 7px
+
+	.btn
+		border-radius: 5px
+
+//
+.height-screen
+	height: 100vh
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////
+// Bootstrap Customizations
