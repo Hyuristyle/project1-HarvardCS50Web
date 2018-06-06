@@ -1,0 +1,4 @@
+Design/
+*.py[co]
+__pycache__/
+flask_sessions/
