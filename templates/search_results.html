@@ -1,0 +1,112 @@
+{% extends "layout.html" %}
+
+{% block title %}
+	Bookviews | Search Results
+{% endblock %}
+
+{% block local_style %}
+	<link rel="stylesheet" type="text/css" href="static/css/bookviews_search.css">
+{% endblock %}
+
+{% block body %}
+	<div class="page-container">
+		<!-- HEADER -->
+		<div class="header">
+			<nav class="navbar navbar-expand-lg navbar-light bg-light">
+				<a class="navbar-brand" href="#">
+					<span class="bookviews-logo-header">Bookviews</span>
+				</a>
+				
+				<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+					<span class="navbar-toggler-icon"></span>
+				</button>
+
+				<div class="collapse navbar-collapse" id="navbarSupportedContent">
+					<div class="navbar-nav mx-auto w-75">
+						<form class="form-inline my-2 my-lg-0 w-100">
+							<div class="input-group search-bar-header mx-auto w-100">
+								<input type="input" class="form-control" id="SearchBarInput" placeholder="Search book ISBN, Title or Author">
+								<div class="input-group-append">
+									<button class="btn btn-primary" type="button">
+										<i class="fas fa-search"></i>
+									</button>
+								</div>
+							</div>
+						</form>
+					</div>
+
+					<ul class="navbar-nav ml-auto">
+						<li class="nav-item">
+							<a class="nav-link" href="#"><i class="fas fa-book"></i> My Reviews</a>
+						</li>
+
+						<!-- DROPDOWN -->
+						<li class="nav-item dropdown">
+							<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></a>
+							<div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+								<a class="dropdown-item" href="#">
+									<i class="fas fa-user-circle"></i> Settings
+								</a>
+								
+								<div class="dropdown-divider"></div>
+
+								<a class="dropdown-item" href="#">
+									<i class="fas fa-sign-out-alt"></i> Logout
+								</a>
+								</a>
+							</div>
+						</li>
+					</ul>
+				</div>
+			</nav>
+		</div>
+
+		<!-- CONTENT -->
+		<div class="content">
+			<div class="container-fluid">
+				<div class="row">
+				{% for book in search_results %}
+					<div class="col">
+						<div class="book">
+							<div class="book-cover">
+								<a href="/Book/{{ book.isbn }}"><img src="{{ book.cover }}"></a>
+							</div>
+
+							<div class="book-title">
+								<a href="/Book/{{ book.isbn }}">{{ book.title }}</a>
+							</div>
+
+							<div class="book-author">
+								by <a href="/Author/{{ book.author }}">{{ book.author }}</a>
+							</div>
+
+							<div class="book-rating">
+								<div class="stars">
+								{% set rating_fraction = (book.rating % 1)|round(1) %}
+								{% set rating_int = (book.rating - (book.rating % 1|round(1)|round(1)))|int %}
+
+								{% for star in range(rating_int) %}
+									<span class="fa fa-star star-checked"></span>
+								{% endfor %}
+								
+								{% if rating_fraction >= 0.5 %}
+									<span class="fa fa-star-half star-checked"></span>
+								{% endif %}
+								
+								{% for star in range(5 - rating_int) %}
+									<span class="fa fa-star"></span>
+								{% endfor %}
+								</div>
+
+								<div class="reviews-count">
+									<i class="fas fa-users"></i> {{ book.reviews_count }}
+								</div>
+							</div>
+						</div>
+					</div>
+				{% endfor %}
+				</div>
+			</div>
+		</div>
+	</div>
+{% endblock %}
