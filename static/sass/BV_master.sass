@@ -1,10 +1,4 @@
-@import _bookviews_variables
-
-//////////////////////////////////////////////////////////////////////////////////////////////
-
-// For debugging the layout
-//*
-//	border: 1px solid red
+@import _BV_variables
 
 body
 	margin: 0px
@@ -27,7 +21,7 @@ body
 
 	line-height: $header-height
 
-	color: white
+	color: $bright
 
 	//Bootstrap Customizations
 	.navbar
@@ -36,12 +30,59 @@ body
 	.nav-link
 		padding: 0px
 
+	.dropdown-menu
+		box-shadow: 0px 3px 6px -2px rgba(0, 0, 0, 0.3)
+
 	.dropdown-menu-right
-		right: -17px
+		right: -20px
+		width: 205px
+		margin-top: 0px
 
 	.navbar-brand
 		padding: 0px
 
+	.dropdown-toggle
+		padding-right: 0px !important
+
+//Bootstrap Customization
+.dropdown-menu
+	padding: 0px
+
+	background-color: $brightest
+
+	color: $darkest
+
+	border-radius: 0px 0px 0.25rem 0.25rem
+
+	.dropdown-item
+		padding: 0px 1rem
+
+		&:hover,
+		&:focus,
+		&:visited
+			background-color: $bright
+
+			color: $darkest
+
+			border-radius: 0px
+
+		&:active
+			background-color: #007bff
+
+			color: $brightest
+
+	.dropdown-divider
+		margin: 0px
+
+	.dropdown-item-bottom,
+	.dropdown-item-top
+		&:hover,
+		&:active,
+		&:focus,
+		&:visited
+			border-radius: inherit
+
+//
 .content
 	grid-area: content
 
@@ -50,7 +91,7 @@ body
 
 // Logo
 %bookviews-logo
-	color: #006ecc
+	color: $logo-color
 
 	font-weight: bold
 
@@ -68,8 +109,7 @@ body
 // Search Bar
 %search-bar
 	input
-		background-color: hsl(0, 0%, 85%)
-		opacity: 0.9
+		background-color: hsl(0, 0%, 88%)
 		
 		border: none
 		border-radius: 10px
@@ -79,20 +119,19 @@ body
 		color: $darkest
 
 		font-size: 1.2rem
-
 		text-align: center
 		vertical-align: middle
 
 		&::placeholder
 			color: $darkest
-			opacity: 0.8
+			opacity: 0.5
 
 			font-size: 1.2rem
 
 			vertical-align: middle
 
 		&:focus
-			background-color: hsl(0, 0%, 90%)
+			background-color: $brightest
 			opacity: 1
 
 	// Bootstrap Customization
@@ -110,9 +149,15 @@ body
 	height: $header-height
 
 	input
-		font-size: 1rem
+		font-size: 1.2rem
 		border-radius: 7px
 
+		&:focus
+			box-shadow: 0px 0px 20px 6px rgba(0, 0, 0, 0.3)
+
+			border: 2px solid hsla(208, 100%, 40%, 0.3)
+
+	// Bootstrap Customization
 	.btn
 		border-radius: 5px
 
@@ -120,5 +165,17 @@ body
 .height-screen
 	height: 100vh
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////
-// Bootstrap Customizations
+.badge
+	margin-left: 10px
+	margin-top: 2px
+
+	background: $logo-color
+	
+	color: $brightest
+
+.text-shadow
+	text-shadow: 0 0 10px $darkest
+
+.box-shadow-bottom
+	img
+		box-shadow: 0 8px 6px -6px $darkest

@@ -1,0 +1,64 @@
+.book {
+  display: grid;
+  grid-template-rows: max-content max-content max-content max-content;
+  grid-template-areas: "book-cover" "book-title" "book-author" "book-rating";
+  font-size: 0.9rem;
+}
+
+.book-cover {
+  grid-area: book-cover;
+  text-align: center;
+}
+.book-cover img {
+  height: 300px;
+}
+
+.book-title {
+  grid-area: book-title;
+  text-align: left;
+  font-weight: bold;
+}
+.book-title a,
+.book-title a:hover {
+  color: #222222;
+}
+
+.book-author {
+  grid-area: book-author;
+}
+
+.book-pub_date {
+  grid-area: book-pub_date;
+}
+
+.book-author,
+.book-pub_date {
+  text-align: left;
+  margin-top: -3px;
+}
+.book-author a,
+.book-author a:hover,
+.book-pub_date a,
+.book-pub_date a:hover {
+  color: #222222;
+}
+
+.book-rating {
+  grid-area: book-rating;
+  text-align: left;
+  margin: 7px 0px;
+  font-size: 0.9em;
+}
+
+.stars {
+  color: #006ecc;
+  letter-spacing: 0.1rem;
+}
+
+.fa-star-half {
+  position: absolute;
+  z-index: 1;
+  line-height: inherit;
+}
+
+/*# sourceMappingURL=static/css/BV_book.css.map */

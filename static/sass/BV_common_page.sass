@@ -1,11 +1,4 @@
-@import _bookviews_variables
-@import _bookviews_book
-
-//////////////////////////////////////////////////////////////////////////////////////////////
-
-// For debugging the layout
-//*
-//	border: 1px solid red
+@import _BV_variables
 
 body
 	background: url("../images/background.jpg") no-repeat center top fixed
@@ -38,22 +31,16 @@ body
 	.ml-auto
 		margin-left: 1rem !important
 
-	.navbar
-		border-bottom: 2px solid lightgray
+	box-shadow: 0 2px 6px 0px rgba(0, 0, 0, 0.3)
 
 .content
 	background-color: rgba(240, 240, 240, 0.9)
-	/* opacity: 0 */
 
 	align-self: stretch
 
 	padding: 20px 60px
 
-	// Bootstrap Customizations
-	.row
-		justify-content: flex-start
+	.heading
+		text-align: left
 
-		margin-left: 0px
-
-	.col
-		flex-grow: 0
+		font-weight: bold

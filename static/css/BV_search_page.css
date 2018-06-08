@@ -1,0 +1,22 @@
+.content .row {
+  justify-content: flex-start;
+  margin-left: 0px;
+}
+.content .col {
+  flex-grow: 0;
+  margin-bottom: 40px;
+}
+
+.book-title {
+  margin-top: 5px;
+}
+
+.stars {
+  float: left;
+}
+
+.ratings-count {
+  float: right;
+}
+
+/*# sourceMappingURL=static/css/BV_search_page.css.map */

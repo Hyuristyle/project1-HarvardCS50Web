@@ -1,0 +1,128 @@
+@import _BV_variables
+
+.content
+	// Bootstrap Customizations
+	.container-fluid
+		text-align: center
+
+		background-color: $brightest
+		
+		border: 1px solid rgba(0, 0, 0, 0.2)
+
+		padding: 20px
+
+.book-info
+	display: grid
+	grid-template-rows: max-content auto
+	grid-template-areas: "book-section" "reviews"
+	grid-row-gap: 40px
+
+.book-section
+	grid-area: book-section
+
+	display: grid
+	grid-template-columns: max-content auto
+	grid-template-areas: "cover-section details-section"
+	grid-column-gap: 20px
+
+.details-section
+	grid-area: details-section
+
+	display: grid
+	grid-template-rows: max-content max-content max-content max-content auto
+	grid-template-areas: "book-title" "book-rating" "book-author" "book-pub_date" "description-section"
+
+.cover-section
+	grid-area: cover-section
+
+.book-cover
+	img
+		height: 400px
+
+		border: 1px solid rgba(0, 0, 0, 0.1)
+		border-bottom: 0px
+
+.book-title
+	margin-top: 0px
+
+	font-size: 1.7em
+	font-weight: normal
+
+.reviewed
+	margin-top: -30px
+	margin-right: -35px
+
+	font-size: 0.5em
+	letter-spacing: 1px
+	color: $logo-color
+
+	.reviewed-icon
+		background-color: $logo-color
+
+		padding: 11px
+		
+		border-radius: 50%
+	
+		font-size: 1.5em
+		color: $brightest
+
+.book-author
+	margin-top: 0px
+
+.book-pub_date,
+.book-author
+	font-size: .9em
+
+.book-rating
+	font-size: .8em
+
+.stars
+	float: left
+
+.ratings-count
+	display: inline-block
+
+	margin-left: 20px
+
+.book-description
+	margin-top: 40px
+
+	align-self: end
+
+	//font-size: .9em
+
+	p
+		text-align: justify
+
+.reviews
+	margin-bottom: -20px
+
+.reviews-heading
+	margin-bottom: 10px
+
+.review
+	background-color: $bright
+
+	border: 1px solid rgba(0, 0, 0, 0.2)
+	border-radius: 7px
+
+	padding: 17px 20px
+	//padding-bottom: 17px
+
+	margin: 0px -20px
+
+	margin-bottom: -7px
+
+	text-align: justify
+
+	font-size: 0.8em
+
+	box-shadow: 0px 0px 6px 1px rgba(0, 0, 0, 0.2)
+
+	.stars
+		margin-left: 10px
+
+		font-size: 0.9em
+
+.reviewer-name
+	font-weight: bold

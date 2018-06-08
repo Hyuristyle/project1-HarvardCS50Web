@@ -26,20 +26,22 @@ db = scoped_session(sessionmaker(bind=engine))
 # ---
 
 class Book:
-	def __init__(self, title, author, isbn, rating, reviews_count, cover):
+	def __init__(self, title, author, isbn, average_rating, work_ratings_count, pub_date, cover):
 		self.title = title
 		self.author = author
 		self.isbn = isbn
-		self.rating = rating
-		self.reviews_count = reviews_count
+		self.average_rating = average_rating
+		self.work_ratings_count = work_ratings_count
+		self.pub_date = pub_date
 		self.cover = cover
 
 new_book = Book(
 					title = "The Amazing Uga Buga",
 					author = "Oogie Boogie",
 					isbn = "98374283423X",
-					rating = 3.5,
-					reviews_count = 28,
+					average_rating = 3.5,
+					work_ratings_count = 28,
+					pub_date = 2018,
 					cover = "http://colorlava.com/wp-content/uploads/2012/11/Classic-Red-Book-Cover-520x760.jpg"
 				)
 
@@ -61,9 +63,9 @@ def search():
 
 @app.route("/Book")
 def book():
-	return render_template("book.html")
+	return render_template("book.html", book = new_book)
 
 @app.route("/api/<isbn>")
 def api(isbn):
 	res = requests.get("https://www.goodreads.com/book/review_counts.json", params={"key": "4e2qojOvwwXtmXlzRdQw", "isbns": str(isbn)})
-	return str(res.json())
+	return str(res.json()) + "<br>" + str(res.json()["books"][0]["isbn"])

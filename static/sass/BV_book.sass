@@ -1,19 +1,11 @@
-@import _bookviews_variables
+@import _BV_variables
 
 .book
 	display: grid
-	//grid-template-rows: $header-height auto $header-height * 2
+	grid-template-rows: max-content max-content max-content max-content
 	grid-template-areas: "book-cover" "book-title" "book-author" "book-rating"
 
-	width: max-content
-
-	margin-bottom: 40px
-
 	font-size: 0.9rem
-
-	a,
-	a:hover
-		color: $darkest
 
 .book-cover
 	grid-area: book-cover
@@ -30,13 +22,25 @@
 
 	font-weight: bold
 
-	margin-top: 5px
+	a,
+	a:hover
+		color: $darkest
 
 .book-author
 	grid-area: book-author
+
+.book-pub_date
+	grid-area: book-pub_date
+
+.book-author,
+.book-pub_date
 	text-align: left
 
 	margin-top: -3px
+
+	a,
+	a:hover
+		color: $darkest
 
 .book-rating
 	grid-area: book-rating
@@ -47,20 +51,11 @@
 	font-size: .9em
 
 .stars
-	float: left
+	color: $logo-color
 
-.fa-star
-	margin-right: 5px
+	letter-spacing: 0.1rem
 
 .fa-star-half
 	position: absolute
 	z-index: 1
 	line-height: inherit
-
-.star-checked
-	color: hsl(50, 100%, 72%)
-
-	text-shadow: 0 0 3px $darkest
-
-.reviews-count
-	float: right

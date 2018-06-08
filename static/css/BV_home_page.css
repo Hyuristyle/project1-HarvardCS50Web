@@ -3,13 +3,9 @@ body {
   background-size: cover;
 }
 
-.drop-shadow {
-  text-shadow: 0 0 10px black;
-}
-
 .content {
   align-self: center;
   text-align: center;
 }
 
-/*# sourceMappingURL=static/css/bookviews_home.css.map */
+/*# sourceMappingURL=static/css/BV_home_page.css.map */

@@ -1,11 +1,12 @@
-{% extends "master_layout.html" %}
+{% extends "common_layout.html" %}
 
 {% block title %}
 	Bookviews | Search Results
 {% endblock %}
 
-{% block local_style %}
-	<link rel="stylesheet" type="text/css" href="static/css/bookviews_search.css">
+{% block local_stylesheet_2 %}
+	<link rel="stylesheet" type="text/css" href="static/css/BV_book.css">
+	<link rel="stylesheet" type="text/css" href="static/css/BV_search_page.css">
 {% endblock %}
 
 {% block content %}
@@ -15,7 +16,7 @@
 		{% for book in search_results %}
 			<div class="col">
 				<div class="book">
-					<div class="book-cover">
+					<div class="book-cover box-shadow-bottom">
 						<a href="/Book/{{ book.isbn }}"><img src="{{ book.cover }}"></a>
 					</div>
 
@@ -29,8 +30,8 @@
 
 					<div class="book-rating">
 						<div class="stars">
-						{% set rating_fraction = (book.rating % 1)|round(1) %}
-						{% set rating_int = (book.rating - (book.rating % 1|round(1)|round(1)))|int %}
+						{% set rating_fraction = (book.average_rating % 1)|round(1) %}
+						{% set rating_int = (book.average_rating - (book.average_rating % 1|round(1)|round(1)))|int %}
 
 						{% for star in range(rating_int) %}
 							<span class="fa fa-star star-checked"></span>
@@ -41,12 +42,12 @@
 						{% endif %}
 						
 						{% for star in range(5 - rating_int) %}
-							<span class="fa fa-star"></span>
+							<span class="far fa-star"></span>
 						{% endfor %}
 						</div>
 
-						<div class="reviews-count">
-							<i class="fas fa-users"></i> {{ book.reviews_count }}
+						<div class="ratings-count">
+							<i class="fas fa-users"></i> {{ book.work_ratings_count }}
 						</div>
 					</div>
 				</div>
