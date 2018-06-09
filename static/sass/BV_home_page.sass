@@ -1,8 +1,12 @@
 @import _BV_variables
 
 body
-	background: url("../images/background.jpg") no-repeat center top fixed
+	background: url("../images/background_home.jpg") no-repeat center top fixed
 	background-size: cover
+
+.page-content
+	grid-template-rows: $header-height auto $header-height * 2
+	grid-template-areas: "header" "content" "footer"
 
 .content
 	align-self: center

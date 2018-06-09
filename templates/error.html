@@ -1,0 +1,27 @@
+{% extends "master_layout.html" %}
+
+{% block title %}
+	Bookviews | Not Found
+{% endblock %}
+
+{% block local_stylesheet %}
+	<link rel="stylesheet" type="text/css" href="static/css/BV_error_page.css">
+	<link rel="stylesheet" type="text/css" href="static/css/BV_common_header.css">
+{% endblock %}
+
+{% block body %}
+	<div class="page-container">
+		{% include "common_header.html" %}
+
+		<div class="content">
+			<div class="message-background">
+				<div class="message-heading">
+					THE <span>DEAD</span> END.
+				</div>
+				<div class="message-body font-effect-wallpaper">
+					404, Not Found Street
+				</div>
+			</div>
+		</div>
+	</div>
+{% endblock %}

@@ -69,3 +69,7 @@ def book():
 def api(isbn):
 	res = requests.get("https://www.goodreads.com/book/review_counts.json", params={"key": "4e2qojOvwwXtmXlzRdQw", "isbns": str(isbn)})
 	return str(res.json()) + "<br>" + str(res.json()["books"][0]["isbn"])
+
+@app.route("/404")
+def not_found():
+	return render_template("error.html")

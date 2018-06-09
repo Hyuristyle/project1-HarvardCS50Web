@@ -3,19 +3,6 @@
   grid-template-areas: "header" "content";
 }
 
-.header {
-  position: fixed;
-  width: 100%;
-  z-index: 100;
-  box-shadow: 0 2px 6px 0px rgba(0, 0, 0, 0.3);
-}
-.header .mx-auto {
-  margin-left: auto !important;
-}
-.header .ml-auto {
-  margin-left: 1rem !important;
-}
-
 .content {
   background-color: #d9d9d9;
   align-self: stretch;

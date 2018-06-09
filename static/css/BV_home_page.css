@@ -1,6 +1,11 @@
 body {
-  background: url("../images/background.jpg") no-repeat center top fixed;
+  background: url("../images/background_home.jpg") no-repeat center top fixed;
   background-size: cover;
+}
+
+.page-content {
+  grid-template-rows: 47px auto 94px;
+  grid-template-areas: "header" "content" "footer";
 }
 
 .content {

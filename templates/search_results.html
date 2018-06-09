@@ -11,48 +11,50 @@
 
 {% block content %}
 	<!-- CONTENT -->
-	<div class="container-fluid">
-		<div class="row">
-		{% for book in search_results %}
-			<div class="col">
-				<div class="book">
-					<div class="book-cover box-shadow-bottom">
-						<a href="/Book/{{ book.isbn }}"><img src="{{ book.cover }}"></a>
-					</div>
-
-					<div class="book-title">
-						<a href="/Book/{{ book.isbn }}">{{ book.title }}</a>
-					</div>
-
-					<div class="book-author">
-						by <a href="/Author/{{ book.author }}">{{ book.author }}</a>
-					</div>
-
-					<div class="book-rating">
-						<div class="stars">
-						{% set rating_fraction = (book.average_rating % 1)|round(1) %}
-						{% set rating_int = (book.average_rating - (book.average_rating % 1|round(1)|round(1)))|int %}
-
-						{% for star in range(rating_int) %}
-							<span class="fa fa-star star-checked"></span>
-						{% endfor %}
-						
-						{% if rating_fraction >= 0.5 %}
-							<span class="fa fa-star-half star-checked"></span>
-						{% endif %}
-						
-						{% for star in range(5 - rating_int) %}
-							<span class="far fa-star"></span>
-						{% endfor %}
+	<div class="content">
+		<div class="container-fluid">
+			<div class="row">
+			{% for book in search_results %}
+				<div class="col">
+					<div class="book">
+						<div class="book-cover box-shadow-bottom">
+							<a href="/Book/{{ book.isbn }}"><img src="{{ book.cover }}"></a>
 						</div>
 
-						<div class="ratings-count">
-							<i class="fas fa-users"></i> {{ book.work_ratings_count }}
+						<div class="book-title">
+							<a href="/Book/{{ book.isbn }}">{{ book.title }}</a>
+						</div>
+
+						<div class="book-author">
+							by <a href="/Author/{{ book.author }}">{{ book.author }}</a>
+						</div>
+
+						<div class="book-rating">
+							<div class="stars">
+							{% set rating_fraction = (book.average_rating % 1)|round(1) %}
+							{% set rating_int = (book.average_rating - (book.average_rating % 1|round(1)|round(1)))|int %}
+
+							{% for star in range(rating_int) %}
+								<span class="fa fa-star star-checked"></span>
+							{% endfor %}
+							
+							{% if rating_fraction >= 0.5 %}
+								<span class="fa fa-star-half star-checked"></span>
+							{% endif %}
+							
+							{% for star in range(5 - rating_int) %}
+								<span class="far fa-star"></span>
+							{% endfor %}
+							</div>
+
+							<div class="ratings-count">
+								<i class="fas fa-users"></i> {{ book.work_ratings_count }}
+							</div>
 						</div>
 					</div>
 				</div>
+			{% endfor %}
 			</div>
-		{% endfor %}
 		</div>
 	</div>
 {% endblock %}
