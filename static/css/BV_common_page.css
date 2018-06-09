@@ -1,25 +1,3 @@
-body {
-  background: url("../images/background.jpg") no-repeat center top fixed;
-  background-size: cover;
-}
-
-/* body:before
- *
- * content: ""
- *
- * display: block
- *
- * background: url("../images/background.jpg") no-repeat center top fixed
- *
- * //background-size: cover
- *
- * width: 1280px
- *
- * height: 720px
- *
- *
- *
- * filter: blur(5px) */
 .page-container {
   grid-template-rows: 47px auto;
   grid-template-areas: "header" "content";
@@ -39,7 +17,7 @@ body {
 }
 
 .content {
-  background-color: rgba(240, 240, 240, 0.9);
+  background-color: #d9d9d9;
   align-self: stretch;
   padding: 20px 60px;
 }
