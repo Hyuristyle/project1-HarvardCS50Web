@@ -23,7 +23,7 @@ Session(app)
 engine = create_engine(os.getenv("DATABASE_URL"))
 db = scoped_session(sessionmaker(bind=engine))
 
-# ---
+# -----------------------------------------------------------------------------------------------------------------------
 
 class Book:
 	def __init__(self, title, author, isbn, average_rating, work_ratings_count, pub_date, cover):
@@ -47,8 +47,10 @@ new_book = Book(
 
 search_results = [new_book for book in range(8)]
 
-# ---
+# -----------------------------------------------------------------------------------------------------------------------
+# Pages
 
+# Misc.
 @app.route("/")
 def index():
 	return render_template("index.html")
@@ -65,11 +67,51 @@ def search():
 def book():
 	return render_template("book.html", book = new_book)
 
+@app.route("/Book/<isbn>/NewReview")
+def new_review(isbn):
+	return render_template("review_form.html")
+
+@app.route("/Book/<isbn>/NewReview/submit")
+def new_review_submit(isbn):
+	return render_template("book.html")
+
+@app.route("/Author/<name>")
+def author(name):
+	return render_template("author.html")
+
+# Users
+@app.route("/Register")
+def user_register():
+	return render_template("register.html")
+
+@app.route("/Register/submit")
+def user_register_submit():
+	return render_template("home.html")
+
+@app.route("/MyReviews")
+def user_reviews():
+	return render_template("my_reviews.html")
+
+@app.route("/Settings")
+def user_settings():
+	return render_template("settings.html")
+
+@app.route("/Logout")
+def logout():
+	return render_template("logout.html")
+
+@app.route("/404")
+def content_not_found():
+	return render_template("error_404.html")
+
+# -----------------------------------------------------------------------------------------------------------------------
+# API
+
 @app.route("/api/<isbn>")
-def api(isbn):
+def api_isbn(isbn):
 	res = requests.get("https://www.goodreads.com/book/review_counts.json", params={"key": "4e2qojOvwwXtmXlzRdQw", "isbns": str(isbn)})
 	return str(res.json()) + "<br>" + str(res.json()["books"][0]["isbn"])
 
-@app.route("/404")
-def not_found():
-	return render_template("error.html")
+#@app.route("api/404")
+#def api_isbn_not_found():
+#	return "404"
