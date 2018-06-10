@@ -1,11 +1,11 @@
 {% extends "master_layout.html" %}
 
 {% block title %}
-	Bookviews | Home
+	Bookviews
 {% endblock %}
 
 {% block local_stylesheet %}
-	<link rel="stylesheet" type="text/css" href="static/css/BV_index_page.css">
+	<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/BV_index_page.css') }}">
 {% endblock %}
 
 {% block body %}

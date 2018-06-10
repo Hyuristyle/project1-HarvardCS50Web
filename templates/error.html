@@ -1,12 +1,12 @@
 {% extends "master_layout.html" %}
 
 {% block title %}
-	Bookviews | {{ error_message.body }}
+	{{ error_message.heading }} | Bookviews
 {% endblock %}
 
 {% block local_stylesheet %}
-	<link rel="stylesheet" type="text/css" href="static/css/BV_error_page.css">
-	<link rel="stylesheet" type="text/css" href="static/css/BV_common_header.css">
+	<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/BV_error_page.css') }}">
+	<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/BV_common_header.css') }}">
 {% endblock %}
 
 {% block body %}

@@ -1,6 +1,6 @@
 <div class="header">
 	<nav class="navbar navbar-expand-lg navbar-light bg-light">
-		<a class="navbar-brand" href="#">
+		<a class="navbar-brand" href="{{ url_for('home') }}">
 			<span class="bookviews-logo-header">Bookviews</span>
 		</a>
 		
@@ -24,20 +24,20 @@
 
 			<ul class="navbar-nav ml-auto">
 				<li class="nav-item active">
-					<a class="nav-link" href="#"><i class="fas fa-book"></i> My Reviews</a>
+					<a class="nav-link" href="{{ url_for('user_reviews') }}"><i class="fas fa-book"></i> My Reviews</a>
 				</li>
 
 				<!-- DROPDOWN -->
 				<li class="nav-item dropdown active">
 					<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></a>
 					<div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-						<a class="dropdown-item" href="#">
+						<a class="dropdown-item" href="{{ url_for('user_settings') }}">
 							<i class="fas fa-user-circle"></i> Settings
 						</a>
 						
 						<div class="dropdown-divider"></div>
 
-						<a class="dropdown-item dropdown-item-bottom" href="#">
+						<a class="dropdown-item dropdown-item-bottom" href="{{ url_for('logout') }}">
 							<i class="fas fa-sign-out-alt"></i> Logout
 						</a>
 						</a>

@@ -28,6 +28,7 @@ body {
 
 .forms-separator {
   width: 2px;
+  margin: -40px 0px;
   background-color: rgba(0, 0, 0, 0.1);
 }
 

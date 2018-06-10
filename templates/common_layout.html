@@ -1,8 +1,8 @@
 {% extends "master_layout.html" %}
 
 {% block local_stylesheet %}
-	<link rel="stylesheet" type="text/css" href="static/css/BV_common_page.css">
-	<link rel="stylesheet" type="text/css" href="static/css/BV_common_header.css">
+	<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/BV_common_page.css') }}">
+	<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/BV_common_header.css') }}">
 
 	{% block local_stylesheet_2 %}{% endblock %}
 {% endblock %}

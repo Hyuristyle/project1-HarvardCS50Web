@@ -1,12 +1,12 @@
 {% extends "common_layout.html" %}
 
 {% block title %}
-	Bookviews | Search Results
+	Search: {{ search_term }} | Bookviews
 {% endblock %}
 
 {% block local_stylesheet_2 %}
-	<link rel="stylesheet" type="text/css" href="static/css/BV_book.css">
-	<link rel="stylesheet" type="text/css" href="static/css/BV_search_page.css">
+	<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/BV_book.css') }}">
+	<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/BV_search_page.css') }}">
 {% endblock %}
 
 {% block content %}
@@ -18,15 +18,15 @@
 				<div class="col">
 					<div class="book">
 						<div class="book-cover box-shadow-bottom">
-							<a href="/Book/{{ book.isbn }}"><img src="{{ book.cover }}"></a>
+							<a href="{{ url_for('book', isbn=book.isbn) }}"><img src="{{ book.cover }}"></a>
 						</div>
 
 						<div class="book-title">
-							<a href="/Book/{{ book.isbn }}">{{ book.title }}</a>
+							<a href="{{ url_for('book', isbn=book.isbn) }}">{{ book.title }}</a>
 						</div>
 
 						<div class="book-author">
-							by <a href="/Author/{{ book.author }}">{{ book.author }}</a>
+							by <a href="{{ url_for('author', name=book.author) }}">{{ book.author }}</a>
 						</div>
 
 						<div class="book-rating">
