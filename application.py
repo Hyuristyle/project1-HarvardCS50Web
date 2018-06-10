@@ -1,7 +1,7 @@
 import os
 import collections
 
-from flask import Flask, session, render_template
+from flask import Flask, session, render_template, request
 from flask_session import Session
 from sqlalchemy import create_engine
 from sqlalchemy.orm import scoped_session, sessionmaker
@@ -64,8 +64,10 @@ def index():
 def home():
 	return render_template("home.html")
 
-@app.route("/Search/<string:search_term>")
-def search(search_term):
+#@app.route("/Search/<string:search_term>")
+@app.route("/Search", methods=["POST"])
+def search():
+	search_term = request.form.get("SearchBarInput")
 	return render_template("search_results.html", search_results = search_results, search_term = search_term)
 
 @app.route("/Book/<string:isbn>")
