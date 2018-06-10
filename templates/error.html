@@ -4,15 +4,17 @@
 	{{ error_message.heading }} | Bookviews
 {% endblock %}
 
-{% block local_stylesheet %}
+{% block local_stylesheets %}
 	<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/BV_error_page.css') }}">
 	<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/BV_common_header.css') }}">
 {% endblock %}
 
 {% block body %}
 	<div class="page-container">
+		<!-- HEADER -->
 		{% include "common_header.html" %}
 
+		<!-- CONTENT -->
 		<div class="content">
 			<div class="message-background">
 				<div class="message-heading">

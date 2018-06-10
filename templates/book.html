@@ -1,33 +1,105 @@
-{% extends "common_layout.html" %}
+{% extends "master_layout.html" %}
 
 {% block title %}
 	{{ book.title }} | Bookviews
 {% endblock %}
 
-{% block local_stylesheet_2 %}
+{% block local_stylesheets %}
+	<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/BV_common_page.css') }}">
+	<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/BV_common_header.css') }}">
+
 	<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/BV_book.css') }}">
 	<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/BV_book_page.css') }}">
 {% endblock %}
 
-{% block content %}
-	<!-- CONTENT -->
-	<div class="content">
-		<div class="container-fluid">
-			<div class="book-info">
-				<div class="book-section">
-					<div class="cover-section">
-						<div class="book-cover box-shadow-bottom">
-							<img src="{{ book.cover }}">
+{% block body %}
+	<div class="page-container">
+		<!-- HEADER -->
+		{% include "common_header.html" %}
+	
+		<!-- CONTENT -->
+		<div class="content">
+			<div class="container-fluid">
+				<div class="book-info">
+					<div class="book-section">
+						<div class="cover-section">
+							<div class="book-cover box-shadow-bottom">
+								<img src="{{ book.cover }}">
+							</div>
+						</div>
+
+						<div class="details-section">
+							<div class="book-title">
+								{{ book.title }}
+							</div>
+
+							<div class="book-rating">
+								<!-- TODO: Hovering over the stars should show the user how many stars he gave to this book, on a tooltip. In case the user hasn't rated the book yet, the option to rate it should be presented right from here(the user would then be taken to a page to write the review) -->
+								<div class="stars">
+								{% set rating_fraction = (book.average_rating % 1)|round(1) %}
+								{% set rating_int = (book.average_rating - (book.average_rating % 1|round(1)|round(1)))|int %}
+
+								{% for star in range(rating_int) %}
+									<span class="fa fa-star star-checked"></span>
+								{% endfor %}
+								
+								{% if rating_fraction >= 0.5 %}
+									<span class="fa fa-star-half star-checked"></span>
+								{% endif %}
+								
+								{% for star in range(5 - rating_int) %}
+									<span class="far fa-star"></span>
+								{% endfor %}
+								</div>
+
+								<div class="ratings-count">
+									<i class="fas fa-users"></i> {{ book.work_ratings_count }} rated
+								</div>
+							</div>
+
+							<div class="book-author">
+								<b>Author:</b> <a href="{{ url_for('author', name=book.author) }}">{{ book.author }}</a>
+							</div>
+
+							<div class="book-pub_date">
+								<b>Published:</b> <a href="{{ url_for('pub_date', pub_date=book.pub_date) }}">{{ book.pub_date }}</a>
+							</div>
+
+							<div class="book-description">
+								<div class="heading">DESCRIPTION</div>
+								<p>
+									Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+								</p>
+							</div>
 						</div>
 					</div>
 
-					<div class="details-section">
-						<div class="book-title">
-							{{ book.title }}
+					{% if not user_reviewed %}
+					<button type="submit" class="btn btn-primary">
+						<i class="fas fa-pencil-alt"></i> Review this Book
+					</button>
+
+					{% else %}
+					<!-- TODO: Hovering over the reviewed button should show "Go to your review" to the user. Clicking on it should take the user to his/her review of this book[and maybe even highlight his/her comment?] -->
+					<a href="#" class="btn btn-outline-primary">
+						<i class="fas fa-check reviewed-icon"></i> Reviewed
+					</a>
+					{% endif %}
+
+					<div class="reviews">
+						<div class="reviews-heading">
+							<div class="heading float-left">REVIEWS</div>
+							<div class="badge float-left">12</div>
 						</div>
 
-						<div class="book-rating">
-							<!-- TODO: Hovering over the stars should show the user how many stars he gave to this book, on a tooltip. In case the user hasn't rated the book yet, the option to rate it should be presented right from here(the user would then be taken to a page to write the review) -->
+						<br>
+
+						{% for review in range(5) %}
+						<div class="review" id="">
+							<div class="reviewer-name float-left">
+								Hyuri Pimentel
+							</div>
+							
 							<div class="stars">
 							{% set rating_fraction = (book.average_rating % 1)|round(1) %}
 							{% set rating_int = (book.average_rating - (book.average_rating % 1|round(1)|round(1)))|int %}
@@ -45,78 +117,14 @@
 							{% endfor %}
 							</div>
 
-							<div class="ratings-count">
-								<i class="fas fa-users"></i> {{ book.work_ratings_count }} rated
+							<br>
+
+							<div class="review-body">
+								Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
 							</div>
 						</div>
-
-						<div class="book-author">
-							<b>Author:</b> <a href="{{ url_for('author', name=book.author) }}">{{ book.author }}</a>
-						</div>
-
-						<div class="book-pub_date">
-							<b>Published:</b> <a href="{{ url_for('pub_date', pub_date=book.pub_date) }}">{{ book.pub_date }}</a>
-						</div>
-
-						<div class="book-description">
-							<div class="heading">DESCRIPTION</div>
-							<p>
-								Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-							</p>
-						</div>
-					</div>
-				</div>
-
-				{% if not user_reviewed %}
-				<button type="submit" class="btn btn-primary">
-					<i class="fas fa-pencil-alt"></i> Review this Book
-				</button>
-
-				{% else %}
-				<!-- TODO: Hovering over the reviewed button should show "Go to your review" to the user. Clicking on it should take the user to his/her review of this book[and maybe even highlight his/her comment?] -->
-				<a href="#" class="btn btn-outline-primary">
-					<i class="fas fa-check reviewed-icon"></i> Reviewed
-				</a>
-				{% endif %}
-
-				<div class="reviews">
-					<div class="reviews-heading">
-						<div class="heading float-left">REVIEWS</div>
-						<div class="badge float-left">12</div>
-					</div>
-
-					<br>
-
-					{% for review in range(5) %}
-					<div class="review" id="">
-						<div class="reviewer-name float-left">
-							Hyuri Pimentel
-						</div>
-						
-						<div class="stars">
-						{% set rating_fraction = (book.average_rating % 1)|round(1) %}
-						{% set rating_int = (book.average_rating - (book.average_rating % 1|round(1)|round(1)))|int %}
-
-						{% for star in range(rating_int) %}
-							<span class="fa fa-star star-checked"></span>
 						{% endfor %}
-						
-						{% if rating_fraction >= 0.5 %}
-							<span class="fa fa-star-half star-checked"></span>
-						{% endif %}
-						
-						{% for star in range(5 - rating_int) %}
-							<span class="far fa-star"></span>
-						{% endfor %}
-						</div>
-
-						<br>
-
-						<div class="review-body">
-							Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-						</div>
 					</div>
-					{% endfor %}
 				</div>
 			</div>
 		</div>
