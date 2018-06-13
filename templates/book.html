@@ -12,6 +12,14 @@
 	<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/BV_book_page.css') }}">
 {% endblock %}
 
+{% block local_scripts %}
+	<script>
+    	$(function () {
+    		$('[data-toggle="tooltip"]').tooltip();
+    	})
+	</script>
+{% endblock %}
+
 {% block body %}
 	<div class="page-container">
 		<!-- HEADER -->
@@ -35,7 +43,7 @@
 
 							<div class="book-rating">
 								<!-- TODO: Hovering over the stars should show the user how many stars he gave to this book, on a tooltip. In case the user hasn't rated the book yet, the option to rate it should be presented right from here(the user would then be taken to a page to write the review) -->
-								<div class="stars">
+								<div class="stars" data-toggle="tooltip" title="{{ book.average_rating }}">
 								{% set rating_fraction = (book.average_rating % 1)|round(1) %}
 								{% set rating_int = (book.average_rating - (book.average_rating % 1|round(1)|round(1)))|int %}
 

@@ -12,6 +12,14 @@
 	<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/BV_search_page.css') }}">
 {% endblock %}
 
+{% block local_scripts %}
+	<script>
+    	$(function () {
+    		$('[data-toggle="tooltip"]').tooltip();
+    	})
+	</script>
+{% endblock %}
+
 {% block body %}
 	<div class="page-container">
 		<!-- HEADER -->
@@ -37,7 +45,7 @@
 							</div>
 
 							<div class="book-rating">
-								<div class="stars">
+								<div class="stars" data-toggle="tooltip" data-placement="bottom" title="{{ book.average_rating }}">
 								{% set rating_fraction = (book.average_rating % 1)|round(1) %}
 								{% set rating_int = (book.average_rating - (book.average_rating % 1|round(1)|round(1)))|int %}
 
