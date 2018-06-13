@@ -1,7 +1,7 @@
 import os
 import collections
 
-from flask import Flask, session, render_template, request
+from flask import Flask, session, render_template, request, redirect, url_for
 from flask_session import Session
 from sqlalchemy import create_engine
 from sqlalchemy.orm import scoped_session, sessionmaker
@@ -25,6 +25,15 @@ db = scoped_session(sessionmaker(bind=engine))
 
 # -----------------------------------------------------------------------------------------------------------------------
 
+class User:
+	def __init__(self, user_id, name, username, password):
+		self.user_id = user_id
+		self.name = name
+		self.username = username
+		self.password = password
+
+fake_user = User(0, "Hyuri Pimentel", "Hyuri.Pimentel", "ugabuga")
+
 class Book:
 	def __init__(self, title, author, isbn, average_rating, work_ratings_count, pub_date, cover):
 		self.title = title
@@ -47,10 +56,10 @@ search_results = []
 
 for i in range(8):
 	try:
-		exec(f"new_book{i} = Book(title = 'Harry Potter and the Philosophers Stone', author = 'Oogie Boogie', isbn = '98374283423X', average_rating = 3.5, work_ratings_count = 28, pub_date = 2018, cover = some_covers[{i}]); search_results.append(new_book{i})")
+		exec(f"""new_book{i} = Book(title = "Harry Potter and the Philosopher's Stone", author = "Oogie Boogie", isbn = "98374283423X", average_rating = 3.5, work_ratings_count = 28, pub_date = 2018, cover = some_covers[{i}]); search_results.append(new_book{i})""")
 
 	except IndexError:
-		exec(f"new_book{i} = Book(title = 'The Amazing Uga Buga', author = 'Oogie Boogie', isbn = '98374283423X', average_rating = 3.5, work_ratings_count = 28, pub_date = 2018, cover = 'http://colorlava.com/wp-content/uploads/2012/11/Classic-Red-Book-Cover-520x760.jpg'); search_results.append(new_book{i})")
+		exec(f"""new_book{i} = Book(title = "The Amazing Uga Buga", author = "Oogie Boogie", isbn = "98374283423X", average_rating = 3.5, work_ratings_count = 28, pub_date = 2018, cover = "http://colorlava.com/wp-content/uploads/2012/11/Classic-Red-Book-Cover-520x760.jpg"); search_results.append(new_book{i})""")
 
 # -----------------------------------------------------------------------------------------------------------------------
 # Pages
@@ -65,7 +74,7 @@ def home():
 	return render_template("home.html")
 
 #@app.route("/Search/<string:search_term>")
-@app.route("/Search", methods=["POST"])
+@app.route("/Search", methods=["POST", "GET"])
 def search():
 	search_term = request.form.get("SearchBarInput")
 	return render_template("search_results.html", search_results = search_results, search_term = search_term)
@@ -77,12 +86,19 @@ def book(isbn):
 	return render_template("book.html", book = search_results[0], user_reviewed = user_reviewed)
 
 @app.route("/Book/<string:isbn>/NewReview")
-def new_review(isbn):
-	return render_template("review_submission.html", book = search_results[0])
+def new_review(isbn, text_area = None):
+	return render_template("review_submission.html", book = search_results[0], user = fake_user, text_area = text_area)
 
-@app.route("/Book/<string:isbn>/NewReview/submit")
+@app.route("/Book/<string:isbn>/NewReview/submit", methods=["POST"])
 def new_review_submit(isbn):
-	return render_template("book.html")
+	rating = request.form.get("rating-value")
+	review = request.form.get("TextArea")
+
+	if rating == "undefined":
+		return redirect(url_for("new_review", isbn = "283472834", text_area = review))
+
+	else:
+		return f"Review to book {isbn} submitted by . <br> Stars: {rating} <br> Review: {review}" #render_template("book.html")
 
 @app.route("/Author/<string:name>")
 def author(name):
