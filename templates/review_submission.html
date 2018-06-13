@@ -1,7 +1,7 @@
 {% extends "master_layout.html" %}
 
 {% block title %}
-	Submit a Review | Bookviews
+	Reviewing "{{ book.title }}" | Bookviews
 {% endblock %}
 
 {% block local_stylesheets %}
@@ -10,6 +10,12 @@
 
 	<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/BV_book.css') }}">
 	<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/BV_book_page.css') }}">
+	<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/BV_review_submit_page.css') }}">
+{% endblock %}
+
+{% block local_scripts %}
+	<script src="{{ url_for('static', filename='javascript/rater-js/index.js') }}"></script>
+	<script src="{{ url_for('static', filename='javascript/BV_rater_widget.js') }}" type="text/javascript" charset="utf-8" async defer></script>
 {% endblock %}
 
 {% block body %}
@@ -24,36 +30,13 @@
 					<div class="book-section">
 						<div class="cover-section">
 							<div class="book-cover box-shadow-bottom">
-								<img src="{{ book.cover }}">
+								<a href="{{ url_for('book', isbn=book.isbn) }}"><img src="{{ book.cover }}"></a>
 							</div>
 						</div>
 
 						<div class="details-section">
-							<div class="book-title float-left">
-								{{ book.title }}
-							</div>
-
-							<div class="book-rating">
-								<div class="stars">
-								{% set rating_fraction = (book.average_rating % 1)|round(1) %}
-								{% set rating_int = (book.average_rating - (book.average_rating % 1|round(1)|round(1)))|int %}
-
-								{% for star in range(rating_int) %}
-									<span class="fa fa-star star-checked"></span>
-								{% endfor %}
-								
-								{% if rating_fraction >= 0.5 %}
-									<span class="fa fa-star-half star-checked"></span>
-								{% endif %}
-								
-								{% for star in range(5 - rating_int) %}
-									<span class="far fa-star"></span>
-								{% endfor %}
-								</div>
-
-								<div class="ratings-count">
-									<i class="fas fa-users"></i> {{ book.work_ratings_count }}
-								</div>
+							<div class="book-title">
+								<a href="{{ url_for('book', isbn=book.isbn) }}">{{ book.title }}</a>
 							</div>
 
 							<div class="book-author">
@@ -61,56 +44,36 @@
 							</div>
 
 							<div class="book-pub_date">
-								<b>Published:</b> {{ book.pub_date }}
-							</div>
-
-							<div class="book-description">
-								<div class="heading">DESCRIPTION</div>
-								<p>
-									Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-								</p>
+								<b>Published:</b> <a href="{{ url_for('pub_date', pub_date=book.pub_date) }}">{{ book.pub_date }}</a>
 							</div>
 						</div>
 					</div>
 
 					<div class="reviews">
-						<div class="reviews-heading">
-							<div class="heading float-left">REVIEWS</div>
-							<div class="badge float-left">12</div>
-						</div>
-
-						<br>
-
-						{% for review in range(5) %}
 						<div class="review" id="">
-							<div class="reviewer-name float-left">
-								Hyuri Pimentel
-							</div>
-							
-							<div class="stars">
-							{% set rating_fraction = (book.average_rating % 1)|round(1) %}
-							{% set rating_int = (book.average_rating - (book.average_rating % 1|round(1)|round(1)))|int %}
+							<form action="{{ url_for('new_review_submit', isbn=book.isbn) }}" method="post">
+								<div class="rating-label">How do you rate this book?</div>
+								<div class="rating-container">
+									<div class="zero-button-container">
+										<button onclick="toggle_zero_stars()" type="button" class="zero-button btn btn-outline-secondary btn-sm" data-toggle="button" aria-pressed="false">
+											zero
+										</button>
+									</div>
+									<div id="rater-widget" data-toggle="popover"></div>
+									<div id="rating-value-label"></div>
+								</div>
 
-							{% for star in range(rating_int) %}
-								<span class="fa fa-star star-checked"></span>
-							{% endfor %}
-							
-							{% if rating_fraction >= 0.5 %}
-								<span class="fa fa-star-half star-checked"></span>
-							{% endif %}
-							
-							{% for star in range(5 - rating_int) %}
-								<span class="far fa-star"></span>
-							{% endfor %}
-							</div>
+								<input type="text" name="rating-value" id="rating-value" style="display: none" required>
 
-							<br>
+								<div class="form-group">
+									<textarea name="TextArea" class="form-control" id="TextArea" rows="3" placeholder="What are your thoughts on this book?" autofocus required></textarea>
+								</div>
 
-							<div class="review-body">
-								Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-							</div>
+								<button type="submit" class="btn btn-primary w-100" onclick="checkRater()">
+									<i class="fas fa-check"></i> Submit
+								</button>
+							</form>
 						</div>
-						{% endfor %}
 					</div>
 				</div>
 			</div>
