@@ -14,6 +14,7 @@
 
 {% block local_scripts %}
 	<script>
+		// Initialize all Bootstrap Tooltips
     	$(function () {
     		$('[data-toggle="tooltip"]').tooltip();
     	})
@@ -103,7 +104,7 @@
 						<br>
 
 						{% for review in range(5) %}
-						<div class="review" id="">
+						<div class="review">
 							<div class="reviewer-name float-left">
 								Hyuri Pimentel
 							</div>
