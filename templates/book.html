@@ -19,6 +19,25 @@
     		$('[data-toggle="tooltip"]').tooltip();
     	})
 	</script>
+
+	<script>
+		// Reveal "copy review link" button when hovering over a review
+		$(".review").hover(
+			function(event) {
+				$("#review_" + event.target.id).css("display", "block");
+			}
+		);
+	</script>
+
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.0/clipboard.min.js"></script>
+	<script>
+		// Copy review link to clipboard
+		function copy_link(id) {
+			var clipboard = new ClipboardJS(String(id));
+			
+			alert("Copied the text of id: " + id);
+		}
+	</script>
 {% endblock %}
 
 {% block body %}
@@ -125,6 +144,8 @@
 								<span class="far fa-star"></span>
 							{% endfor %}
 							</div>
+
+							<button id="{{ review }}" data-clipboard-text="{{ review }}" onclick="copy_link({{ review }})" style="float: right; background-color: transparent; border-color: transparent; cursor: pointer"><i class="fas fa-link"></i></button>
 
 							<br>
 
