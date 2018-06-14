@@ -69,13 +69,29 @@
   font-size: 0.8em;
 }
 
-.stars {
+.stars,
+.ratings-count {
   float: left;
 }
 
 .ratings-count {
   display: inline-block;
   margin-left: 20px;
+}
+
+.bookviews-rating {
+  color: #006ecc;
+}
+
+.goodreads-rating {
+  float: right;
+  color: #553b07;
+}
+.goodreads-rating img {
+  float: left;
+  vertical-align: baseline;
+  height: 24px;
+  margin-right: 5px;
 }
 
 .book-description {
@@ -108,6 +124,7 @@
 .review .stars {
   margin-left: 10px;
   font-size: 0.9em;
+  color: #006ecc;
 }
 
 .reviewer-name {
