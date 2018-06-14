@@ -1,5 +1,6 @@
 import os
 import collections
+import humanize
 
 from flask import Flask, session, render_template, request, redirect, url_for
 from flask_session import Session
@@ -23,7 +24,19 @@ Session(app)
 engine = create_engine(os.getenv("DATABASE_URL"))
 db = scoped_session(sessionmaker(bind=engine))
 
-# -----------------------------------------------------------------------------------------------------------------------
+# ----------------------------------------------------------------------------------------------------------------------
+def human_friendly(number):
+	if len(str(number)) > 3 and len(str(number)) < 7:
+		number_plus_k = str(number)[:len(str(number)) - 3] + "k"
+		return number_plus_k
+
+	elif len(str(number)) > 6:
+		return humanize.intword(number)
+
+	elif len(str(number)) < 4:
+		return str(number)
+
+# ----------------------------------------------------------------------------------------------------------------------
 
 class User:
 	def __init__(self, user_id, name, username, password):
@@ -56,12 +69,12 @@ search_results = []
 
 for i in range(8):
 	try:
-		exec(f"""new_book{i} = Book(title = "Harry Potter and the Philosopher's Stone", author = "Oogie Boogie", isbn = "98374283423X", average_rating = 3.5, work_ratings_count = 28, pub_date = 2018, cover = some_covers[{i}]); search_results.append(new_book{i})""")
+		exec(f"""new_book{i} = Book(title = "Harry Potter and the Philosopher's Stone", author = "Oogie Boogie", isbn = "0590353403", average_rating = 3.5, work_ratings_count = 28, pub_date = 2018, cover = some_covers[{i}]); search_results.append(new_book{i})""")
 
 	except IndexError:
-		exec(f"""new_book{i} = Book(title = "The Amazing Uga Buga", author = "Oogie Boogie", isbn = "98374283423X", average_rating = 3.5, work_ratings_count = 28, pub_date = 2018, cover = "http://colorlava.com/wp-content/uploads/2012/11/Classic-Red-Book-Cover-520x760.jpg"); search_results.append(new_book{i})""")
+		exec(f"""new_book{i} = Book(title = "The Amazing Uga Buga", author = "Oogie Boogie", isbn = "0590353403", average_rating = 3.5, work_ratings_count = 28, pub_date = 2018, cover = "http://colorlava.com/wp-content/uploads/2012/11/Classic-Red-Book-Cover-520x760.jpg"); search_results.append(new_book{i})""")
 
-# -----------------------------------------------------------------------------------------------------------------------
+# ----------------------------------------------------------------------------------------------------------------------
 # Pages
 
 # Misc.
@@ -83,7 +96,47 @@ def search():
 def book(isbn):
 	user_reviewed = False
 
-	return render_template("book.html", book = search_results[0], user_reviewed = user_reviewed)
+	# APIs
+	# GOODREADS RATING & COUNT:
+	goodreads_book_info = requests.get("https://www.goodreads.com/book/review_counts.json", params={"key": "4e2qojOvwwXtmXlzRdQw", "isbns": isbn}).json()
+	
+	# COVER:
+	# get_cover(isbn)-->"cover.jpg"?
+	
+	# DESCRIPTION:
+	# get_description(isbn)-->"Description[...]."
+	
+	# DB: bookviews_book_info = get_bookviews_book_info(isbn)-->title, author, year, average_rating, ratings_count
+	# DB: user_reviewed(user_id, book_id)-->(True/False, review_id/None)
+
+	#book = {
+	#			"title": bookviews_book_info["title"],
+	#			"bookviews_average_rating": bookviews_book_info["average_rating"],
+	#			"bookviews_ratings_count": bookviews_book_info["ratings_count"],
+	#			"goodreads_average_rating": goodreads_book_info["average_rating"],
+	#			"goodreads_ratings_count": goodreads_book_info["work_ratings_count"],
+	#			"author": bookviews_book_info["author"]: ,
+	#			"year": bookviews_book_info["year"]: ,
+	#			"description": get_book_description(isbn),
+	#			"cover": get_book_cover(isbn)
+	#}
+
+	book = {
+				"isbn": "0590353403",
+				"title": "Harry Potter and the Philosopher's Stone",
+				"bookviews_average_rating": 3.5,
+				"bookviews_ratings_count": human_friendly(28),
+				"goodreads_average_rating": float(goodreads_book_info["books"][0]["average_rating"]),
+				"goodreads_ratings_count": human_friendly(int(goodreads_book_info["books"][0]["work_ratings_count"])),
+				"author": "Oogie Boogie",
+				"pub_date": 2018,
+				"description": "Testestest",
+				"cover": "https://spark.adobe.com/images/landing/examples/how-to-book-cover.jpg"
+	}
+
+	# book = search_results[0]
+
+	return render_template("book.html", book = book, user_reviewed = user_reviewed)
 
 @app.route("/Book/<string:isbn>/NewReview")
 def new_review(isbn, text_area = None):
@@ -134,7 +187,7 @@ def logout():
 def content_not_found():
 	return render_template("error_404.html")
 
-# -----------------------------------------------------------------------------------------------------------------------
+# ----------------------------------------------------------------------------------------------------------------------
 # API
 
 @app.route("/api/<string:isbn>")

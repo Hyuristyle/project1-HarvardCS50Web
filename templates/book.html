@@ -45,9 +45,9 @@
 							<div class="book-rating">
 								<div class="bookviews-rating">
 									<!-- TODO: Hovering over the stars should show the user how many stars he gave to this book, on a tooltip. In case the user hasn't rated the book yet, the option to rate it should be presented right from here(the user would then be taken to a page to write the review) -->
-									<div class="stars" data-toggle="tooltip" title="{{ book.average_rating }}">
-									{% set rating_fraction = (book.average_rating % 1)|round(1) %}
-									{% set rating_int = (book.average_rating - (book.average_rating % 1|round(1)|round(1)))|int %}
+									<div class="stars" data-toggle="tooltip" title="{{ book.bookviews_average_rating }}">
+									{% set rating_fraction = (book.bookviews_average_rating % 1)|round(1) %}
+									{% set rating_int = (book.bookviews_average_rating - (book.bookviews_average_rating % 1|round(1)|round(1)))|int %}
 
 									{% for star in range(rating_int) %}
 										<span class="fa fa-star star-checked"></span>
@@ -63,7 +63,7 @@
 									</div>
 
 									<div class="ratings-count">
-										<i class="fas fa-users"></i> {{ book.work_ratings_count }} rated
+										<i class="fas fa-users"></i> {{ book.bookviews_ratings_count }} rated
 									</div>
 								</div>
 
@@ -72,9 +72,9 @@
 										<img src="{{ url_for('static', filename='images/goodreads_logo.png') }}">
 									</a>
 
-									<div class="stars" data-toggle="tooltip" title="Goodreads Rating: {{ book.average_rating }}">
-									{% set rating_fraction = (book.average_rating % 1)|round(1) %}
-									{% set rating_int = (book.average_rating - (book.average_rating % 1|round(1)|round(1)))|int %}
+									<div class="stars" data-toggle="tooltip" title="Goodreads Rating: {{ book.goodreads_average_rating }}">
+									{% set rating_fraction = (book.goodreads_average_rating % 1)|round(1) %}
+									{% set rating_int = (book.goodreads_average_rating - (book.goodreads_average_rating % 1|round(1)|round(1)))|int %}
 
 									{% for star in range(rating_int) %}
 										<span class="fa fa-star star-checked"></span>
@@ -90,7 +90,7 @@
 									</div>
 
 									<div class="ratings-count">
-										<i class="fas fa-users"></i> {{ book.work_ratings_count }} rated
+										<i class="fas fa-users"></i> {{ book.goodreads_ratings_count }} rated
 									</div>
 								</div>
 							</div>
@@ -139,8 +139,8 @@
 							</div>
 							
 							<div class="stars">
-							{% set rating_fraction = (book.average_rating % 1)|round(1) %}
-							{% set rating_int = (book.average_rating - (book.average_rating % 1|round(1)|round(1)))|int %}
+							{% set rating_fraction = (book.bookviews_average_rating % 1)|round(1) %}
+							{% set rating_int = (book.bookviews_average_rating - (book.bookviews_average_rating % 1|round(1)|round(1)))|int %}
 
 							{% for star in range(rating_int) %}
 								<span class="fa fa-star star-checked"></span>
