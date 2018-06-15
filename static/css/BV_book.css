@@ -50,10 +50,6 @@
   font-size: 0.9em;
 }
 
-.stars {
-  letter-spacing: 0.1rem;
-}
-
 .fa-star-half {
   position: absolute;
   z-index: 1;

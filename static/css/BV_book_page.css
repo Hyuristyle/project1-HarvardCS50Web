@@ -23,7 +23,7 @@
 .details-section {
   grid-area: details-section;
   display: grid;
-  grid-template-rows: max-content max-content max-content max-content auto;
+  grid-template-rows: max-content max-content max-content max-content max-content;
   grid-template-areas: "book-title" "book-rating" "book-author" "book-pub_date" "description-section";
 }
 
@@ -67,16 +67,13 @@
 
 .book-rating {
   font-size: 0.8em;
-}
-
-.stars,
-.ratings-count {
-  float: left;
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: -5px;
 }
 
 .ratings-count {
-  display: inline-block;
-  margin-left: 20px;
+  display: block;
 }
 
 .bookviews-rating {
@@ -84,7 +81,6 @@
 }
 
 .goodreads-rating {
-  float: right;
   color: #553b07;
 }
 .goodreads-rating img {
@@ -95,7 +91,7 @@
 }
 
 .book-description {
-  margin-top: 40px;
+  margin-top: 20px;
   align-self: end;
 }
 .book-description p {
@@ -122,6 +118,7 @@
   box-shadow: 0px 0px 6px 1px rgba(0, 0, 0, 0.2);
 }
 .review .stars {
+  float: left;
   margin-left: 10px;
   font-size: 0.9em;
   color: #006ecc;

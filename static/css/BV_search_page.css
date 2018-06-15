@@ -1,5 +1,6 @@
 .content {
   background-color: #f0f0f0;
+  padding: 20px 60px;
 }
 .content .row {
   justify-content: flex-start;
@@ -24,6 +25,7 @@
 
 .stars {
   float: left;
+  letter-spacing: -0.07rem;
 }
 
 .ratings-count {

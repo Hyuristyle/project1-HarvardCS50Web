@@ -25,13 +25,18 @@ engine = create_engine(os.getenv("DATABASE_URL"))
 db = scoped_session(sessionmaker(bind=engine))
 
 # ----------------------------------------------------------------------------------------------------------------------
-def human_friendly(number):
+def human_friendly(number, short_form = True):
 	if len(str(number)) > 3 and len(str(number)) < 7:
 		number_plus_k = str(number)[:len(str(number)) - 3] + "k"
 		return number_plus_k
 
 	elif len(str(number)) > 6:
-		return humanize.intword(number)
+		if short_form:
+			items = humanize.intword(number).split(" ")
+			return f"{items[0]} {items[1][:2]}"
+
+		else:
+			return humanize.intword(number)
 
 	elif len(str(number)) < 4:
 		return str(number)
@@ -65,14 +70,49 @@ some_covers = [
 				"https://d28hgpri8am2if.cloudfront.net/book_images/onix/cvr9781501127625/steve-jobs-9781501127625_hr-back.jpg"
 			]
 
+# for i in range(8):
+# 	try:
+# 		exec(f"""new_book{i} = Book(title = "Harry Potter and the Philosopher's Stone", author = "Oogie Boogie", isbn = "0590353403", average_rating = 3.5, work_ratings_count = 28, pub_date = 2018, cover = some_covers[{i}]); search_results.append(new_book{i})""")
+
+# 	except IndexError:
+# 		exec(f"""new_book{i} = Book(title = "The Amazing Uga Buga", author = "Oogie Boogie", isbn = "0590353403", average_rating = 3.5, work_ratings_count = 28, pub_date = 2018, cover = "http://colorlava.com/wp-content/uploads/2012/11/Classic-Red-Book-Cover-520x760.jpg"); search_results.append(new_book{i})""")
+
+#---
+def get_book_cover(isbn, size):
+	if requests.get(f"http://covers.openlibrary.org/b/isbn/{isbn}-S.jpg?default=false").status_code == 404:
+		return url_for("static", filename = "images/no_cover_found.png")
+	
+	if size == "large":
+		return f"http://covers.openlibrary.org/b/isbn/{isbn}-L.jpg"
+
+	elif size == "medium":
+		return f"http://covers.openlibrary.org/b/isbn/{isbn}-M.jpg"
+
+	elif size == "small":
+		return f"http://covers.openlibrary.org/b/isbn/{isbn}-S.jpg"
+
+	elif size == "original":
+		return f"http://covers.openlibrary.org/b/isbn/{isbn}.jpg"
+
+#---
+goodreads_book_info = requests.get("https://www.goodreads.com/book/review_counts.json", params={"key": "4e2qojOvwwXtmXlzRdQw", "isbns": "0590353403"}).json()
+
 search_results = []
-
 for i in range(8):
-	try:
-		exec(f"""new_book{i} = Book(title = "Harry Potter and the Philosopher's Stone", author = "Oogie Boogie", isbn = "0590353403", average_rating = 3.5, work_ratings_count = 28, pub_date = 2018, cover = some_covers[{i}]); search_results.append(new_book{i})""")
-
-	except IndexError:
-		exec(f"""new_book{i} = Book(title = "The Amazing Uga Buga", author = "Oogie Boogie", isbn = "0590353403", average_rating = 3.5, work_ratings_count = 28, pub_date = 2018, cover = "http://colorlava.com/wp-content/uploads/2012/11/Classic-Red-Book-Cover-520x760.jpg"); search_results.append(new_book{i})""")
+	isbn = "0590353403"
+	search_results.append(
+	{
+				"isbn": isbn,
+				"title": "Harry Potter and the Philosopher's Stone",
+				"bookviews_average_rating": 3.5,
+				"bookviews_ratings_count": humanize.intcomma(28),
+				"goodreads_average_rating": float(goodreads_book_info["books"][0]["average_rating"]),
+				"goodreads_ratings_count": humanize.intcomma(int(goodreads_book_info["books"][0]["work_ratings_count"])),
+				"author": "Oogie Boogie",
+				"pub_date": 2018,
+				"description": "Testestest",
+				"cover": get_book_cover(isbn, size = "medium")
+})
 
 # ----------------------------------------------------------------------------------------------------------------------
 # Pages
@@ -97,8 +137,7 @@ def book(isbn):
 	user_reviewed = False
 
 	# APIs
-	# GOODREADS RATING & COUNT:
-	goodreads_book_info = requests.get("https://www.goodreads.com/book/review_counts.json", params={"key": "4e2qojOvwwXtmXlzRdQw", "isbns": isbn}).json()
+	# GOODREADS RATING & COUNT
 	
 	# COVER:
 	# get_cover(isbn)-->"cover.jpg"?
@@ -121,26 +160,37 @@ def book(isbn):
 	#			"cover": get_book_cover(isbn)
 	#}
 
-	book = {
-				"isbn": "0590353403",
+	single_book = {
+				"isbn": isbn,
 				"title": "Harry Potter and the Philosopher's Stone",
 				"bookviews_average_rating": 3.5,
-				"bookviews_ratings_count": human_friendly(28),
+				"bookviews_ratings_count": humanize.intcomma(28),
 				"goodreads_average_rating": float(goodreads_book_info["books"][0]["average_rating"]),
-				"goodreads_ratings_count": human_friendly(int(goodreads_book_info["books"][0]["work_ratings_count"])),
+				"goodreads_ratings_count": humanize.intcomma(int(goodreads_book_info["books"][0]["work_ratings_count"])),
 				"author": "Oogie Boogie",
 				"pub_date": 2018,
 				"description": "Testestest",
-				"cover": "https://spark.adobe.com/images/landing/examples/how-to-book-cover.jpg"
+				"cover": get_book_cover(isbn, size = "large")
 	}
 
-	# book = search_results[0]
-
-	return render_template("book.html", book = book, user_reviewed = user_reviewed)
+	return render_template("book.html", book = single_book, user_reviewed = user_reviewed)
 
 @app.route("/Book/<string:isbn>/NewReview")
 def new_review(isbn, text_area = None):
-	return render_template("review_submission.html", book = search_results[0], user = fake_user, text_area = text_area)
+	single_book = {
+				"isbn": isbn,
+				"title": "Harry Potter and the Philosopher's Stone",
+				"bookviews_average_rating": 3.5,
+				"bookviews_ratings_count": humanize.intcomma(28),
+				"goodreads_average_rating": float(goodreads_book_info["books"][0]["average_rating"]),
+				"goodreads_ratings_count": humanize.intcomma(int(goodreads_book_info["books"][0]["work_ratings_count"])),
+				"author": "Oogie Boogie",
+				"pub_date": 2018,
+				"description": "Testestest",
+				"cover": get_book_cover(isbn, size = "medium")
+	}
+
+	return render_template("review_submission.html", book = single_book, user = fake_user, text_area = text_area)
 
 @app.route("/Book/<string:isbn>/NewReview/submit", methods=["POST"])
 def new_review_submit(isbn):
