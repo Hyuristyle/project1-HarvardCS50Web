@@ -1,7 +1,7 @@
 {% extends "master_layout.html" %}
 
 {% block title %}
-	Page Not Found | Bookviews
+	{{ resource_type|capitalize() }} Not Found | Bookviews
 {% endblock %}
 
 {% block local_stylesheets %}
@@ -21,7 +21,8 @@
 					THE <span>DEAD</span> END.
 				</div>
 				<div class="message-body font-effect-wallpaper">
-					404, Not Found Street
+					404, Not Found Street<br>
+					{{ resource_info }}
 				</div>
 			</div>
 		</div>
