@@ -161,7 +161,7 @@ def book(isbn):
 	bookviews_book_info = db.execute("SELECT title, author_id, year FROM books WHERE isbn = :isbn", {"isbn": isbn}).fetchone()
 
 	if bookviews_book_info is None:
-		return render_template("error_404.html", resource_type = "book", resource_info = isbn)
+		return render_template("error_404.html", info = {"type":"book", "message": isbn})
 
 	goodreads_book_info = requests.get("https://www.goodreads.com/book/review_counts.json", params={"key": "4e2qojOvwwXtmXlzRdQw", "isbns": isbn}).json()
 	author = db.execute("SELECT name FROM authors WHERE id = :author_id", {"author_id": bookviews_book_info.author_id}).fetchone()[0]
