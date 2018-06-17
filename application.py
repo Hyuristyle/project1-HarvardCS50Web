@@ -24,7 +24,7 @@ Session(app)
 engine = create_engine(os.getenv("DATABASE_URL"))
 db = scoped_session(sessionmaker(bind=engine))
 
-# ----------------------------------------------------------------------------------------------------------------------
+#-----------------------------------------------------------------------------------------------------------------------
 def human_friendly(number, short_form = True):
 	if len(str(number)) > 3 and len(str(number)) < 7:
 		number_plus_k = str(number)[:len(str(number)) - 3] + "k"
@@ -41,7 +41,7 @@ def human_friendly(number, short_form = True):
 	elif len(str(number)) < 4:
 		return str(number)
 
-# ----------------------------------------------------------------------------------------------------------------------
+#-----------------------------------------------------------------------------------------------------------------------
 
 class User:
 	def __init__(self, user_id, name, username, password):
@@ -95,7 +95,7 @@ def get_book_cover(isbn, size):
 		return f"http://covers.openlibrary.org/b/isbn/{isbn}.jpg"
 
 #---
-goodreads_book_info = requests.get("https://www.goodreads.com/book/review_counts.json", params={"key": "4e2qojOvwwXtmXlzRdQw", "isbns": "0590353403"}).json()
+goodreads_book_info = requests.get("https://www.goodreads.com/book/review_counts.json", params={"key": "4e2qojOvwwXtmXlzRdQw", "isbns": "0590353403"}).json()["books"][0]
 
 search_results = []
 for i in range(8):
@@ -106,15 +106,15 @@ for i in range(8):
 				"title": "Harry Potter and the Philosopher's Stone",
 				"bookviews_average_rating": 3.5,
 				"bookviews_ratings_count": humanize.intcomma(28),
-				"goodreads_average_rating": float(goodreads_book_info["books"][0]["average_rating"]),
-				"goodreads_ratings_count": humanize.intcomma(int(goodreads_book_info["books"][0]["work_ratings_count"])),
+				"goodreads_average_rating": float(goodreads_book_info["average_rating"]),
+				"goodreads_ratings_count": humanize.intcomma(int(goodreads_book_info["work_ratings_count"])),
 				"author": "Oogie Boogie",
 				"pub_date": 2018,
 				"description": "Testestest",
 				"cover": get_book_cover(isbn, size = "medium")
 })
 
-# ----------------------------------------------------------------------------------------------------------------------
+#-----------------------------------------------------------------------------------------------------------------------
 # Pages
 
 # Misc.
@@ -132,73 +132,56 @@ def search():
 	search_term = request.form.get("SearchBarInput")
 	return render_template("search_results.html", search_results = search_results, search_term = search_term)
 
-# APIs
-# GOODREADS RATING & COUNT
-
-# COVER:
-# get_cover(isbn)-->"cover.jpg"?
-
+#
 # DESCRIPTION:
 # get_description(isbn)-->"Description[...]."
 
-# DB: bookviews_book_info = get_bookviews_book_info(isbn)-->title, author, year, average_rating, ratings_count
 # DB: user_reviewed(user_id, book_id)-->(True/False, review_id/None)
 
-#book = {
-#			"title": bookviews_book_info["title"],
-#			"bookviews_average_rating": bookviews_book_info["average_rating"],
-#			"bookviews_ratings_count": bookviews_book_info["ratings_count"],
-#			"goodreads_average_rating": goodreads_book_info["average_rating"],
-#			"goodreads_ratings_count": goodreads_book_info["work_ratings_count"],
-#			"author": bookviews_book_info["author"]: ,
-#			"year": bookviews_book_info["year"]: ,
-#			"description": get_book_description(isbn),
-#			"cover": get_book_cover(isbn)
-#}
-
-@app.route("/Book/<string:isbn>")
-def book(isbn):
+def get_book_info(isbn):
 	bookviews_book_info = db.execute("SELECT title, author_id, year FROM books WHERE isbn = :isbn", {"isbn": isbn}).fetchone()
 
 	if bookviews_book_info is None:
-		return render_template("error_404.html", info = {"type":"book", "message": isbn})
+		return None
 
-	goodreads_book_info = requests.get("https://www.goodreads.com/book/review_counts.json", params={"key": "4e2qojOvwwXtmXlzRdQw", "isbns": isbn}).json()
 	author = db.execute("SELECT name FROM authors WHERE id = :author_id", {"author_id": bookviews_book_info.author_id}).fetchone()[0]
 
-	user_reviewed = False
+	goodreads_book_info = requests.get("https://www.goodreads.com/book/review_counts.json", params={"key": "4e2qojOvwwXtmXlzRdQw", "isbns": isbn}).json()["books"][0]
 
-	single_book = {
+	book_info = {
 				"isbn": isbn,
 				"title": bookviews_book_info.title,
 				"bookviews_average_rating": 3.5,
 				"bookviews_ratings_count": humanize.intcomma(28),
-				"goodreads_average_rating": float(goodreads_book_info["books"][0]["average_rating"]),
-				"goodreads_ratings_count": humanize.intcomma(int(goodreads_book_info["books"][0]["work_ratings_count"])),
+				"goodreads_average_rating": float(goodreads_book_info["average_rating"]),
+				"goodreads_ratings_count": humanize.intcomma(int(goodreads_book_info["work_ratings_count"])),
 				"author": author,
 				"pub_date": bookviews_book_info.year,
-				"description": "Testestest",
+				"description": "{{{ TODO }}}",
 				"cover": get_book_cover(isbn, size = "large")
 	}
 
-	return render_template("book.html", book = single_book, user_reviewed = user_reviewed)
+	return book_info
+
+@app.route("/Book/<string:isbn>")
+def book(isbn):
+	book_info = get_book_info(isbn)
+
+	if book_info is None:
+		return render_template("error_404.html", info = {"type": "book", "message": isbn})
+
+	user_reviewed = False
+
+	return render_template("book.html", book = book_info, user_reviewed = user_reviewed)
 
 @app.route("/Book/<string:isbn>/NewReview")
 def new_review(isbn, text_area = None):
-	single_book = {
-				"isbn": isbn,
-				"title": "Harry Potter and the Philosopher's Stone",
-				"bookviews_average_rating": 3.5,
-				"bookviews_ratings_count": humanize.intcomma(28),
-				"goodreads_average_rating": float(goodreads_book_info["books"][0]["average_rating"]),
-				"goodreads_ratings_count": humanize.intcomma(int(goodreads_book_info["books"][0]["work_ratings_count"])),
-				"author": "Oogie Boogie",
-				"pub_date": 2018,
-				"description": "Testestest",
-				"cover": get_book_cover(isbn, size = "medium")
-	}
+	book_info = get_book_info(isbn)
 
-	return render_template("review_submission.html", book = single_book, user = fake_user, text_area = text_area)
+	if book_info is None:
+		return render_template("error_404.html", info = {"type": "book", "message": isbn})
+
+	return render_template("review_submission.html", book = book_info, user = fake_user, text_area = text_area)
 
 @app.route("/Book/<string:isbn>/NewReview/submit", methods=["POST"])
 def new_review_submit(isbn):
@@ -245,13 +228,13 @@ def logout():
 def content_not_found():
 	return render_template("error_404.html")
 
-# ----------------------------------------------------------------------------------------------------------------------
+#-----------------------------------------------------------------------------------------------------------------------
 # API
 
 @app.route("/api/<string:isbn>")
 def api_isbn(isbn):
 	res = requests.get("https://www.goodreads.com/book/review_counts.json", params={"key": "4e2qojOvwwXtmXlzRdQw", "isbns": isbn})
-	return str(res.json()) + "<br>" + str(res.json()["books"][0]["isbn"])
+	return str(res.json()) + "<br>" + str(res.json()["isbn"])
 
 #@app.route("api/404")
 #def api_isbn_not_found():
