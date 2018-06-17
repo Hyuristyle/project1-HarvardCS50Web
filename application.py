@@ -132,43 +132,51 @@ def search():
 	search_term = request.form.get("SearchBarInput")
 	return render_template("search_results.html", search_results = search_results, search_term = search_term)
 
+# APIs
+# GOODREADS RATING & COUNT
+
+# COVER:
+# get_cover(isbn)-->"cover.jpg"?
+
+# DESCRIPTION:
+# get_description(isbn)-->"Description[...]."
+
+# DB: bookviews_book_info = get_bookviews_book_info(isbn)-->title, author, year, average_rating, ratings_count
+# DB: user_reviewed(user_id, book_id)-->(True/False, review_id/None)
+
+#book = {
+#			"title": bookviews_book_info["title"],
+#			"bookviews_average_rating": bookviews_book_info["average_rating"],
+#			"bookviews_ratings_count": bookviews_book_info["ratings_count"],
+#			"goodreads_average_rating": goodreads_book_info["average_rating"],
+#			"goodreads_ratings_count": goodreads_book_info["work_ratings_count"],
+#			"author": bookviews_book_info["author"]: ,
+#			"year": bookviews_book_info["year"]: ,
+#			"description": get_book_description(isbn),
+#			"cover": get_book_cover(isbn)
+#}
+
 @app.route("/Book/<string:isbn>")
 def book(isbn):
+	bookviews_book_info = db.execute("SELECT title, author_id, year FROM books WHERE isbn = :isbn", {"isbn": isbn}).fetchone()
+
+	if bookviews_book_info is None:
+		return render_template("error_404.html", resource_type = "book", resource_info = isbn)
+
+	goodreads_book_info = requests.get("https://www.goodreads.com/book/review_counts.json", params={"key": "4e2qojOvwwXtmXlzRdQw", "isbns": isbn}).json()
+	author = db.execute("SELECT name FROM authors WHERE id = :author_id", {"author_id": bookviews_book_info.author_id}).fetchone()[0]
+
 	user_reviewed = False
-
-	# APIs
-	# GOODREADS RATING & COUNT
-	
-	# COVER:
-	# get_cover(isbn)-->"cover.jpg"?
-	
-	# DESCRIPTION:
-	# get_description(isbn)-->"Description[...]."
-	
-	# DB: bookviews_book_info = get_bookviews_book_info(isbn)-->title, author, year, average_rating, ratings_count
-	# DB: user_reviewed(user_id, book_id)-->(True/False, review_id/None)
-
-	#book = {
-	#			"title": bookviews_book_info["title"],
-	#			"bookviews_average_rating": bookviews_book_info["average_rating"],
-	#			"bookviews_ratings_count": bookviews_book_info["ratings_count"],
-	#			"goodreads_average_rating": goodreads_book_info["average_rating"],
-	#			"goodreads_ratings_count": goodreads_book_info["work_ratings_count"],
-	#			"author": bookviews_book_info["author"]: ,
-	#			"year": bookviews_book_info["year"]: ,
-	#			"description": get_book_description(isbn),
-	#			"cover": get_book_cover(isbn)
-	#}
 
 	single_book = {
 				"isbn": isbn,
-				"title": "Harry Potter and the Philosopher's Stone",
+				"title": bookviews_book_info.title,
 				"bookviews_average_rating": 3.5,
 				"bookviews_ratings_count": humanize.intcomma(28),
 				"goodreads_average_rating": float(goodreads_book_info["books"][0]["average_rating"]),
 				"goodreads_ratings_count": humanize.intcomma(int(goodreads_book_info["books"][0]["work_ratings_count"])),
-				"author": "Oogie Boogie",
-				"pub_date": 2018,
+				"author": author,
+				"pub_date": bookviews_book_info.year,
 				"description": "Testestest",
 				"cover": get_book_cover(isbn, size = "large")
 	}
