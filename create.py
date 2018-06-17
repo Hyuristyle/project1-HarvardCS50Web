@@ -16,7 +16,7 @@ db = scoped_session(sessionmaker(bind=engine))
 
 def main():
 	# Creating "authors" table.
-	db.execute("CREATE TABLE authors (id SERIAL PRIMARY KEY, author VARCHAR NOT NULL)")
+	db.execute("CREATE TABLE authors (id SERIAL PRIMARY KEY, name VARCHAR NOT NULL)")
 	db.commit()
 	print(f"Table 'authors' created.")
 	

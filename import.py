@@ -26,9 +26,9 @@ def main():
 			first_line = False
 			continue
 
-		if db.execute("SELECT * FROM authors WHERE author = :author", {"author": author}).fetchone() == None:
-			db.execute("INSERT INTO authors (author) VALUES (:author)", {"author": author})
-			print(f"Added author '{author}'' to table 'authors'.")
+		if db.execute("SELECT * FROM authors WHERE name = :name", {"name": author}).fetchone() == None:
+			db.execute("INSERT INTO authors (name) VALUES (:name)", {"name": author})
+			print(f"Added author '{author}' to table 'authors'.")
 
 		else:
 			print(f"DBInsertError: Author '{author}' is already on the table 'authors'.")
