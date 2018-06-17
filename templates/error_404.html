@@ -1,7 +1,7 @@
 {% extends "master_layout.html" %}
 
 {% block title %}
-	{{ resource_type|capitalize() }} Not Found | Bookviews
+	{% if resource_type %} {{ resource_type|capitalize() }} {% else %} Page{% endif %} Not Found | Bookviews
 {% endblock %}
 
 {% block local_stylesheets %}
@@ -22,7 +22,7 @@
 				</div>
 				<div class="message-body font-effect-wallpaper">
 					404, Not Found Street<br>
-					{{ resource_info }}
+					{% if resource_info %} {{ resource_info }} {% endif %}
 				</div>
 			</div>
 		</div>
