@@ -31,7 +31,7 @@ def main():
 	print(f"Table 'users' created.")
 
 	# Creating "reviews" table.
-	db.execute("CREATE TABLE reviews (id SERIAL PRIMARY KEY, book_id INTEGER NOT NULL REFERENCES books, user_id INTEGER NOT NULL REFERENCES users, rating INTEGER NOT NULL, review TEXT NOT NULL, pub_date TIMESTAMP)")
+	db.execute("CREATE TABLE reviews (id SERIAL PRIMARY KEY, book_id INTEGER NOT NULL REFERENCES books, user_id INTEGER NOT NULL REFERENCES users, rating INTEGER NOT NULL, review TEXT NOT NULL, year INTEGER)")
 	db.commit()
 	print(f"Table 'reviews' created.")
 
