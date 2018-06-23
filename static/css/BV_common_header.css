@@ -1,14 +1,19 @@
+/* line 3, D:/Base de Conhecimentos/Computer Science/Harvard/CS50 Web Programming with Python and JavaScript/Projects/project1-Hyuristyle/static/sass/BV_common_header.sass */
 .header {
   position: fixed;
   width: 100%;
   z-index: 100;
   box-shadow: 0 2px 6px 0px rgba(0, 0, 0, 0.3);
 }
+
+/* line 9, D:/Base de Conhecimentos/Computer Science/Harvard/CS50 Web Programming with Python and JavaScript/Projects/project1-Hyuristyle/static/sass/BV_common_header.sass */
 .header .mx-auto {
   margin-left: auto !important;
 }
+
+/* line 12, D:/Base de Conhecimentos/Computer Science/Harvard/CS50 Web Programming with Python and JavaScript/Projects/project1-Hyuristyle/static/sass/BV_common_header.sass */
 .header .ml-auto {
   margin-left: 1rem !important;
 }
 
-/*# sourceMappingURL=static/css/BV_common_header.css.map */
+/*# sourceMappingURL=../css/BV_common_header.map */

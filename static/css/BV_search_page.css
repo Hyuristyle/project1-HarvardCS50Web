@@ -1,35 +1,51 @@
+/* line 3, D:/Base de Conhecimentos/Computer Science/Harvard/CS50 Web Programming with Python and JavaScript/Projects/project1-Hyuristyle/static/sass/BV_search_page.sass */
 .content {
   background-color: #f0f0f0;
   padding: 20px 60px;
 }
+
+/* line 9, D:/Base de Conhecimentos/Computer Science/Harvard/CS50 Web Programming with Python and JavaScript/Projects/project1-Hyuristyle/static/sass/BV_search_page.sass */
 .content .row {
   justify-content: flex-start;
   margin-left: 0px;
 }
+
+/* line 14, D:/Base de Conhecimentos/Computer Science/Harvard/CS50 Web Programming with Python and JavaScript/Projects/project1-Hyuristyle/static/sass/BV_search_page.sass */
 .content .col {
   flex-grow: 0;
   margin-bottom: 40px;
 }
 
+/* line 19, D:/Base de Conhecimentos/Computer Science/Harvard/CS50 Web Programming with Python and JavaScript/Projects/project1-Hyuristyle/static/sass/BV_search_page.sass */
 .book-title {
   margin-top: 5px;
 }
 
+/* line 22, D:/Base de Conhecimentos/Computer Science/Harvard/CS50 Web Programming with Python and JavaScript/Projects/project1-Hyuristyle/static/sass/BV_search_page.sass */
+.book-title span {
+  font-size: 0.9em;
+  opacity: 0.7;
+}
+
+/* line 26, D:/Base de Conhecimentos/Computer Science/Harvard/CS50 Web Programming with Python and JavaScript/Projects/project1-Hyuristyle/static/sass/BV_search_page.sass */
 .book-cover {
   width: 200px;
 }
 
+/* line 29, D:/Base de Conhecimentos/Computer Science/Harvard/CS50 Web Programming with Python and JavaScript/Projects/project1-Hyuristyle/static/sass/BV_search_page.sass */
 .book-rating {
   color: #553b07;
 }
 
+/* line 32, D:/Base de Conhecimentos/Computer Science/Harvard/CS50 Web Programming with Python and JavaScript/Projects/project1-Hyuristyle/static/sass/BV_search_page.sass */
 .stars {
   float: left;
   letter-spacing: -0.07rem;
 }
 
+/* line 36, D:/Base de Conhecimentos/Computer Science/Harvard/CS50 Web Programming with Python and JavaScript/Projects/project1-Hyuristyle/static/sass/BV_search_page.sass */
 .ratings-count {
   float: right;
 }
 
-/*# sourceMappingURL=static/css/BV_search_page.css.map */
+/*# sourceMappingURL=../css/BV_search_page.map */

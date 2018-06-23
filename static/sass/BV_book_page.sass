@@ -29,8 +29,8 @@
 	grid-area: details-section
 
 	display: grid
-	grid-template-rows: max-content max-content max-content max-content max-content
-	grid-template-areas: "book-title" "book-rating" "book-author" "book-pub_date" "description-section"
+	grid-template-rows: max-content max-content max-content max-content max-content max-content
+	grid-template-areas: "book-title" "book-rating" "book-author" "book-year" "book-isbn" "description-section"
 
 .cover-section
 	grid-area: cover-section
@@ -66,9 +66,14 @@
 .book-author
 	margin-top: 0px
 
-.book-pub_date,
+.book-year,
 .book-author
 	font-size: .9em
+
+.book-isbn
+	font-size: .8em
+
+	opacity: 0.5
 
 .book-rating
 	font-size: .8em

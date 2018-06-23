@@ -3,18 +3,22 @@
   font-family: "HamletOrNot";
   src: url(../fonts/HamletOrNot.ttf) format("truetype");
 }
+
+/* line 5, D:/Base de Conhecimentos/Computer Science/Harvard/CS50 Web Programming with Python and JavaScript/Projects/project1-Hyuristyle/static/sass/BV_error_page.sass */
 body {
   background: url("../images/background_error.jpg") no-repeat center top fixed;
   background-size: cover;
   color: #222222;
 }
 
+/* line 11, D:/Base de Conhecimentos/Computer Science/Harvard/CS50 Web Programming with Python and JavaScript/Projects/project1-Hyuristyle/static/sass/BV_error_page.sass */
 .content {
   display: grid;
   align-self: center;
   text-align: center;
 }
 
+/* line 18, D:/Base de Conhecimentos/Computer Science/Harvard/CS50 Web Programming with Python and JavaScript/Projects/project1-Hyuristyle/static/sass/BV_error_page.sass */
 .message-background {
   margin: auto;
   padding: 60px;
@@ -23,19 +27,25 @@ body {
   background-color: #fafafa;
   box-shadow: 0 0px 8px 2px rgba(0, 0, 0, 0.3);
 }
+
+/* line 29, D:/Base de Conhecimentos/Computer Science/Harvard/CS50 Web Programming with Python and JavaScript/Projects/project1-Hyuristyle/static/sass/BV_error_page.sass */
 .message-background .message-heading {
   font-family: HamletOrNot;
   font-size: 2rem;
   color: #222222;
 }
+
+/* line 35, D:/Base de Conhecimentos/Computer Science/Harvard/CS50 Web Programming with Python and JavaScript/Projects/project1-Hyuristyle/static/sass/BV_error_page.sass */
 .message-background .message-heading span {
   color: inherit;
   opacity: 0.3;
 }
+
+/* line 39, D:/Base de Conhecimentos/Computer Science/Harvard/CS50 Web Programming with Python and JavaScript/Projects/project1-Hyuristyle/static/sass/BV_error_page.sass */
 .message-background .message-body {
   color: inherit;
   opacity: 0.5;
   font-size: 1.2rem;
 }
 
-/*# sourceMappingURL=static/css/BV_error_page.css.map */
+/*# sourceMappingURL=../css/BV_error_page.map */

@@ -1,16 +1,20 @@
+/* line 4, D:/Base de Conhecimentos/Computer Science/Harvard/CS50 Web Programming with Python and JavaScript/Projects/project1-Hyuristyle/static/sass/BV_common_page.sass */
 .page-container {
   grid-template-rows: 47px auto;
   grid-template-areas: "header" "content";
 }
 
+/* line 8, D:/Base de Conhecimentos/Computer Science/Harvard/CS50 Web Programming with Python and JavaScript/Projects/project1-Hyuristyle/static/sass/BV_common_page.sass */
 .content {
   background-color: #d9d9d9;
   align-self: stretch;
   padding: 5px 60px;
 }
+
+/* line 15, D:/Base de Conhecimentos/Computer Science/Harvard/CS50 Web Programming with Python and JavaScript/Projects/project1-Hyuristyle/static/sass/BV_common_page.sass */
 .content .heading {
   text-align: left;
   font-weight: bold;
 }
 
-/*# sourceMappingURL=static/css/BV_common_page.css.map */
+/*# sourceMappingURL=../css/BV_common_page.map */

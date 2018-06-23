@@ -1,0 +1,14 @@
+{
+	"version": 3,
+	"file": "../sass/BV_home_page.css",
+	"sources": [
+		"../sass/BV_home_page.sass",
+		"../sass/_BV_variables.sass"
+	],
+	"sourcesContent": [
+		"@import \"_BV_variables\";\n\nbody {\n\tbackground: url(\"../images/background_home.jpg\") no-repeat center top fixed;\n\tbackground-size: cover; }\n\n.page-content {\n\tgrid-template-rows: $header-height auto $header-height * 2;\n\tgrid-template-areas: \"header\" \"content\" \"footer\"; }\n\n.content {\n\talign-self: center;\n\n\ttext-align: center; }\n",
+		"// Colors\n$brightest: hsl(0, 0%, 98%);\n$bright: hsl(0, 0%, 94%);\n$bright85: hsl(0, 0%, 85%);\n$darkest: #222222;\n$light-overlay01: rgba(0, 0, 0, 0.1);\n$light-overlay02: rgba(0, 0, 0, 0.2);\n$light-overlay03: rgba(0, 0, 0, 0.3);\n$light-overlay05: rgba(0, 0, 0, 0.5);\n\n$logo-color: #006ecc;\n\n$goodreads-logo-color: #553b07;\n\n// Sizes\n$header-height: 47px;\n"
+	],
+	"mappings": ";AAEA,AAAA,IAAI,CAAC;EACJ,UAAU,EAAE,oCAAG,CAAkC,SAAS,CAAC,MAAM,CAAC,GAAG,CAAC,KAAK;EAC3E,eAAe,EAAE,KAAM;CAAG;;;AAE3B,AAAA,aAAa,CAAC;EACb,kBAAkB,ECQH,IAAI,CDRgB,IAAI,CAAC,IAAc;EACtD,mBAAmB,EAAE,2BAA4B;CAAG;;;AAErD,AAAA,QAAQ,CAAC;EACR,UAAU,EAAE,MAAO;EAEnB,UAAU,EAAE,MAAO;CAAG",
+	"names": []
+}
