@@ -135,12 +135,12 @@
 					<div class="reviews">
 						<div class="reviews-heading">
 							<div class="heading float-left">REVIEWS</div>
-							<div class="badge float-left">12</div>
+							<div class="badge float-left">{{ book.bookviews_ratings_count }}</div>
 						</div>
 
 						<br>
 
-						{% for review in range(5) %}
+						{% for review in range(book.bookviews_ratings_count) %}
 						<div class="review">
 							<div class="reviewer-name float-left">
 								Hyuri Pimentel
