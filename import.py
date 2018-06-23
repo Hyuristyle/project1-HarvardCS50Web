@@ -20,7 +20,6 @@ def main():
 
 	# Populating the "authors" table.
 	first_line = True
-	Populating the "authors" table.
 	for isbn, title, author, year in reader:
 		if first_line:
 			first_line = False
@@ -43,8 +42,8 @@ def main():
 			continue
 
 		if db.execute("SELECT * FROM books WHERE isbn = :isbn", {"isbn": isbn}).fetchone() == None:
-			author_id = db.execute("SELECT id FROM authors WHERE author = :author",
-					{"author": author}).fetchone()[0]
+			author_id = db.execute("SELECT id FROM authors WHERE name = :name",
+					{"name": author}).fetchone()[0]
 
 			db.execute("INSERT INTO books (isbn, title, author_id, year) VALUES (:isbn, :title, :author_id, :year)",
 					{"isbn": isbn, "title": title, "author_id": author_id, "year": year})
