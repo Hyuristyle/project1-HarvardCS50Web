@@ -147,14 +147,14 @@ def API_isbn(isbn):
 		return jsonify({"error": "isbn not found"}), 422
 
 	author = db.execute("SELECT name FROM authors WHERE id = :author_id LIMIT 1", {"author_id": book_data.author_id}).fetchone()[0]
-
+	
 	return jsonify({
 			"title": book_data["title"],
 			"author": author,
 			"year": book_data["year"],
 			"isbn": isbn,
-			"review_count": humanize.intcomma(28),
-			"average_score": 3.5
+			"review_count": get_ratings_count(isbn),
+			"average_score": get_average_rating(isbn)
 		})
 
 @app.route("/api/not_found")
