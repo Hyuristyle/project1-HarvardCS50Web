@@ -99,8 +99,12 @@
 								<b>Author:</b> <a href="{{ url_for('author', name=book.author) }}">{{ book.author }}</a>
 							</div>
 
-							<div class="book-pub_date">
-								<b>Published:</b> <a href="{{ url_for('pub_date', pub_date=book.pub_date) }}">{{ book.pub_date }}</a>
+							<div class="book-year">
+								<b>Published:</b> <a href="{{ url_for('year', year=book.year) }}">{{ book.year }}</a>
+							</div>
+
+							<div class="book-isbn">
+								<b>ISBN:</b> {{ book.isbn }}
 							</div>
 
 							<div class="book-description">
