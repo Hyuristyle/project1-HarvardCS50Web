@@ -1,13 +1,13 @@
 import os
-import collections
-import humanize
 
-from flask import Flask, session, render_template, request, redirect, url_for
+from flask import Flask, session, render_template, request, redirect, url_for, jsonify
 from flask_session import Session
 from sqlalchemy import create_engine
 from sqlalchemy.orm import scoped_session, sessionmaker
 
 import requests
+
+from books import *
 
 app = Flask(__name__)
 
@@ -25,24 +25,7 @@ engine = create_engine(os.getenv("DATABASE_URL"))
 db = scoped_session(sessionmaker(bind=engine))
 
 #-----------------------------------------------------------------------------------------------------------------------
-def human_friendly(number, short_form = True):
-	if len(str(number)) > 3 and len(str(number)) < 7:
-		number_plus_k = str(number)[:len(str(number)) - 3] + "k"
-		return number_plus_k
-
-	elif len(str(number)) > 6:
-		if short_form:
-			items = humanize.intword(number).split(" ")
-			return f"{items[0]} {items[1][:2]}"
-
-		else:
-			return humanize.intword(number)
-
-	elif len(str(number)) < 4:
-		return str(number)
-
-#-----------------------------------------------------------------------------------------------------------------------
-
+# Fake User (temp)
 class User:
 	def __init__(self, user_id, name, username, password):
 		self.user_id = user_id
@@ -51,68 +34,6 @@ class User:
 		self.password = password
 
 fake_user = User(0, "Hyuri Pimentel", "Hyuri.Pimentel", "ugabuga")
-
-class Book:
-	def __init__(self, title, author, isbn, average_rating, work_ratings_count, pub_date, cover):
-		self.title = title
-		self.author = author
-		self.isbn = isbn
-		self.average_rating = average_rating
-		self.work_ratings_count = work_ratings_count
-		self.pub_date = pub_date
-		self.cover = cover
-
-some_covers = [
-				"https://spark.adobe.com/images/landing/examples/how-to-book-cover.jpg",
-				"https://about.canva.com/wp-content/uploads/sites/3/2015/01/business_bookcover.png",
-				"https://images.gr-assets.com/books/1405581253l/22735855.jpg",
-				"http://cdn.macrumors.com/article-new/2011/08/steve_jobs_book_cover.jpg",
-				"https://d28hgpri8am2if.cloudfront.net/book_images/onix/cvr9781501127625/steve-jobs-9781501127625_hr-back.jpg"
-			]
-
-# for i in range(8):
-# 	try:
-# 		exec(f"""new_book{i} = Book(title = "Harry Potter and the Philosopher's Stone", author = "Oogie Boogie", isbn = "0590353403", average_rating = 3.5, work_ratings_count = 28, pub_date = 2018, cover = some_covers[{i}]); search_results.append(new_book{i})""")
-
-# 	except IndexError:
-# 		exec(f"""new_book{i} = Book(title = "The Amazing Uga Buga", author = "Oogie Boogie", isbn = "0590353403", average_rating = 3.5, work_ratings_count = 28, pub_date = 2018, cover = "http://colorlava.com/wp-content/uploads/2012/11/Classic-Red-Book-Cover-520x760.jpg"); search_results.append(new_book{i})""")
-
-#---
-def get_book_cover(isbn, size):
-	if requests.get(f"http://covers.openlibrary.org/b/isbn/{isbn}-S.jpg?default=false").status_code == 404:
-		return url_for("static", filename = "images/no_cover_found.png")
-	
-	if size == "large":
-		return f"http://covers.openlibrary.org/b/isbn/{isbn}-L.jpg"
-
-	elif size == "medium":
-		return f"http://covers.openlibrary.org/b/isbn/{isbn}-M.jpg"
-
-	elif size == "small":
-		return f"http://covers.openlibrary.org/b/isbn/{isbn}-S.jpg"
-
-	elif size == "original":
-		return f"http://covers.openlibrary.org/b/isbn/{isbn}.jpg"
-
-#---
-goodreads_book_info = requests.get("https://www.goodreads.com/book/review_counts.json", params={"key": "4e2qojOvwwXtmXlzRdQw", "isbns": "0590353403"}).json()["books"][0]
-
-search_results = []
-for i in range(8):
-	isbn = "0590353403"
-	search_results.append(
-	{
-				"isbn": isbn,
-				"title": "Harry Potter and the Philosopher's Stone",
-				"bookviews_average_rating": 3.5,
-				"bookviews_ratings_count": humanize.intcomma(28),
-				"goodreads_average_rating": float(goodreads_book_info["average_rating"]),
-				"goodreads_ratings_count": humanize.intcomma(int(goodreads_book_info["work_ratings_count"])),
-				"author": "Oogie Boogie",
-				"pub_date": 2018,
-				"description": "Testestest",
-				"cover": get_book_cover(isbn, size = "medium")
-})
 
 #-----------------------------------------------------------------------------------------------------------------------
 # Pages
@@ -129,59 +50,39 @@ def home():
 #@app.route("/Search/<string:search_term>")
 @app.route("/Search", methods=["POST", "GET"])
 def search():
+	#TODO: Add sorting capabilities
+
 	search_term = request.form.get("SearchBarInput")
-	return render_template("search_results.html", search_results = search_results, search_term = search_term)
 
-#
-# DESCRIPTION:
-# get_description(isbn)-->"Description[...]."
+	books = get_books(search_term, search_by = "title")
 
-# DB: user_reviewed(user_id, book_id)-->(True/False, review_id/None)
-
-def get_book_info(isbn):
-	bookviews_book_info = db.execute("SELECT title, author_id, year FROM books WHERE isbn = :isbn", {"isbn": isbn}).fetchone()
-
-	if bookviews_book_info is None:
-		return None
-
-	author = db.execute("SELECT name FROM authors WHERE id = :author_id", {"author_id": bookviews_book_info.author_id}).fetchone()[0]
-
-	goodreads_book_info = requests.get("https://www.goodreads.com/book/review_counts.json", params={"key": "4e2qojOvwwXtmXlzRdQw", "isbns": isbn}).json()["books"][0]
-
-	book_info = {
-				"isbn": isbn,
-				"title": bookviews_book_info.title,
-				"bookviews_average_rating": 3.5,
-				"bookviews_ratings_count": humanize.intcomma(28),
-				"goodreads_average_rating": float(goodreads_book_info["average_rating"]),
-				"goodreads_ratings_count": humanize.intcomma(int(goodreads_book_info["work_ratings_count"])),
-				"author": author,
-				"pub_date": bookviews_book_info.year,
-				"description": "{{{ TODO }}}",
-				"cover": get_book_cover(isbn, size = "large")
-	}
-
-	return book_info
+	return render_template("search_results.html", search_results = books, search_term = search_term)
 
 @app.route("/Book/<string:isbn>")
 def book(isbn):
-	book_info = get_book_info(isbn)
+	# TODO: Add option to delete a review
 
-	if book_info is None:
-		return render_template("error_404.html", info = {"type": "book", "message": isbn})
+	book_data = get_book_data(isbn, cover_size = "large")
+
+	if book_data is None:
+		return render_template("error_404.html", info = {"type": "book", "message": isbn}, search_term = isbn)
 
 	user_reviewed = False
 
-	return render_template("book.html", book = book_info, user_reviewed = user_reviewed)
+	return render_template("book.html", book = book_data, user_reviewed = user_reviewed, search_term = book_data["title"])
 
 @app.route("/Book/<string:isbn>/NewReview")
 def new_review(isbn, text_area = None):
-	book_info = get_book_info(isbn)
+	# TODO:
+	# Add session support, to allow the user to continue writing
+	# their review in the case they leave the page by mistake or intentionally
 
-	if book_info is None:
+	book_data = get_book_data(isbn, cover_size = "medium")
+
+	if book_data is None:
 		return render_template("error_404.html", info = {"type": "book", "message": isbn})
 
-	return render_template("review_submission.html", book = book_info, user = fake_user, text_area = text_area)
+	return render_template("review_submission.html", book = book_data, user = fake_user, text_area = text_area, search_term = book_data["title"])
 
 @app.route("/Book/<string:isbn>/NewReview/submit", methods=["POST"])
 def new_review_submit(isbn):
@@ -196,11 +97,18 @@ def new_review_submit(isbn):
 
 @app.route("/Author/<string:name>")
 def author(name):
-	return render_template("search_results.html")
+	books = get_books(name, search_by = "author")
+	
+	return render_template("search_results.html", search_results = books, search_term = name)
 
-@app.route("/Year/<int:pub_date>")
-def pub_date(pub_date):
-	return render_template("search_results.html")
+@app.route("/Year/<int:year>")
+def year(year):
+	books = get_books(year, search_by = "year")
+
+	if books is None:
+		return render_template("search_results.html", search_results = None)
+	
+	return render_template("search_results.html", search_results = books, search_term = year)
 
 # Users
 @app.route("/Register")
@@ -226,16 +134,29 @@ def logout():
 #
 @app.route("/404")
 def content_not_found():
-	return render_template("error_404.html")
+	return render_template("error_404.html"), 404
 
 #-----------------------------------------------------------------------------------------------------------------------
 # API
 
 @app.route("/api/<string:isbn>")
-def api_isbn(isbn):
-	res = requests.get("https://www.goodreads.com/book/review_counts.json", params={"key": "4e2qojOvwwXtmXlzRdQw", "isbns": isbn})
-	return str(res.json()) + "<br>" + str(res.json()["isbn"])
+def API_isbn(isbn):
+	book_data = db.execute("SELECT title, author_id, year FROM books WHERE isbn = :isbn LIMIT 1", {"isbn": isbn}).fetchone()
 
-#@app.route("api/404")
-#def api_isbn_not_found():
-#	return "404"
+	if book_data is None:
+		return jsonify({"error": "isbn not found"}), 422
+
+	author = db.execute("SELECT name FROM authors WHERE id = :author_id LIMIT 1", {"author_id": book_data.author_id}).fetchone()[0]
+
+	return jsonify({
+			"title": book_data["title"],
+			"author": author,
+			"year": book_data["year"],
+			"isbn": isbn,
+			"review_count": humanize.intcomma(28),
+			"average_score": 3.5
+		})
+
+@app.route("/api/not_found")
+def API_not_found():
+	return jsonify({"error": "isbn not found in our database."}), 422
