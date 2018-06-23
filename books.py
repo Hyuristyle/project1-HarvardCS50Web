@@ -53,6 +53,28 @@ def timed(func):
 
 #-----------------------------------------------------------------------------------------------------------------------
 
+def get_average_rating(isbn):
+	book_id = db.execute("SELECT id FROM books WHERE isbn = :isbn", {"isbn": isbn}).fetchone()[0]
+	
+	average_rating = db.execute("SELECT AVG(rating) FROM reviews WHERE book_id = :book_id",
+																				{"book_id": book_id}).fetchall()[0][0]
+	
+	if average_rating == None:
+		average_rating = 0.0
+
+	return float(average_rating)
+
+def get_ratings_count(isbn):
+	book_id = db.execute("SELECT id FROM books WHERE isbn = :isbn", {"isbn": isbn}).fetchone()[0]
+	
+	ratings_count = db.execute("SELECT COUNT(review) FROM reviews WHERE book_id = :book_id",
+																				{"book_id": book_id}).fetchall()[0][0]
+	
+	if ratings_count == None:
+		ratings_count = 0
+
+	return int(ratings_count)
+
 def get_book_cover(isbn, size):
 	"""Possible "size" values: "large", "medium", "small", "original" """
 	print("(i) Sleeping for 0.05 seconds, to comply with OpenLibrary's Rate Limiting...")
@@ -103,11 +125,11 @@ def get_book_data(isbn, cover_size = "large", get_cover = True):
 	else:
 		book_cover = None
 	
-	book_data = {
+	return {
 				"isbn": isbn,
 				"title": bookviews_book_data.title,
-				"bookviews_average_rating": 3.5,
-				"bookviews_ratings_count": humanize.intcomma(28),
+				"bookviews_average_rating": get_average_rating(isbn),
+				"bookviews_ratings_count": get_ratings_count(isbn),
 				"goodreads_average_rating": float(goodreads_book_data["average_rating"]),
 				"goodreads_ratings_count": humanize.intcomma(int(goodreads_book_data["work_ratings_count"])),
 				"author": author,
@@ -115,8 +137,6 @@ def get_book_data(isbn, cover_size = "large", get_cover = True):
 				"description": "{{{ TODO }}}",
 				"cover": book_cover
 	}
-
-	return book_data
 
 def get_books(search_term, search_by = "title"):
 	"""search_by possible values: "title", "author", "year", "all" """
