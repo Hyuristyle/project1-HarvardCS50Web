@@ -26,12 +26,12 @@ def main():
 	print(f"Table 'books' created.")
 
 	# Creating "users" table.
-	db.execute("CREATE TABLE users (id SERIAL PRIMARY KEY, username VARCHAR NOT NULL UNIQUE, name VARCHAR NOT NULL, password VARCHAR NOT NULL)")
+	db.execute("CREATE TABLE users (id SERIAL PRIMARY KEY, username VARCHAR NOT NULL UNIQUE, fullname VARCHAR NOT NULL, password VARCHAR NOT NULL)")
 	db.commit()
 	print(f"Table 'users' created.")
 
 	# Creating "reviews" table.
-	db.execute("CREATE TABLE reviews (id SERIAL PRIMARY KEY, book_id INTEGER NOT NULL REFERENCES books, user_id INTEGER NOT NULL REFERENCES users, rating INTEGER NOT NULL, review TEXT NOT NULL, year INTEGER)")
+	db.execute("CREATE TABLE reviews (id SERIAL PRIMARY KEY, book_id INTEGER NOT NULL REFERENCES books, user_id INTEGER NOT NULL REFERENCES users, rating INTEGER NOT NULL, review TEXT NOT NULL, pub_date TIMESTAMP)")
 	db.commit()
 	print(f"Table 'reviews' created.")
 
