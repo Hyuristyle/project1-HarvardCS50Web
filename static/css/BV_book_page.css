@@ -161,4 +161,9 @@
   font-weight: bold;
 }
 
+/* line 152, D:/Base de Conhecimentos/Computer Science/Harvard/CS50 Web Programming with Python and JavaScript/Projects/project1-Hyuristyle/static/sass/BV_book_page.sass */
+.review-body {
+  word-break: break-word;
+}
+
 /*# sourceMappingURL=../css/BV_book_page.map */
