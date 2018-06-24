@@ -1,21 +1,12 @@
-import os
 import time
 import timeit
 import humanize
 
 from flask import url_for
-from sqlalchemy import create_engine
-from sqlalchemy.orm import scoped_session, sessionmaker
+
+from DB import *
 
 import requests
-
-# Check for environment variable
-if not os.getenv("DATABASE_URL"):
-    raise RuntimeError("DATABASE_URL is not set")
-
-# Set up database
-engine = create_engine(os.getenv("DATABASE_URL"))
-db = scoped_session(sessionmaker(bind=engine))
 
 #-----------------------------------------------------------------------------------------------------------------------
 # Utilities
@@ -52,6 +43,58 @@ def timed(func):
 	return func_wrapper
 
 #-----------------------------------------------------------------------------------------------------------------------
+
+def get_user_id(username):
+	"""
+	Returns id number that matches username.
+	Returns None if no matches found
+	"""
+
+	user_id = db.execute("SELECT id FROM users WHERE username = :username LIMIT 1", {"username": username}).fetchone()
+	
+	if user_id is None:
+		return None
+
+	return user_id[0]
+
+def get_user_fullname(user_id):
+	"""
+	Returns fullname that matches user_id.
+	Returns None if no matches found
+	"""
+
+	user_fullname = db.execute("SELECT fullname FROM users WHERE id = :user_id LIMIT 1", {"user_id": user_id}).fetchone()
+	
+	if user_fullname is None:
+		return None
+
+	return user_fullname[0]
+
+def get_book_id(isbn):
+	"""
+	Returns id number that matches isbn.
+	Returns None if no matches found
+	"""
+	book_id = db.execute("SELECT id FROM books WHERE isbn = :isbn LIMIT 1", {"isbn": isbn}).fetchone()
+
+	if book_id is None:
+		return None
+
+	return book_id[0]
+
+def add_review(isbn, user_id, rating, review):
+	book_id = get_book_id(isbn)
+
+	db.execute("INSERT INTO reviews (book_id, user_id, rating, review) VALUES (:book_id, :user_id, :rating, :review)",
+		                                 {"book_id": book_id, "user_id": user_id, "rating": rating, "review": review})
+	db.commit()
+
+def get_book_reviews(isbn):
+	return [{
+				"reviewer_name": "Hyuri Pimentel",
+				"rating": 3,
+				"review_body": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
+			}]
 
 def get_average_rating(isbn):
 	book_id = db.execute("SELECT id FROM books WHERE isbn = :isbn", {"isbn": isbn}).fetchone()[0]
