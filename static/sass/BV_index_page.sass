@@ -17,10 +17,8 @@ body
 	display: grid
 	grid-template-columns: auto max-content auto
 	grid-template-areas: "register-form forms-separator login-form"
-	grid-column-gap: 40px
 
 	margin: 0px 20%
-	padding: 40px
 
 	border: 1px solid rgba(0, 0, 0, 0.3)
 	border-radius: 15px
@@ -31,5 +29,22 @@ body
 
 .forms-separator
 	width: 2px
-	margin: -40px 0px
 	background-color: rgba(0, 0, 0, 0.1)
+
+.login-form,
+.register-form
+	padding: 40px
+	
+	border-radius: inherit
+
+.login-form
+	border-top-left-radius: 0px
+	border-bottom-left-radius: 0px
+
+	background-color: rgba(0, 123, 255, 0.05)
+
+.register-form
+	border-top-right-radius: 0px
+	border-bottom-right-radius: 0px
+
+	background-color: lightyellow

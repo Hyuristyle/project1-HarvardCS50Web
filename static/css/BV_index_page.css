@@ -21,20 +21,38 @@ body {
   display: grid;
   grid-template-columns: auto max-content auto;
   grid-template-areas: "register-form forms-separator login-form";
-  grid-column-gap: 40px;
   margin: 0px 20%;
-  padding: 40px;
   border: 1px solid rgba(0, 0, 0, 0.3);
   border-radius: 15px;
   background-color: #fafafa;
   box-shadow: 0 0px 8px 2px rgba(0, 0, 0, 0.3);
 }
 
-/* line 32, D:/Base de Conhecimentos/Computer Science/Harvard/CS50 Web Programming with Python and JavaScript/Projects/project1-Hyuristyle/static/sass/BV_index_page.sass */
+/* line 30, D:/Base de Conhecimentos/Computer Science/Harvard/CS50 Web Programming with Python and JavaScript/Projects/project1-Hyuristyle/static/sass/BV_index_page.sass */
 .forms-separator {
   width: 2px;
-  margin: -40px 0px;
   background-color: rgba(0, 0, 0, 0.1);
+}
+
+/* line 34, D:/Base de Conhecimentos/Computer Science/Harvard/CS50 Web Programming with Python and JavaScript/Projects/project1-Hyuristyle/static/sass/BV_index_page.sass */
+.login-form,
+.register-form {
+  padding: 40px;
+  border-radius: inherit;
+}
+
+/* line 40, D:/Base de Conhecimentos/Computer Science/Harvard/CS50 Web Programming with Python and JavaScript/Projects/project1-Hyuristyle/static/sass/BV_index_page.sass */
+.login-form {
+  border-top-left-radius: 0px;
+  border-bottom-left-radius: 0px;
+  background-color: rgba(0, 123, 255, 0.05);
+}
+
+/* line 46, D:/Base de Conhecimentos/Computer Science/Harvard/CS50 Web Programming with Python and JavaScript/Projects/project1-Hyuristyle/static/sass/BV_index_page.sass */
+.register-form {
+  border-top-right-radius: 0px;
+  border-bottom-right-radius: 0px;
+  background-color: lightyellow;
 }
 
 /*# sourceMappingURL=../css/BV_index_page.map */
