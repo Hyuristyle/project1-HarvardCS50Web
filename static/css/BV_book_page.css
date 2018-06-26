@@ -166,4 +166,10 @@
   word-break: break-word;
 }
 
+/* line 155, D:/Base de Conhecimentos/Computer Science/Harvard/CS50 Web Programming with Python and JavaScript/Projects/project1-Hyuristyle/static/sass/BV_book_page.sass */
+.review-date {
+  font-weight: normal;
+  opacity: 0.7;
+}
+
 /*# sourceMappingURL=../css/BV_book_page.map */
