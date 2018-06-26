@@ -116,14 +116,14 @@
 						</div>
 					</div>
 
-					{% if not user_reviewed %}
+					{% if not user_review %}
 					<a href="{{ url_for('new_review', isbn=book.isbn) }}" class="btn btn-primary">
 						<i class="fas fa-pencil-alt"></i> Review this Book
 					</a>
 
 					{% else %}
 					<!-- TODO: Hovering over the reviewed button should show "Go to your review" to the user. Clicking on it should take the user to his/her review of this book[and maybe even highlight his/her comment?] -->
-					<a href="#" class="btn btn-outline-primary">
+					<a href="#{{ user_review.id }}" class="btn btn-outline-primary" data-toggle="tooltip" title="Click to go to your review">
 						<i class="fas fa-check reviewed-icon"></i> Reviewed
 					</a>
 					{% endif %}
@@ -141,26 +141,23 @@
 						<br>
 
 						{% for review in reviews %}
-						<div class="review">
+						<div class="review" id="{{ review.id }}">
 							<div class="reviewer-name float-left">
 								{{ review.reviewer_name }}
 							</div>
 							
 							<div class="stars">
-							{% set rating_fraction = (review.rating % 1)|round(1) %}
-							{% set rating_int = (review.rating - (review.rating % 1|round(1)|round(1)))|int %}
-
-							{% for star in range(rating_int) %}
+							{% for star in range(review.rating) %}
 								<span class="fa fa-star star-checked"></span>
 							{% endfor %}
 							
-							{% if rating_fraction >= 0.5 %}
-								<span class="fa fa-star-half star-checked"></span>
-							{% endif %}
-							
-							{% for star in range(5 - rating_int) %}
+							{% for star in range(5 - review.rating) %}
 								<span class="far fa-star"></span>
 							{% endfor %}
+							</div>
+
+							<div class="review-date float-right">
+								{{ review.pub_date }}
 							</div>
 
 							<br>
