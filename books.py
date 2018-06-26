@@ -44,58 +44,6 @@ def timed(func):
 
 #-----------------------------------------------------------------------------------------------------------------------
 
-def get_user_id(username):
-	"""
-	Returns id number that matches username.
-	Returns None if no matches found
-	"""
-
-	user_id = db.execute("SELECT id FROM users WHERE username = :username LIMIT 1", {"username": username}).fetchone()
-	
-	if user_id is None:
-		return None
-
-	return user_id[0]
-
-def get_user_fullname(user_id):
-	"""
-	Returns fullname that matches user_id.
-	Returns None if no matches found
-	"""
-
-	user_fullname = db.execute("SELECT fullname FROM users WHERE id = :user_id LIMIT 1", {"user_id": user_id}).fetchone()
-	
-	if user_fullname is None:
-		return None
-
-	return user_fullname[0]
-
-def get_book_id(isbn):
-	"""
-	Returns id number that matches isbn.
-	Returns None if no matches found
-	"""
-	book_id = db.execute("SELECT id FROM books WHERE isbn = :isbn LIMIT 1", {"isbn": isbn}).fetchone()
-
-	if book_id is None:
-		return None
-
-	return book_id[0]
-
-def add_review(isbn, user_id, rating, review):
-	book_id = get_book_id(isbn)
-
-	db.execute("INSERT INTO reviews (book_id, user_id, rating, review) VALUES (:book_id, :user_id, :rating, :review)",
-		                                 {"book_id": book_id, "user_id": user_id, "rating": rating, "review": review})
-	db.commit()
-
-def get_book_reviews(isbn):
-	return [{
-				"reviewer_name": "Hyuri Pimentel",
-				"rating": 3,
-				"review_body": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
-			}]
-
 def get_average_rating(isbn):
 	book_id = db.execute("SELECT id FROM books WHERE isbn = :isbn", {"isbn": isbn}).fetchone()[0]
 	
@@ -143,6 +91,7 @@ def get_book_cover(isbn, size):
 
 # DB: user_reviewed(user_id, book_id)-->(True/False, review_id/None)
 
+
 def get_book_data(isbn, cover_size = "large", get_cover = True):
 	"""cover_size possible values: "large", "medium", "small", "original" """
 
@@ -151,7 +100,7 @@ def get_book_data(isbn, cover_size = "large", get_cover = True):
 	if bookviews_book_data is None:
 		return None
 
-	author = db.execute("SELECT name FROM authors WHERE id = :author_id LIMIT 1", {"author_id": bookviews_book_data.author_id}).fetchone()[0]
+	author_name = get_author_name(bookviews_book_data.author_id)
 	
 	print("(i) Sleeping for 1 second, to comply with Goodreads' Developer Terms of Service...")
 	time.sleep(1)
@@ -171,11 +120,11 @@ def get_book_data(isbn, cover_size = "large", get_cover = True):
 	return {
 				"isbn": isbn,
 				"title": bookviews_book_data.title,
-				"bookviews_average_rating": get_average_rating(isbn),
+				"bookviews_average_rating": round(get_average_rating(isbn), 2),
 				"bookviews_ratings_count": get_ratings_count(isbn),
 				"goodreads_average_rating": float(goodreads_book_data["average_rating"]),
 				"goodreads_ratings_count": humanize.intcomma(int(goodreads_book_data["work_ratings_count"])),
-				"author": author,
+				"author": author_name,
 				"year": bookviews_book_data.year,
 				"description": "{{{ TODO }}}",
 				"cover": book_cover
@@ -193,7 +142,9 @@ def get_books(search_term, search_by = "title"):
 
 	# Search by author
 	elif search_by == "author":
-		author_id = db.execute("SELECT id FROM authors WHERE name = :name", {"name": search_term}).fetchone()
+		author_name = search_term
+
+		author_id = get_author_id(author_name)
 
 		if author_id is None:
 			books_search = []
@@ -218,3 +169,43 @@ def get_books(search_term, search_by = "title"):
 		return None
 
 	return books
+
+#-----------------------------------------------------------------------------------------------------------------------
+
+def get_book_id(isbn):
+	"""
+	Returns id number that matches isbn.
+	Returns None if no matches found.
+	"""
+	book_id = db.execute("SELECT id FROM books WHERE isbn = :isbn LIMIT 1", {"isbn": str(isbn)}).fetchone()
+
+	if book_id is None:
+		return None
+
+	return book_id[0]
+
+def get_author_id(author_name):
+	"""
+	Returns id number that matches author_name.
+	Returns None if no matches found.
+	"""
+
+	author_id = db.execute("SELECT id FROM authors WHERE name = :author_name LIMIT 1", {"author_name": str(author_name)}).fetchone()
+	
+	if author_id is None:
+		return None
+
+	return int(author_id[0])
+
+def get_author_name(author_id):
+	"""
+	Returns name that matches author_id.
+	Returns None if no matches found.
+	"""
+
+	author_name = db.execute("SELECT name FROM authors WHERE id = :author_id LIMIT 1", {"author_id": str(author_id)}).fetchone()
+	
+	if author_name is None:
+		return None
+
+	return author_name[0]
