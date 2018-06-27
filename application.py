@@ -77,7 +77,7 @@ def new_review(isbn, text_area = None):
 @app.route("/Book/<string:isbn>/NewReview/submit", methods=["POST"])
 def new_review_submit(isbn):
 	rating = request.form.get("rating-value")
-	review = request.form.get("TextArea")
+	review = request.form.get("text-area")
 
 	user_id = 1
 
@@ -108,7 +108,7 @@ def year(year):
 @app.route("/Login", methods=["POST"])
 def user_login():
 	if request.method != "POST":
-		return render_template("index.html")
+		return redirect(url_for("index"))
 	
 	username = request.form.get("username_login")
 	password = request.form.get("password_login")
@@ -116,30 +116,36 @@ def user_login():
 	if not authorize_user(username, password):
 		return "Username or Password incorrect. Try again, please!"
 	
-	# TODO:
-	# user_id = get_user_id(username)
-	# start session/set cookies
+	user_id = get_user_id(username)
+	
+	session["user_id"] = user_id
+	session["username"] = username
+	session["user_fullname"] = get_user_fullname(user_id)
 
-	# TODO: send notification informing successful login
 	return render_template("home.html")
 
 @app.route("/Register", methods=["POST"])
 def user_register():
 	if request.method != "POST":
-		return render_template("index.html")
+		return redirect(url_for("index"))
 
 	fullname = request.form.get("fullname_register")
 	username = request.form.get("username_register")
 	password = request.form.get("password_register")
 
-	if username_exists(str(username)):
+	if username_exists(username):
 		return "Username already taken. Choose a different one, please!"
 
 	if not valid_password(password):
 		return "Password must be at least 8 characters long and contain letters, numbers, uppercase, lowercase and symbols."
 
 	add_user(username, fullname, password)
-	# TODO: start session/set cookies
+
+	user_id = get_user_id(username)
+	
+	session["user_id"] = user_id
+	session["username"] = username
+	session["user_fullname"] = get_user_fullname(user_id)
 
 	# TODO: send notification informing successful registration
 	return redirect(url_for("home"))

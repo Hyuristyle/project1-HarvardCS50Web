@@ -37,10 +37,10 @@ def get_user_fullname(user_id):
 # Insertions
 
 def add_user(username, fullname, password):
-	if username_exists(str(username)):
+	if username_exists(username):
 		raise Exception("ADD_USER ERROR: Username already exists.")
 
-	hashed_password = argon2.hash(password = str(password))
+	hashed_password = argon2.hash(str(password))
 
 	db.execute("INSERT INTO users (username, fullname, password) VALUES (:username, :fullname, :password)",
 										{"username": str(username), "fullname": str(fullname), "password": hashed_password})
@@ -49,7 +49,7 @@ def add_user(username, fullname, password):
 #-----------------------------------------------------------------------------------------------------------------------
 
 def username_exists(username):
-	username_query = db.execute("SELECT * FROM users WHERE username = :username LIMIT 1", {"username": username}).fetchone()
+	username_query = db.execute("SELECT * FROM users WHERE username = :username LIMIT 1", {"username": str(username)}).fetchone()
 	
 	if username_query is None:
 		return False
