@@ -25,7 +25,7 @@ def get_book_reviews(isbn):
 	for review in reviews_query:
 		reviews.append({
 				"id": review.id,
-				"reviewer_name": get_user_fullname(review.user_id),
+				"reviewer_name": get_user_fullname(review.username),
 				"rating": review.rating,
 				"review_body": review.review,
 				"pub_date": f"{review.pub_date.year}/{review.pub_date.month}/{review.pub_date.day}"
@@ -33,13 +33,14 @@ def get_book_reviews(isbn):
 
 	return reviews
 
-def get_user_review(isbn, user_id):
+def get_user_review(isbn, username):
 	"""
-	Returns review(the first one) made by user_id to book(based on isbn).
-	Returns None if user_id hasn't submitted any reviews to this particular book.
+	Returns review(the first one) made by username to book(based on isbn).
+	Returns None if username hasn't submitted any reviews to this particular book.
 	"""
 
 	book_id = get_book_id(isbn)
+	user_id = get_user_id(username)
 
 	return db.execute("SELECT * FROM reviews WHERE (book_id = :book_id) AND (user_id = :user_id) LIMIT 1",
 													{"book_id": book_id, "user_id": user_id}).fetchone()
