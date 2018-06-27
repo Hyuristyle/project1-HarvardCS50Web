@@ -79,9 +79,7 @@ def new_review_submit(isbn):
 	rating = request.form.get("rating-value")
 	review = request.form.get("text-area")
 
-	user_id = 1
-
-	add_review(isbn, user_id, rating, review)
+	add_review(isbn, session.get("username"), rating, review)
 
 	book_data = get_book_data(isbn, cover_size = "medium")
 
@@ -116,11 +114,7 @@ def user_login():
 	if not authorize_user(username, password):
 		return "Username or Password incorrect. Try again, please!"
 	
-	user_id = get_user_id(username)
-	
-	session["user_id"] = user_id
 	session["username"] = username
-	session["user_fullname"] = get_user_fullname(user_id)
 
 	return render_template("home.html")
 
@@ -139,13 +133,9 @@ def user_register():
 	if not valid_password(password):
 		return "Password must be at least 8 characters long and contain letters, numbers, uppercase, lowercase and symbols."
 
-	add_user(username, fullname, password)
+	register_user(username, fullname, password)
 
-	user_id = get_user_id(username)
-	
-	session["user_id"] = user_id
 	session["username"] = username
-	session["user_fullname"] = get_user_fullname(user_id)
 
 	# TODO: send notification informing successful registration
 	return redirect(url_for("home"))

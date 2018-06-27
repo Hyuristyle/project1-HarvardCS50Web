@@ -20,13 +20,26 @@ def get_user_id(username):
 
 	return user_id[0]
 
-def get_user_fullname(user_id):
+def get_username(user_id):
 	"""
-	Returns fullname that matches user_id.
+	Returns username that matches user_id.
 	Returns None if no matches found.
 	"""
 
-	user_fullname = db.execute("SELECT fullname FROM users WHERE id = :user_id LIMIT 1", {"user_id": user_id}).fetchone()
+	username = db.execute("SELECT username FROM users WHERE id = :user_id LIMIT 1", {"user_id": str(user_id)}).fetchone()
+	
+	if username is None:
+		return None
+
+	return user_id[0]
+
+def get_user_fullname(username):
+	"""
+	Returns fullname that matches username.
+	Returns None if no matches found.
+	"""
+
+	user_fullname = db.execute("SELECT fullname FROM users WHERE username = :username LIMIT 1", {"username": username}).fetchone()
 	
 	if user_fullname is None:
 		return None
@@ -36,9 +49,9 @@ def get_user_fullname(user_id):
 #-----------------------------------------------------------------------------------------------------------------------
 # Insertions
 
-def add_user(username, fullname, password):
+def register_user(username, fullname, password):
 	if username_exists(username):
-		raise Exception("ADD_USER ERROR: Username already exists.")
+		raise Exception("REGISTER_USER ERROR: Username already exists.")
 
 	hashed_password = argon2.hash(str(password))
 
