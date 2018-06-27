@@ -14,13 +14,13 @@
 				<li class="nav-item active dropdown">
 					<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></a>
 					<div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-						<a class="dropdown-item" href="#">
+						<a class="dropdown-item" href="{{ url_for('user_settings') }}">
 							<i class="fas fa-user-circle"></i> Settings
 						</a>
 						
 						<div class="dropdown-divider"></div>
 
-						<a class="dropdown-item dropdown-item-bottom" href="#">
+						<a class="dropdown-item dropdown-item-bottom" href="{{ url_for('user_logout') }}">
 							<i class="fas fa-sign-out-alt"></i> Logout
 						</a>
 						</a>
