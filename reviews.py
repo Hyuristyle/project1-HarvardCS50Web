@@ -1,6 +1,7 @@
 from DB import *
 
 from books import get_book_id
+from users import get_user_id
 from users import get_user_fullname
 
 #-----------------------------------------------------------------------------------------------------------------------
