@@ -5,8 +5,9 @@ from users import get_user_fullname
 
 #-----------------------------------------------------------------------------------------------------------------------
 
-def add_review(isbn, user_id, rating, review):
+def add_review(isbn, username, rating, review):
 	book_id = get_book_id(isbn)
+	user_id = get_user_id(username)
 
 	db.execute("INSERT INTO reviews (book_id, user_id, rating, review) VALUES (:book_id, :user_id, :rating, :review)",
 										{"book_id": book_id, "user_id": user_id, "rating": rating, "review": review})
