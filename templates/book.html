@@ -128,8 +128,6 @@
 					</a>
 					{% endif %}
 
-					<!-- TODO: Add timestamp to each review -->
-
 					<!-- TODO: Check if review text is too long(5 lines?) and if so only show a portion of it plus a "Read More..." button that will expand the review and show the entire text -->
 
 					<div class="reviews">
@@ -140,33 +138,38 @@
 
 						<br>
 
-						{% for review in reviews %}
-						<div class="review" id="{{ review.id }}">
-							<div class="reviewer-name float-left">
-								{{ review.reviewer_name }}
-							</div>
-							
-							<div class="stars">
-							{% for star in range(review.rating) %}
-								<span class="fa fa-star star-checked"></span>
+						{% if not reviews %}
+						<!-- NOTHING IS RENDERED -->
+
+						{% else %}
+							{% for review in reviews %}
+								<div class="review" id="{{ review.id }}">
+									<div class="reviewer-name float-left">
+										{{ review.reviewer_name }}
+									</div>
+									
+									<div class="stars">
+									{% for star in range(review.rating) %}
+										<span class="fa fa-star star-checked"></span>
+									{% endfor %}
+									
+									{% for star in range(5 - review.rating) %}
+										<span class="far fa-star"></span>
+									{% endfor %}
+									</div>
+
+									<div class="review-date float-right">
+										{{ review.pub_date }}
+									</div>
+
+									<br>
+
+									<div class="review-body">
+										{{ review.review_body }}
+									</div>
+								</div>
 							{% endfor %}
-							
-							{% for star in range(5 - review.rating) %}
-								<span class="far fa-star"></span>
-							{% endfor %}
-							</div>
-
-							<div class="review-date float-right">
-								{{ review.pub_date }}
-							</div>
-
-							<br>
-
-							<div class="review-body">
-								{{ review.review_body }}
-							</div>
-						</div>
-						{% endfor %}
+						{% endif %}
 					</div>
 				</div>
 			</div>
