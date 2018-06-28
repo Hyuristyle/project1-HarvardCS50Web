@@ -148,7 +148,7 @@ def get_books(search_term, search_by = "title"):
 			books_search = []
 
 		else:
-			books_search = db.execute("SELECT * FROM books WHERE author_id = :author_id", {"author_id": author_id[0]}).fetchall()
+			books_search = db.execute("SELECT * FROM books WHERE author_id = :author_id", {"author_id": author_id}).fetchall()
 
 	# Search by year
 	elif search_by == "year":
