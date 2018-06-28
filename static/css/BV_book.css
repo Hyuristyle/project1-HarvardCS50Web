@@ -15,32 +15,33 @@
 /* line 15, D:/Base de Conhecimentos/Computer Science/Harvard/CS50 Web Programming with Python and JavaScript/Projects/project1-Hyuristyle/static/sass/BV_book.sass */
 .book-cover img {
   height: 300px;
+  max-width: 100%;
 }
 
-/* line 18, D:/Base de Conhecimentos/Computer Science/Harvard/CS50 Web Programming with Python and JavaScript/Projects/project1-Hyuristyle/static/sass/BV_book.sass */
+/* line 19, D:/Base de Conhecimentos/Computer Science/Harvard/CS50 Web Programming with Python and JavaScript/Projects/project1-Hyuristyle/static/sass/BV_book.sass */
 .book-title {
   grid-area: book-title;
   text-align: left;
   font-weight: bold;
 }
 
-/* line 25, D:/Base de Conhecimentos/Computer Science/Harvard/CS50 Web Programming with Python and JavaScript/Projects/project1-Hyuristyle/static/sass/BV_book.sass */
+/* line 26, D:/Base de Conhecimentos/Computer Science/Harvard/CS50 Web Programming with Python and JavaScript/Projects/project1-Hyuristyle/static/sass/BV_book.sass */
 .book-title a,
 .book-title a:hover {
   color: #222222;
 }
 
-/* line 29, D:/Base de Conhecimentos/Computer Science/Harvard/CS50 Web Programming with Python and JavaScript/Projects/project1-Hyuristyle/static/sass/BV_book.sass */
+/* line 30, D:/Base de Conhecimentos/Computer Science/Harvard/CS50 Web Programming with Python and JavaScript/Projects/project1-Hyuristyle/static/sass/BV_book.sass */
 .book-author {
   grid-area: book-author;
 }
 
-/* line 32, D:/Base de Conhecimentos/Computer Science/Harvard/CS50 Web Programming with Python and JavaScript/Projects/project1-Hyuristyle/static/sass/BV_book.sass */
+/* line 33, D:/Base de Conhecimentos/Computer Science/Harvard/CS50 Web Programming with Python and JavaScript/Projects/project1-Hyuristyle/static/sass/BV_book.sass */
 .book-year {
   grid-area: book-year;
 }
 
-/* line 35, D:/Base de Conhecimentos/Computer Science/Harvard/CS50 Web Programming with Python and JavaScript/Projects/project1-Hyuristyle/static/sass/BV_book.sass */
+/* line 36, D:/Base de Conhecimentos/Computer Science/Harvard/CS50 Web Programming with Python and JavaScript/Projects/project1-Hyuristyle/static/sass/BV_book.sass */
 .book-author,
 .book-year,
 .book-isbn {
@@ -48,7 +49,7 @@
   margin-top: -3px;
 }
 
-/* line 42, D:/Base de Conhecimentos/Computer Science/Harvard/CS50 Web Programming with Python and JavaScript/Projects/project1-Hyuristyle/static/sass/BV_book.sass */
+/* line 43, D:/Base de Conhecimentos/Computer Science/Harvard/CS50 Web Programming with Python and JavaScript/Projects/project1-Hyuristyle/static/sass/BV_book.sass */
 .book-author a,
 .book-author a:hover,
 .book-year a,
@@ -58,7 +59,7 @@
   color: #222222;
 }
 
-/* line 46, D:/Base de Conhecimentos/Computer Science/Harvard/CS50 Web Programming with Python and JavaScript/Projects/project1-Hyuristyle/static/sass/BV_book.sass */
+/* line 47, D:/Base de Conhecimentos/Computer Science/Harvard/CS50 Web Programming with Python and JavaScript/Projects/project1-Hyuristyle/static/sass/BV_book.sass */
 .book-rating {
   grid-area: book-rating;
   text-align: left;
@@ -66,7 +67,7 @@
   font-size: .9em;
 }
 
-/* line 57, D:/Base de Conhecimentos/Computer Science/Harvard/CS50 Web Programming with Python and JavaScript/Projects/project1-Hyuristyle/static/sass/BV_book.sass */
+/* line 58, D:/Base de Conhecimentos/Computer Science/Harvard/CS50 Web Programming with Python and JavaScript/Projects/project1-Hyuristyle/static/sass/BV_book.sass */
 .fa-star-half {
   position: absolute;
   z-index: 1;
