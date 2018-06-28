@@ -45,7 +45,7 @@ def timed(func):
 #-----------------------------------------------------------------------------------------------------------------------
 
 def get_average_rating(isbn):
-	book_id = db.execute("SELECT id FROM books WHERE isbn = :isbn", {"isbn": isbn}).fetchone()[0]
+	book_id = get_book_id(isbn)
 	
 	average_rating = db.execute("SELECT AVG(rating) FROM reviews WHERE book_id = :book_id",
 																				{"book_id": book_id}).fetchall()[0][0]
@@ -56,7 +56,7 @@ def get_average_rating(isbn):
 	return float(average_rating)
 
 def get_ratings_count(isbn):
-	book_id = db.execute("SELECT id FROM books WHERE isbn = :isbn", {"isbn": isbn}).fetchone()[0]
+	book_id = get_book_id(isbn)
 	
 	ratings_count = db.execute("SELECT COUNT(review) FROM reviews WHERE book_id = :book_id",
 																				{"book_id": book_id}).fetchall()[0][0]
@@ -95,12 +95,10 @@ def get_book_cover(isbn, size):
 def get_book_data(isbn, cover_size = "large", get_cover = True):
 	"""cover_size possible values: "large", "medium", "small", "original" """
 
-	bookviews_book_data = db.execute("SELECT title, author_id, year FROM books WHERE isbn = :isbn LIMIT 1", {"isbn": isbn}).fetchone()
+	bookviews_book_data = db.execute("SELECT title, name, year FROM books INNER JOIN authors ON authors.id = books.author_id WHERE isbn = :isbn LIMIT 1", {"isbn": isbn}).fetchone()
 
 	if bookviews_book_data is None:
 		return None
-
-	author_name = get_author_name(bookviews_book_data.author_id)
 	
 	print("(i) Sleeping for 1 second, to comply with Goodreads' Developer Terms of Service...")
 	time.sleep(1)
@@ -124,7 +122,7 @@ def get_book_data(isbn, cover_size = "large", get_cover = True):
 				"bookviews_ratings_count": get_ratings_count(isbn),
 				"goodreads_average_rating": float(goodreads_book_data["average_rating"]),
 				"goodreads_ratings_count": humanize.intcomma(int(goodreads_book_data["work_ratings_count"])),
-				"author": author_name,
+				"author": bookviews_book_data.name,
 				"year": bookviews_book_data.year,
 				"description": "{{{ TODO }}}",
 				"cover": book_cover
@@ -184,6 +182,18 @@ def get_book_id(isbn):
 
 	return book_id[0]
 
+def get_book_isbn(book_id):
+	"""
+	Returns isbn number that matches book_id.
+	Returns None if no matches found.
+	"""
+	book_isbn = db.execute("SELECT isbn FROM books WHERE id = :book_id LIMIT 1", {"book_id": str(book_id)}).fetchone()
+
+	if book_isbn is None:
+		return None
+
+	return book_isbn[0]
+
 def get_author_id(author_name):
 	"""
 	Returns id number that matches author_name.
@@ -203,7 +213,7 @@ def get_author_name(author_id):
 	Returns None if no matches found.
 	"""
 
-	author_name = db.execute("SELECT name FROM authors WHERE id = :author_id LIMIT 1", {"author_id": str(author_id)}).fetchone()
+	author_name = db.execute("SELECT name FROM authors WHERE id = :author_id LIMIT 1", {"author_id": author_id}).fetchone()
 	
 	if author_name is None:
 		return None

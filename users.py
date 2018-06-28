@@ -26,12 +26,12 @@ def get_username(user_id):
 	Returns None if no matches found.
 	"""
 
-	username = db.execute("SELECT username FROM users WHERE id = :user_id LIMIT 1", {"user_id": str(user_id)}).fetchone()
+	username = db.execute("SELECT username FROM users WHERE id = :user_id LIMIT 1", {"user_id": user_id}).fetchone()
 	
 	if username is None:
 		return None
 
-	return user_id[0]
+	return username[0]
 
 def get_user_fullname(username):
 	"""
@@ -39,7 +39,7 @@ def get_user_fullname(username):
 	Returns None if no matches found.
 	"""
 
-	user_fullname = db.execute("SELECT fullname FROM users WHERE username = :username LIMIT 1", {"username": username}).fetchone()
+	user_fullname = db.execute("SELECT fullname FROM users WHERE username = :username LIMIT 1", {"username": str(username)}).fetchone()
 	
 	if user_fullname is None:
 		return None

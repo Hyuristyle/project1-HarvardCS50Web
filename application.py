@@ -9,19 +9,12 @@ from books import *
 from users import *
 from reviews import *
 
-import re
-
 app = Flask(__name__)
 
 # Configure session to use filesystem
 app.config["SESSION_PERMANENT"] = False
 app.config["SESSION_TYPE"] = "filesystem"
 Session(app)
-
-#-----------------------------------------------------------------------------------------------------------------------
-# Fake User (temp)
-
-fake_user = User(1, "Hyuri Pimentel", "Hyuristyle", "12345")
 
 #-----------------------------------------------------------------------------------------------------------------------
 # Pages
@@ -33,14 +26,22 @@ def index():
 
 @app.route("/Home")
 def home():
+	# if post-registration, notify user registered.
+
+	if "username" not in session:
+		return redirect(url_for("index"))
+
 	return render_template("home.html")
 
 #@app.route("/Search/<string:search_term>")
 @app.route("/Search", methods=["POST", "GET"])
 def search():
-	#TODO: Add sorting capabilities
+	#TODO: Add sorting capabilities and options
 
-	search_term = request.form.get("SearchBarInput")
+	if "username" not in session:
+		return redirect(url_for("index"))
+
+	search_term = request.form.get("search-bar-input")
 
 	books = get_books(search_term, search_by = "title")
 
@@ -50,6 +51,9 @@ def search():
 def book(isbn):
 	# TODO: Add option to delete a review
 
+	if "username" not in session:
+		return redirect(url_for("index"))
+
 	book_data = get_book_data(isbn, cover_size = "large")
 
 	if book_data is None:
@@ -57,44 +61,62 @@ def book(isbn):
 
 	reviews = get_book_reviews(isbn)
 
-	user_review = get_user_review(isbn, fake_user.user_id)
+	user_review = get_user_review(isbn, session["username"])
 
 	return render_template("book.html", book = book_data, reviews = reviews, user_review = user_review, search_term = book_data["title"])
 
 @app.route("/Book/<string:isbn>/NewReview")
 def new_review(isbn, text_area = None):
-	# TODO:
-	# Add session support, to allow the user to continue writing
-	# their review in the case they leave the page by mistake or intentionally
+	if "username" not in session:
+		return redirect(url_for("index"))
 
 	book_data = get_book_data(isbn, cover_size = "medium")
 
 	if book_data is None:
 		return render_template("error_404.html", info = {"type": "book", "message": isbn})
 
+	session["submit_requests"] = 0
+
 	return render_template("review_submission.html", book = book_data, search_term = book_data["title"])
 
 @app.route("/Book/<string:isbn>/NewReview/submit", methods=["POST"])
 def new_review_submit(isbn):
-	rating = request.form.get("rating-value")
-	review = request.form.get("text-area")
+	if request.method != "POST":
+		return "Method not allowed."
 
-	add_review(isbn, session.get("username"), rating, review)
+	if get_user_review(isbn, session["username"]) != None:
+		return "You've already reviewed this book."
 
-	book_data = get_book_data(isbn, cover_size = "medium")
+	session["submit_requests"] += 1
 
-	reviews = get_book_reviews(isbn)
+	if session.get("submit_requests") > 0:
+		rating = request.form.get("rating-value")
+		review = request.form.get("text-area")
 
-	return redirect(url_for("book", isbn = isbn, search_term = book_data["title"]))
+		add_review(isbn, session.get("username"), rating, review)
+
+		book_data = get_book_data(isbn, cover_size = "medium")
+
+		reviews = get_book_reviews(isbn)
+
+		return redirect(url_for("book", isbn = isbn, search_term = book_data["title"]))
+
+	return redirect(url_for("book", isbn = isbn))
 
 @app.route("/Author/<string:name>")
 def author(name):
+	if "username" not in session:
+		return redirect(url_for("index"))
+
 	books = get_books(name, search_by = "author")
 	
 	return render_template("search_results.html", search_results = books, search_term = name)
 
 @app.route("/Year/<int:year>")
 def year(year):
+	if "username" not in session:
+		return redirect(url_for("index"))
+
 	books = get_books(year, search_by = "year")
 
 	if books is None:
@@ -116,7 +138,7 @@ def user_login():
 	
 	session["username"] = username
 
-	return render_template("home.html")
+	return redirect(url_for("home"))
 
 @app.route("/Register", methods=["POST"])
 def user_register():
@@ -142,19 +164,29 @@ def user_register():
 
 @app.route("/MyReviews")
 def user_reviews():
-	return render_template("search_results.html")
+	if "username" not in session:
+		return redirect(url_for("index"))
 
-@app.route("/Settings")
-def user_settings():
-	return render_template("user_settings.html")
+	books = get_user_reviews(session.get("username"))
+
+	return render_template("search_results.html", search_results = books)
+
+# @app.route("/Settings")
+# def user_settings():
+# 	return render_template("user_settings.html")
 
 @app.route("/Logout")
 def user_logout():
-	return render_template("index.html")
+	session.pop("username", None)
 
-#
+	return redirect(url_for("index"))
+
+# Errors
 @app.route("/404")
 def content_not_found():
+	if "username" not in session:
+		return redirect(url_for("index"))
+
 	return render_template("error_404.html"), 404
 
 #-----------------------------------------------------------------------------------------------------------------------

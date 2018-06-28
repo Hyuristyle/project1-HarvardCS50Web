@@ -1,8 +1,7 @@
 from DB import *
 
-from books import get_book_id
-from users import get_user_id
-from users import get_user_fullname
+from books import get_book_id, get_book_isbn, get_book_data
+from users import get_user_id, get_username, get_user_fullname
 
 #-----------------------------------------------------------------------------------------------------------------------
 
@@ -16,9 +15,9 @@ def add_review(isbn, username, rating, review):
 
 def get_book_reviews(isbn):
 	book_id = get_book_id(isbn)
-	
-	reviews_query = db.execute("SELECT * FROM reviews WHERE book_id = :book_id", {"book_id": book_id}).fetchall()
 
+	reviews_query = db.execute("SELECT * FROM reviews WHERE book_id = :book_id", {"book_id": book_id}).fetchall()
+	
 	if reviews_query == []:
 		return None
 	
@@ -26,7 +25,7 @@ def get_book_reviews(isbn):
 	for review in reviews_query:
 		reviews.append({
 				"id": review.id,
-				"reviewer_name": get_user_fullname(review.username),
+				"reviewer_name": get_user_fullname(get_username(review.user_id)),
 				"rating": review.rating,
 				"review_body": review.review,
 				"pub_date": f"{review.pub_date.year}/{review.pub_date.month}/{review.pub_date.day}"
@@ -45,3 +44,20 @@ def get_user_review(isbn, username):
 
 	return db.execute("SELECT * FROM reviews WHERE (book_id = :book_id) AND (user_id = :user_id) LIMIT 1",
 													{"book_id": book_id, "user_id": user_id}).fetchone()
+
+def get_user_reviews(username):
+	"""
+	Returns a list of books that the username has submitted a review for.
+	Returns None if username hasn't submitted any reviews.
+	"""
+	
+	user_id = get_user_id(username)
+
+	books_search = db.execute("SELECT DISTINCT isbn, title, author_id, year FROM books INNER JOIN reviews ON reviews.book_id = books.id WHERE user_id = :user_id", {"user_id": user_id}).fetchall()
+
+	books = []
+
+	for book in books_search:
+		books.append(get_book_data(book.isbn, cover_size = "medium"))
+
+	return books
