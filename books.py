@@ -221,7 +221,7 @@ def get_author_name(author_id):
 	return author_name[0]
 
 def check_isbn(isbn):
-	isbn_query = db.execute("SELECT * FROM books WHERE isbn = :isbn LIMIT 1", {"isbn": str(isbn)}).fetchone()
+	isbn_query = db.execute("SELECT * FROM books WHERE isbn ILIKE :isbn LIMIT 1", {"isbn": str(isbn)}).fetchone()
 	
 	if isbn_query is None:
 		return False
@@ -229,7 +229,7 @@ def check_isbn(isbn):
 	return True
 
 def check_author(author_name):
-	author_query = db.execute("SELECT * FROM authors WHERE name = :author_name LIMIT 1", {"author_name": str(author_name)}).fetchone()
+	author_query = db.execute("SELECT * FROM authors WHERE name ILIKE :author_name LIMIT 1", {"author_name": str(author_name)}).fetchone()
 	
 	if author_query is None:
 		return False
