@@ -48,4 +48,27 @@
   float: right;
 }
 
+/* line 39, D:/Base de Conhecimentos/Computer Science/Harvard/CS50 Web Programming with Python and JavaScript/Projects/project1-Hyuristyle/static/sass/BV_search_page.sass */
+.author {
+  display: block;
+  width: 200px;
+  height: 200px;
+  padding: 40px;
+  border: 1px solid rgba(0, 0, 0, 0.5);
+  border-radius: 50%;
+  text-align: center;
+  overflow: hidden;
+  cursor: pointer;
+  background-color: #fafafa;
+  color: #222222;
+}
+
+/* line 55, D:/Base de Conhecimentos/Computer Science/Harvard/CS50 Web Programming with Python and JavaScript/Projects/project1-Hyuristyle/static/sass/BV_search_page.sass */
+.author:hover {
+  background-color: #fafafa;
+  color: #006ecc;
+  border-color: #006ecc;
+  text-decoration: none;
+}
+
 /*# sourceMappingURL=../css/BV_search_page.map */

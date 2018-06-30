@@ -36,14 +36,35 @@ def home():
 #@app.route("/Search/<string:search_term>")
 @app.route("/Search", methods=["POST", "GET"])
 def search():
-	#TODO: Add sorting capabilities and options
+	# TODO: Add authors container, to appear at the beginning of the search results if search term matches any authors
+	# TODO: Add sorting capabilities and options
 
 	if "username" not in session:
 		return redirect(url_for("index"))
 
 	search_term = request.form.get("search-bar-input")
 
-	books = get_books(search_term, search_by = "title")
+	if not search_term:
+		return redirect(url_for("home"))
+
+	if search_term.casefold().replace(" ", "") == "MyReviews".casefold():
+		return redirect(url_for("user_reviews"))
+
+	books = []
+
+	isbns = get_isbns(search_term)
+
+	for isbn in isbns:
+		books.append(get_book_data(isbn))
+
+	authors_ids = get_authors(search_term)
+	
+	for author_id in authors_ids:
+		author_books_count = len(db.execute("SELECT * FROM books WHERE author_id = :author_id", {"author_id": author_id}).fetchall())
+		
+		books.append({"author": get_author_name(author_id), "number_of_books": author_books_count})
+
+	books += get_books(search_term, search_by = "title")
 
 	return render_template("search_results.html", search_results = books, search_term = search_term)
 
@@ -169,7 +190,7 @@ def user_reviews():
 
 	books = get_user_reviews(session.get("username"))
 
-	return render_template("search_results.html", search_results = books)
+	return render_template("search_results.html", search_results = books, search_term = "MyReviews")
 
 # @app.route("/Settings")
 # def user_settings():

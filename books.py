@@ -95,7 +95,7 @@ def get_book_cover(isbn, size):
 def get_book_data(isbn, cover_size = "large", get_cover = True):
 	"""cover_size possible values: "large", "medium", "small", "original" """
 
-	bookviews_book_data = db.execute("SELECT title, name, year FROM books INNER JOIN authors ON authors.id = books.author_id WHERE isbn = :isbn LIMIT 1", {"isbn": isbn}).fetchone()
+	bookviews_book_data = db.execute("SELECT title, name, year FROM books INNER JOIN authors ON authors.id = books.author_id WHERE isbn = :isbn LIMIT 1", {"isbn": str(isbn)}).fetchone()
 
 	if bookviews_book_data is None:
 		return None
@@ -220,18 +220,18 @@ def get_author_name(author_id):
 
 	return author_name[0]
 
-def check_isbn(isbn):
-	isbn_query = db.execute("SELECT * FROM books WHERE isbn ILIKE :isbn LIMIT 1", {"isbn": str(isbn)}).fetchone()
+def get_isbns(search_term):
+	isbns_query = db.execute("SELECT isbn FROM books WHERE isbn ILIKE :search_term", {"search_term": f"%{str(search_term)}%"}).fetchall()
 	
-	if isbn_query is None:
-		return False
+	if isbns_query is None:
+		return None
 
-	return True
+	return [isbn[0] for isbn in isbns_query]
 
-def check_author(author_name):
-	author_query = db.execute("SELECT * FROM authors WHERE name ILIKE :author_name LIMIT 1", {"author_name": str(author_name)}).fetchone()
+def get_authors(search_term):
+	authors_query = db.execute("SELECT * FROM authors WHERE name ILIKE :search_term", {"search_term": f"%{str(search_term)}%"}).fetchall()
 	
-	if author_query is None:
-		return False
+	if authors_query is None:
+		return None
 
-	return True
+	return [author[0] for author in authors_query]
