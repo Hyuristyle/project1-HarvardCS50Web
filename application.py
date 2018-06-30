@@ -19,28 +19,32 @@ Session(app)
 #-----------------------------------------------------------------------------------------------------------------------
 # Pages
 
+@app.before_request
+def check_logged_in():
+	if "username" not in session and request.endpoint != "index" and request.endpoint != "user_login":
+		return redirect(url_for("index"))
+
 # Misc.
 @app.route("/")
 def index():
+	if "username" in session:
+		return redirect(url_for("home"))
+
 	return render_template("index.html")
 
 @app.route("/Home")
 def home():
 	# if post-registration, notify user registered.
 
-	if "username" not in session:
-		return redirect(url_for("index"))
-
 	return render_template("home.html")
 
-#@app.route("/Search/<string:search_term>")
-@app.route("/Search", methods=["POST", "GET"])
+@app.route("/Search", methods=["GET", "POST"])
 def search():
 	# TODO: Add authors container, to appear at the beginning of the search results if search term matches any authors
 	# TODO: Add sorting capabilities and options
 
-	if "username" not in session:
-		return redirect(url_for("index"))
+	if request.method != "POST":
+		return redirect(url_for("home"))
 
 	search_term = request.form.get("search-bar-input")
 
@@ -55,7 +59,7 @@ def search():
 	isbns = get_isbns(search_term)
 
 	for isbn in isbns:
-		books.append(get_book_data(isbn))
+		books.append(get_book_data(isbn, get_description = False))
 
 	authors_ids = get_authors(search_term)
 	
@@ -64,16 +68,13 @@ def search():
 		
 		books.append({"author": get_author_name(author_id), "number_of_books": author_books_count})
 
-	books += get_books(search_term, search_by = "title")
+	books += get_books(search_term, search_by = "title", get_descriptions = False)
 
 	return render_template("search_results.html", search_results = books, search_term = search_term)
 
 @app.route("/Book/<string:isbn>", methods=["GET", "POST"])
 def book(isbn):
 	# TODO: Add option to delete a review
-
-	if "username" not in session:
-		return redirect(url_for("index"))
 
 	book_data = get_book_data(isbn, cover_size = "large")
 
@@ -88,9 +89,6 @@ def book(isbn):
 
 @app.route("/Book/<string:isbn>/NewReview")
 def new_review(isbn, text_area = None):
-	if "username" not in session:
-		return redirect(url_for("index"))
-
 	book_data = get_book_data(isbn, cover_size = "medium")
 
 	if book_data is None:
@@ -126,24 +124,28 @@ def new_review_submit(isbn):
 
 @app.route("/Author/<string:name>")
 def author(name):
-	if "username" not in session:
-		return redirect(url_for("index"))
-
 	books = get_books(name, search_by = "author")
 	
 	return render_template("search_results.html", search_results = books, search_term = name)
 
 @app.route("/Year/<int:year>")
 def year(year):
-	if "username" not in session:
-		return redirect(url_for("index"))
-
 	books = get_books(year, search_by = "year")
 
 	if books is None:
 		return render_template("search_results.html", search_results = None)
 	
 	return render_template("search_results.html", search_results = books, search_term = year)
+
+@app.route("/MyReviews")
+def user_reviews():
+	books = get_user_reviews(session.get("username"))
+
+	return render_template("search_results.html", search_results = books, search_term = "MyReviews")
+
+# @app.route("/Settings")
+# def user_settings():
+# 	return render_template("user_settings.html")
 
 # Users
 @app.route("/Login", methods=["POST"])
@@ -183,19 +185,6 @@ def user_register():
 	# TODO: send notification informing successful registration
 	return redirect(url_for("home"))
 
-@app.route("/MyReviews")
-def user_reviews():
-	if "username" not in session:
-		return redirect(url_for("index"))
-
-	books = get_user_reviews(session.get("username"))
-
-	return render_template("search_results.html", search_results = books, search_term = "MyReviews")
-
-# @app.route("/Settings")
-# def user_settings():
-# 	return render_template("user_settings.html")
-
 @app.route("/Logout")
 def user_logout():
 	session.pop("username", None)
@@ -205,9 +194,6 @@ def user_logout():
 # Errors
 @app.route("/404")
 def content_not_found():
-	if "username" not in session:
-		return redirect(url_for("index"))
-
 	return render_template("error_404.html"), 404
 
 #-----------------------------------------------------------------------------------------------------------------------

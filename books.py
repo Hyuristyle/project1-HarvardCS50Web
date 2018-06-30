@@ -92,13 +92,13 @@ def get_book_cover(isbn, size):
 # DB: user_reviewed(user_id, book_id)-->(True/False, review_id/None)
 
 
-def get_book_data(isbn, cover_size = "large", get_cover = True):
+def get_book_data(isbn, cover_size = "large", get_cover = True, get_description = True, get_bookviews_data = True):
 	"""cover_size possible values: "large", "medium", "small", "original" """
+	if get_bookviews_data:
+		bookviews_book_data = db.execute("SELECT title, name, year FROM books INNER JOIN authors ON authors.id = books.author_id WHERE isbn = :isbn LIMIT 1", {"isbn": str(isbn)}).fetchone()
 
-	bookviews_book_data = db.execute("SELECT title, name, year FROM books INNER JOIN authors ON authors.id = books.author_id WHERE isbn = :isbn LIMIT 1", {"isbn": str(isbn)}).fetchone()
-
-	if bookviews_book_data is None:
-		return None
+		if bookviews_book_data is None:
+			return None
 	
 	print("(i) Sleeping for 1 second, to comply with Goodreads' Developer Terms of Service...")
 	time.sleep(1)
@@ -115,6 +115,22 @@ def get_book_data(isbn, cover_size = "large", get_cover = True):
 	else:
 		book_cover = None
 	
+	if get_description:
+		book_description_request = requests.get(f"https://www.googleapis.com/books/v1/volumes?q=isbn:{isbn}")
+
+		if book_description_request.status_code != 200:
+			book_description = None
+			# raise Exception("REQUEST ERROR: Book description API request unsuccessful.")
+		
+		try:
+			book_description = book_description_request.json()["items"][0]["volumeInfo"]["description"]
+
+		except:
+			book_description = None
+
+	else:
+		book_description = None
+
 	return {
 				"isbn": isbn,
 				"title": bookviews_book_data.title,
@@ -124,11 +140,11 @@ def get_book_data(isbn, cover_size = "large", get_cover = True):
 				"goodreads_ratings_count": humanize.intcomma(int(goodreads_book_data["work_ratings_count"])),
 				"author": bookviews_book_data.name,
 				"year": bookviews_book_data.year,
-				"description": "{{{ TODO }}}",
+				"description": book_description,
 				"cover": book_cover
 	}
 
-def get_books(search_term, search_by = "title"):
+def get_books(search_term, search_by = "title", get_descriptions = True):
 	"""search_by possible values: "title", "author", "year", "all" """
 
 	books_search = []
@@ -161,7 +177,7 @@ def get_books(search_term, search_by = "title"):
 	books = []
 
 	for book in books_search:
-		books.append(get_book_data(book.isbn, cover_size = "medium"))
+		books.append(get_book_data(book.isbn, cover_size = "medium", get_description = get_descriptions))
 
 	if books is []:
 		return None
@@ -221,7 +237,7 @@ def get_author_name(author_id):
 	return author_name[0]
 
 def get_isbns(search_term):
-	isbns_query = db.execute("SELECT isbn FROM books WHERE isbn ILIKE :search_term", {"search_term": f"%{str(search_term)}%"}).fetchall()
+	isbns_query = db.execute("SELECT isbn FROM books WHERE isbn ILIKE :search_term", {"search_term": f"{str(search_term)}%"}).fetchall()
 	
 	if isbns_query is None:
 		return None
