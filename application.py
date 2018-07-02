@@ -21,7 +21,7 @@ Session(app)
 
 @app.before_request
 def check_logged_in():
-	if "username" not in session and request.endpoint != "index" and request.endpoint != "user_login":
+	if "username" not in session and request.endpoint != "index" and request.endpoint != "user_login" and request.endpoint != "static":
 		return redirect(url_for("index"))
 
 # Misc.
