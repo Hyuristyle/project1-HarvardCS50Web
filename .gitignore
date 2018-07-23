@@ -1,4 +1,8 @@
 Design/
+
+project1.sublime-project
+project1.sublime-workspace
+
 *.py[co]
 __pycache__/
 flask_session/
