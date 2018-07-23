@@ -12,3 +12,81 @@ body
 	align-self: center
 
 	text-align: center
+
+	.bookviews-subtitle
+		opacity: 0.8
+		
+		color: $bright
+
+		text-shadow: 0px 0px 10px $darkest
+
+///////////////////////////////////////////////////////////////////////////////
+// Media Queries
+
+// Up to 768px
+@media (max-width: 768px)
+	body
+		background-size: unset
+
+	.search-bar-cover
+		margin: 0px 40px !important
+
+	.navbar-nav
+		.dropdown-menu
+			position: absolute
+
+// Up to 534px
+@media (max-width: 534px)
+	.search-bar-cover
+		margin: 0px 10px !important
+		
+		.input-group
+			display: grid
+			grid-template-rows: auto auto
+			grid-template-areas: "form-control" "input-group-append"
+	
+			input
+				font-size: 1rem
+
+				width: 100%
+				
+				border-radius: 10px 10px 0 0 !important
+				
+				padding: 10px 20px
+
+				&::placeholder
+					font-size: 1rem
+
+			.input-group-append
+				button
+					width: 100%
+					
+					border-radius: 0 0 10px 10px
+					
+					background-color: #007bff
+					
+					color: $brightest
+
+					padding: .375rem 1rem
+
+				.fa-search::after
+					content: " Search"
+					font-family: Open Sans
+					font-weight: lighter
+
+// Up to 320px
+@media (max-width: 320px)
+	.search-bar-cover
+		.input-group
+			input
+				&::placeholder
+					font-size: .9rem
+
+	.bookviews-logo-big
+		font-size: 56px
+
+	.bookviews-subtitle
+		font-size: .8rem
+
+		margin-left: 115px
+		margin-top: -24px

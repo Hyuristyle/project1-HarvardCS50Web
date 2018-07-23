@@ -23,7 +23,7 @@ body
 
 	color: $bright
 
-	//Bootstrap Customizations
+	// Bootstrap Customizations
 	.navbar
 		height: $header-height
 
@@ -44,7 +44,7 @@ body
 	.dropdown-toggle
 		padding-right: 0px !important
 
-//Bootstrap Customization
+// Bootstrap Customization
 .dropdown-menu
 	padding: 0px
 
@@ -86,15 +86,6 @@ body
 .content
 	grid-area: content
 
-	.bookviews-subtitle
-		margin-left: 130px
-		margin-top: -29px
-
-		font-size: 0.9rem
-		font-weight: bold
-		
-		opacity: 0.7
-
 .footer
 	grid-area: footer
 
@@ -108,12 +99,21 @@ body
 	@extend %bookviews-logo
 	
 	font-size: 64px
-	text-shadow: 0 0 10px #ffffbe
+	text-shadow: 0 0 25px #fff1be
 
 .bookviews-logo-header
 	@extend %bookviews-logo
 
-	//font-size: 
+	// font-size: 
+
+.bookviews-subtitle
+	margin-left: 130px
+	margin-top: -29px
+
+	font-size: 0.9rem
+	font-weight: bold
+	
+	opacity: 0.7
 
 // Search Bar
 %search-bar
@@ -124,6 +124,7 @@ body
 		border-radius: 10px
 		
 		padding: 0.5rem 1rem
+		padding-right: 0rem
 
 		color: $darkest
 
@@ -144,7 +145,7 @@ body
 			opacity: 1
 
 	// Bootstrap Customization
-	.btn
+	button
 		padding: .375rem 1.75rem
 		border-radius: 10px
 
