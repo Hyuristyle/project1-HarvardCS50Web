@@ -123,7 +123,7 @@ body
 		border: none
 		border-radius: 10px
 		
-		padding: 0.5rem
+		padding: 0.5rem 1rem
 
 		color: $darkest
 
@@ -148,9 +148,15 @@ body
 		padding: .375rem 1.75rem
 		border-radius: 10px
 
+		background-color: hsl(0, 0%, 88%)
+
+		border-color: transparent
+
+		color: $darkest
+
 .search-bar-cover
 	@extend %search-bar
-	width: 800px
+	max-width: 768px
 
 .search-bar-header
 	@extend %search-bar
