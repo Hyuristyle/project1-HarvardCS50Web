@@ -20,8 +20,15 @@ Session(app)
 # Pages
 
 @app.before_request
-def check_logged_in():
-	if "username" not in session and request.endpoint != "index" and request.endpoint != "user_login" and request.endpoint != "static":
+def redirect_unauthorized():
+	redirect_conditions = [
+		"username" not in session,
+		request.endpoint != "index",
+		request.endpoint != "user_login",
+		(request.path != url_for("static", filename="css/BV_master.css")) and (request.path != url_for("static", filename="css/BV_index_page.css")) and (request.path != url_for("static", filename="images/background_home.jpg"))
+	]
+	
+	if all(redirect_conditions):
 		return redirect(url_for("index"))
 
 # Misc.
