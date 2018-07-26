@@ -1,17 +1,82 @@
 @import _BV_variables
 
+//.page-container
+//	grid-template-rows: max-content auto $header-height * 2
+
 .header
 	position: fixed
 	width: 100%
+	padding: 0px 20px
 	z-index: 100
 
 	color: $darkest
 
-	// Bootstrap Customizations
-	.mx-auto
-		margin-left: auto !important
+	box-shadow: 0 2px 6px 0px $light-overlay03
 
-	.ml-auto
-		margin-left: 1rem !important
+	display: grid
+	grid-template-areas: "navbar-brand search-bar-container username-dropdown"
+	grid-template-columns: max-content auto max-content
+	grid-column-gap: 20px
 
-	box-shadow: 0 2px 6px 0px rgba(0, 0, 0, 0.3)
+	.dropdown-menu-right
+		left: unset !important
+		right: -80px
+
+.navbar-brand
+	grid-area: navbar-brand
+	
+	width: max-content
+	margin: 0px
+
+.search-bar-container
+	grid-area: search-bar-container
+
+	width: 100%
+	max-width: 1024px
+	margin: 0px auto
+
+.username-dropdown
+	grid-area: username-dropdown
+
+	width: max-content
+	padding: 0px
+	margin: 0px
+
+	list-style-type: none
+
+///////////////////////////////////////////////////////////////////////////////
+// Media Queries
+
+// Up to 768px
+@media (max-width: 768px)
+	.page-container
+		grid-template-rows: $header-height * 2 auto
+
+		.header
+			grid-template-areas: ". navbar-brand username-dropdown" "search-bar-container search-bar-container search-bar-container"
+			grid-template-rows: max-content max-content
+			grid-column-gap: 0px
+
+			border-bottom-left-radius: 7px
+			border-bottom-right-radius: 7px
+
+			.navbar-brand
+				margin: 0px auto
+
+			.search-bar-container
+				margin: 0px -20px
+
+				.form-inline
+					margin: 0px -20px
+
+			.username-dropdown
+				position: absolute
+				right: 0px
+
+// Up to 534px
+@media (max-width: 534px)
+	//
+
+// Up to 320px
+@media (max-width: 320px)
+	//
