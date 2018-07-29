@@ -8,7 +8,7 @@
 	<div class="search-bar-container mx-auto">
 		<form action="{{ url_for('search') }}" method="post" class="form-inline">
 			<div class="input-group search-bar-header w-100">
-				<input type="input" class="form-control" name="search-bar-input" id="search-bar-input" {% if search_term %} value="{{ search_term }}" {% endif %} placeholder="Search books by Title, Author or ISBN">
+				<input type="input" class="form-control" name="search-bar-input" id="search-bar-input" {% if search_term %} value="{{ search_term }}" {% endif %} placeholder="Search by Title, Author or ISBN">
 				<div class="input-group-append">
 					<button class="btn btn-primary" type="submit">
 						<i class="fas fa-search"></i>

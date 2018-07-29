@@ -11,6 +11,8 @@
 
 	color: $darkest
 
+	background-color: $brightest
+
 	box-shadow: 0 2px 6px 0px $light-overlay03
 
 	display: grid
@@ -28,11 +30,13 @@
 	width: max-content
 	margin: 0px
 
+	font-size: 1.25em
+
 .search-bar-container
 	grid-area: search-bar-container
 
 	width: 100%
-	max-width: 1024px
+	max-width: 768px
 	margin: 0px auto
 
 .username-dropdown
@@ -43,6 +47,11 @@
 	margin: 0px
 
 	list-style-type: none
+
+.nav-link,
+.nav-link:hover,
+.nav-link:active
+	color: $darkest
 
 ///////////////////////////////////////////////////////////////////////////////
 // Media Queries
@@ -75,8 +84,55 @@
 
 // Up to 534px
 @media (max-width: 534px)
-	//
+	.page-container
+		.header
+			grid-template-areas: "navbar-brand . username-dropdown" "search-bar-container search-bar-container search-bar-container"
 
-// Up to 320px
-@media (max-width: 320px)
-	//
+// Up to 425px
+@media (max-width: 425px)
+	.page-container
+		grid-template-rows: $header-height * 3 auto
+
+		.header
+			grid-template-areas: "navbar-brand . username-dropdown" "search-bar-container search-bar-container search-bar-container"
+			grid-template-rows: max-content max-content
+
+			border-bottom-left-radius: 10px
+			border-bottom-right-radius: 10px
+
+			position: relative
+
+			.search-bar-container
+				.search-bar-header
+					height: max-content
+
+				.input-group
+					display: grid
+					grid-template-areas: "form-control" "input-group-append"
+					grid-template-rows: auto auto
+
+					input
+						font-size: 1em
+
+						width: 100%
+						
+						border-radius: 10px 10px 0 0 !important
+						
+						padding: 10px 20px
+
+					.input-group-append
+						button
+							width: 100%
+							
+							border-radius: 0 0 10px 10px
+							
+							background-color: #007bff
+							
+							color: $brightest
+
+							padding: .375rem 1rem
+
+						.fa-search::after
+							content: " Search"
+							font-family: Open Sans
+							font-weight: lighter

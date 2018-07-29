@@ -6,7 +6,7 @@ body {
 
 /* line 7, D:/Base de Conhecimentos/Computer Science/Harvard/CS50 Web Programming with Python and JavaScript/Projects/project1-Hyuristyle/static/sass/BV_home_page.sass */
 .page-content {
-  grid-template-rows: 47px auto 94px;
+  grid-template-rows: 2.35em auto 4.7em;
   grid-template-areas: "header" "content" "footer";
 }
 

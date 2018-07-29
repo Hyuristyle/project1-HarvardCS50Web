@@ -1,6 +1,6 @@
 /* line 4, D:/Base de Conhecimentos/Computer Science/Harvard/CS50 Web Programming with Python and JavaScript/Projects/project1-Hyuristyle/static/sass/BV_common_page.sass */
 .page-container {
-  grid-template-rows: 47px auto;
+  grid-template-rows: 2.35em auto;
   grid-template-areas: "header" "content";
 }
 

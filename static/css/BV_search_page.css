@@ -71,4 +71,52 @@
   text-decoration: none;
 }
 
+/* line 63, D:/Base de Conhecimentos/Computer Science/Harvard/CS50 Web Programming with Python and JavaScript/Projects/project1-Hyuristyle/static/sass/BV_search_page.sass */
+.no-results-label:after {
+  content: "No books or authors found.";
+  font-size: 1.5em;
+  font-weight: 500;
+}
+
+@media (max-width: 768px) {
+  /* line 73, D:/Base de Conhecimentos/Computer Science/Harvard/CS50 Web Programming with Python and JavaScript/Projects/project1-Hyuristyle/static/sass/BV_search_page.sass */
+  .col {
+    flex-grow: 0;
+    margin: auto;
+    margin-top: 0px;
+  }
+}
+
+@media (max-width: 534px) {
+  /* line 81, D:/Base de Conhecimentos/Computer Science/Harvard/CS50 Web Programming with Python and JavaScript/Projects/project1-Hyuristyle/static/sass/BV_search_page.sass */
+  .author {
+    width: 120px;
+    height: 120px;
+    padding: 40px 0px;
+    font-size: 14px;
+  }
+  /* line 88, D:/Base de Conhecimentos/Computer Science/Harvard/CS50 Web Programming with Python and JavaScript/Projects/project1-Hyuristyle/static/sass/BV_search_page.sass */
+  .no-results-label:after {
+    content: "No results.";
+  }
+}
+
+@media (max-width: 425px) {
+  /* line 93, D:/Base de Conhecimentos/Computer Science/Harvard/CS50 Web Programming with Python and JavaScript/Projects/project1-Hyuristyle/static/sass/BV_search_page.sass */
+  .content {
+    padding: 20px 20px;
+  }
+}
+
+@media (max-width: 320px) {
+  /* line 98, D:/Base de Conhecimentos/Computer Science/Harvard/CS50 Web Programming with Python and JavaScript/Projects/project1-Hyuristyle/static/sass/BV_search_page.sass */
+  body {
+    font-size: 90%;
+  }
+  /* line 102, D:/Base de Conhecimentos/Computer Science/Harvard/CS50 Web Programming with Python and JavaScript/Projects/project1-Hyuristyle/static/sass/BV_search_page.sass */
+  .header .dropdown-menu-right {
+    right: -94px;
+  }
+}
+
 /*# sourceMappingURL=../css/BV_search_page.map */

@@ -5,6 +5,7 @@
   padding: 0px 20px;
   z-index: 100;
   color: #222222;
+  background-color: #fafafa;
   box-shadow: 0 2px 6px 0px rgba(0, 0, 0, 0.3);
   display: grid;
   grid-template-areas: "navbar-brand search-bar-container username-dropdown";
@@ -12,28 +13,29 @@
   grid-column-gap: 20px;
 }
 
-/* line 21, D:/Base de Conhecimentos/Computer Science/Harvard/CS50 Web Programming with Python and JavaScript/Projects/project1-Hyuristyle/static/sass/BV_common_header.sass */
+/* line 23, D:/Base de Conhecimentos/Computer Science/Harvard/CS50 Web Programming with Python and JavaScript/Projects/project1-Hyuristyle/static/sass/BV_common_header.sass */
 .header .dropdown-menu-right {
   left: unset !important;
   right: -80px;
 }
 
-/* line 25, D:/Base de Conhecimentos/Computer Science/Harvard/CS50 Web Programming with Python and JavaScript/Projects/project1-Hyuristyle/static/sass/BV_common_header.sass */
+/* line 27, D:/Base de Conhecimentos/Computer Science/Harvard/CS50 Web Programming with Python and JavaScript/Projects/project1-Hyuristyle/static/sass/BV_common_header.sass */
 .navbar-brand {
   grid-area: navbar-brand;
   width: max-content;
   margin: 0px;
+  font-size: 1.25em;
 }
 
-/* line 31, D:/Base de Conhecimentos/Computer Science/Harvard/CS50 Web Programming with Python and JavaScript/Projects/project1-Hyuristyle/static/sass/BV_common_header.sass */
+/* line 35, D:/Base de Conhecimentos/Computer Science/Harvard/CS50 Web Programming with Python and JavaScript/Projects/project1-Hyuristyle/static/sass/BV_common_header.sass */
 .search-bar-container {
   grid-area: search-bar-container;
   width: 100%;
-  max-width: 1024px;
+  max-width: 768px;
   margin: 0px auto;
 }
 
-/* line 38, D:/Base de Conhecimentos/Computer Science/Harvard/CS50 Web Programming with Python and JavaScript/Projects/project1-Hyuristyle/static/sass/BV_common_header.sass */
+/* line 42, D:/Base de Conhecimentos/Computer Science/Harvard/CS50 Web Programming with Python and JavaScript/Projects/project1-Hyuristyle/static/sass/BV_common_header.sass */
 .username-dropdown {
   grid-area: username-dropdown;
   width: max-content;
@@ -42,12 +44,19 @@
   list-style-type: none;
 }
 
+/* line 51, D:/Base de Conhecimentos/Computer Science/Harvard/CS50 Web Programming with Python and JavaScript/Projects/project1-Hyuristyle/static/sass/BV_common_header.sass */
+.nav-link,
+.nav-link:hover,
+.nav-link:active {
+  color: #222222;
+}
+
 @media (max-width: 768px) {
-  /* line 52, D:/Base de Conhecimentos/Computer Science/Harvard/CS50 Web Programming with Python and JavaScript/Projects/project1-Hyuristyle/static/sass/BV_common_header.sass */
+  /* line 61, D:/Base de Conhecimentos/Computer Science/Harvard/CS50 Web Programming with Python and JavaScript/Projects/project1-Hyuristyle/static/sass/BV_common_header.sass */
   .page-container {
-    grid-template-rows: 94px auto;
+    grid-template-rows: 4.7em auto;
   }
-  /* line 55, D:/Base de Conhecimentos/Computer Science/Harvard/CS50 Web Programming with Python and JavaScript/Projects/project1-Hyuristyle/static/sass/BV_common_header.sass */
+  /* line 64, D:/Base de Conhecimentos/Computer Science/Harvard/CS50 Web Programming with Python and JavaScript/Projects/project1-Hyuristyle/static/sass/BV_common_header.sass */
   .page-container .header {
     grid-template-areas: ". navbar-brand username-dropdown" "search-bar-container search-bar-container search-bar-container";
     grid-template-rows: max-content max-content;
@@ -55,22 +64,75 @@
     border-bottom-left-radius: 7px;
     border-bottom-right-radius: 7px;
   }
-  /* line 63, D:/Base de Conhecimentos/Computer Science/Harvard/CS50 Web Programming with Python and JavaScript/Projects/project1-Hyuristyle/static/sass/BV_common_header.sass */
+  /* line 72, D:/Base de Conhecimentos/Computer Science/Harvard/CS50 Web Programming with Python and JavaScript/Projects/project1-Hyuristyle/static/sass/BV_common_header.sass */
   .page-container .header .navbar-brand {
     margin: 0px auto;
   }
-  /* line 66, D:/Base de Conhecimentos/Computer Science/Harvard/CS50 Web Programming with Python and JavaScript/Projects/project1-Hyuristyle/static/sass/BV_common_header.sass */
+  /* line 75, D:/Base de Conhecimentos/Computer Science/Harvard/CS50 Web Programming with Python and JavaScript/Projects/project1-Hyuristyle/static/sass/BV_common_header.sass */
   .page-container .header .search-bar-container {
     margin: 0px -20px;
   }
-  /* line 69, D:/Base de Conhecimentos/Computer Science/Harvard/CS50 Web Programming with Python and JavaScript/Projects/project1-Hyuristyle/static/sass/BV_common_header.sass */
+  /* line 78, D:/Base de Conhecimentos/Computer Science/Harvard/CS50 Web Programming with Python and JavaScript/Projects/project1-Hyuristyle/static/sass/BV_common_header.sass */
   .page-container .header .search-bar-container .form-inline {
     margin: 0px -20px;
   }
-  /* line 72, D:/Base de Conhecimentos/Computer Science/Harvard/CS50 Web Programming with Python and JavaScript/Projects/project1-Hyuristyle/static/sass/BV_common_header.sass */
+  /* line 81, D:/Base de Conhecimentos/Computer Science/Harvard/CS50 Web Programming with Python and JavaScript/Projects/project1-Hyuristyle/static/sass/BV_common_header.sass */
   .page-container .header .username-dropdown {
     position: absolute;
     right: 0px;
+  }
+}
+
+@media (max-width: 534px) {
+  /* line 88, D:/Base de Conhecimentos/Computer Science/Harvard/CS50 Web Programming with Python and JavaScript/Projects/project1-Hyuristyle/static/sass/BV_common_header.sass */
+  .page-container .header {
+    grid-template-areas: "navbar-brand . username-dropdown" "search-bar-container search-bar-container search-bar-container";
+  }
+}
+
+@media (max-width: 425px) {
+  /* line 93, D:/Base de Conhecimentos/Computer Science/Harvard/CS50 Web Programming with Python and JavaScript/Projects/project1-Hyuristyle/static/sass/BV_common_header.sass */
+  .page-container {
+    grid-template-rows: 7.05em auto;
+  }
+  /* line 96, D:/Base de Conhecimentos/Computer Science/Harvard/CS50 Web Programming with Python and JavaScript/Projects/project1-Hyuristyle/static/sass/BV_common_header.sass */
+  .page-container .header {
+    grid-template-areas: "navbar-brand . username-dropdown" "search-bar-container search-bar-container search-bar-container";
+    grid-template-rows: max-content max-content;
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+    position: relative;
+  }
+  /* line 106, D:/Base de Conhecimentos/Computer Science/Harvard/CS50 Web Programming with Python and JavaScript/Projects/project1-Hyuristyle/static/sass/BV_common_header.sass */
+  .page-container .header .search-bar-container .search-bar-header {
+    height: max-content;
+  }
+  /* line 109, D:/Base de Conhecimentos/Computer Science/Harvard/CS50 Web Programming with Python and JavaScript/Projects/project1-Hyuristyle/static/sass/BV_common_header.sass */
+  .page-container .header .search-bar-container .input-group {
+    display: grid;
+    grid-template-areas: "form-control" "input-group-append";
+    grid-template-rows: auto auto;
+  }
+  /* line 114, D:/Base de Conhecimentos/Computer Science/Harvard/CS50 Web Programming with Python and JavaScript/Projects/project1-Hyuristyle/static/sass/BV_common_header.sass */
+  .page-container .header .search-bar-container .input-group input {
+    font-size: 1em;
+    width: 100%;
+    border-radius: 10px 10px 0 0 !important;
+    padding: 10px 20px;
+  }
+  /* line 124, D:/Base de Conhecimentos/Computer Science/Harvard/CS50 Web Programming with Python and JavaScript/Projects/project1-Hyuristyle/static/sass/BV_common_header.sass */
+  .page-container .header .search-bar-container .input-group .input-group-append button {
+    width: 100%;
+    border-radius: 0 0 10px 10px;
+    background-color: #007bff;
+    color: #fafafa;
+    padding: .375rem 1rem;
+  }
+  /* line 135, D:/Base de Conhecimentos/Computer Science/Harvard/CS50 Web Programming with Python and JavaScript/Projects/project1-Hyuristyle/static/sass/BV_common_header.sass */
+  .page-container .header .search-bar-container .input-group .input-group-append .fa-search::after {
+    content: " Search";
+    font-family: Open Sans;
+    font-weight: lighter;
   }
 }
 
