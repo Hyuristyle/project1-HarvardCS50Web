@@ -82,6 +82,19 @@
 	background-color: gold
 	font-weight: bold
 	
-	.arrow
-		&:after
-			border-top-color: gold
+	.arrow::after
+		border-top-color: gold
+
+@media (max-width: 425px)
+	.book-section
+		grid-column-gap: 10px
+
+	.details-section
+		grid-row-gap: 17px
+
+	.book-title
+		margin: -10px 0px
+
+	.book-author,
+	.book-year
+		line-height: 16px

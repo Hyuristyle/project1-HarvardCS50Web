@@ -30,7 +30,7 @@
 
 	display: grid
 	grid-template-rows: max-content max-content max-content max-content max-content max-content
-	grid-template-areas: "book-title" "book-rating" "book-author" "book-year" "book-isbn" "description-section"
+	grid-template-areas: "book-title" "book-rating" "book-author" "book-year" "book-isbn" "book-description"
 
 .cover-section
 	grid-area: cover-section
@@ -103,6 +103,7 @@
 		margin-right: 5px
 
 .book-description
+	grid-area: book-description
 	margin-top: 20px
 
 	align-self: end
@@ -155,3 +156,127 @@
 .review-date
 	font-weight: normal
 	opacity: 0.7
+
+.dropdown-menu-right
+	transform: none !important
+	top: unset !important
+	right: -21px !important
+
+///////////////////////////////////////////////////////////////////////////////
+// Media Queries
+
+// Up to 1024px
+@media (max-width: 1024px)
+	.content
+		padding: 5px 0px
+
+		.container-fluid
+			padding: 40px 80px
+
+// Up to 768px
+@media (max-width: 768px)
+	.content
+		padding: 0px
+
+		.container-fluid
+			padding: 20px 40px
+			padding-bottom: 40px
+
+			border-top: none
+
+	.book-cover
+		img
+			height: 300px
+
+// Up to 534px
+@media (max-width: 534px)
+	.book-section
+		grid-template-areas: "cover-section details-section" "book-description book-description"
+		grid-template-rows: max-content max-content
+
+	.book-cover
+		img
+			height: 250px
+
+	.book-info
+		grid-row-gap: 20px
+
+	.details-section
+		grid-template-areas: "book-title" "book-rating" "book-author" "book-year" "book-isbn"
+		grid-template-rows: max-content max-content max-content max-content max-content
+
+		grid-row-gap: 10px
+
+		font-size: 90%
+
+	.book-rating
+		display: grid
+		grid-row-gap: 10px
+		margin-top: -10px
+
+	.book-description
+		display: none
+
+
+// Up to 425px
+@media (max-width: 425px)
+	.content
+		.container-fluid
+			padding: 20px
+			padding-bottom: 40px
+	
+	.book-cover
+		img
+			height: 250px
+
+	.book-title
+		margin-top: -4px
+
+		white-space: nowrap
+		overflow: hidden
+		text-overflow: ellipsis
+
+	.book-author,
+	.book-year
+		b::after
+			content: "\a"
+			white-space: pre
+
+// Up to 375px
+@media (max-width: 375px)
+	.book-section
+		grid-column-gap: 13px
+
+	.book-cover
+		img
+			height: 220px
+
+	.details-section
+		font-size: 80%
+
+	.book-title
+		margin-top: -4px
+
+// Up to 320px
+@media (max-width: 320px)
+	.page-container
+		.header
+			padding: 0px 10px
+
+			.search-bar-container
+				.form-inline
+					margin: 0px -10px
+
+		.content
+			.container-fluid
+				padding: 10px
+	
+	.book-section
+		grid-column-gap: 10px
+
+	.review
+		margin: 0px -10px
+		font-size: .7em
+
+	.dropdown-menu-right
+		right: -11px !important

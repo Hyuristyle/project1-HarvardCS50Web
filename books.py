@@ -125,6 +125,13 @@ def get_book_data(isbn, cover_size = "large", get_cover = True, get_description 
 		try:
 			book_description = book_description_request.json()["items"][0]["volumeInfo"]["description"]
 
+			# Temporary solution for limiting the length of the description
+			try:
+				book_description = book_description[:250] + "..."
+
+			except:
+				pass
+
 		except:
 			book_description = None
 

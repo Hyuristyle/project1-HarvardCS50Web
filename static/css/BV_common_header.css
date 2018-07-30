@@ -104,23 +104,19 @@
     position: relative;
   }
   /* line 106, D:/Base de Conhecimentos/Computer Science/Harvard/CS50 Web Programming with Python and JavaScript/Projects/project1-Hyuristyle/static/sass/BV_common_header.sass */
-  .page-container .header .search-bar-container .search-bar-header {
-    height: max-content;
-  }
-  /* line 109, D:/Base de Conhecimentos/Computer Science/Harvard/CS50 Web Programming with Python and JavaScript/Projects/project1-Hyuristyle/static/sass/BV_common_header.sass */
   .page-container .header .search-bar-container .input-group {
     display: grid;
     grid-template-areas: "form-control" "input-group-append";
     grid-template-rows: auto auto;
   }
-  /* line 114, D:/Base de Conhecimentos/Computer Science/Harvard/CS50 Web Programming with Python and JavaScript/Projects/project1-Hyuristyle/static/sass/BV_common_header.sass */
+  /* line 111, D:/Base de Conhecimentos/Computer Science/Harvard/CS50 Web Programming with Python and JavaScript/Projects/project1-Hyuristyle/static/sass/BV_common_header.sass */
   .page-container .header .search-bar-container .input-group input {
     font-size: 1em;
     width: 100%;
     border-radius: 10px 10px 0 0 !important;
     padding: 10px 20px;
   }
-  /* line 124, D:/Base de Conhecimentos/Computer Science/Harvard/CS50 Web Programming with Python and JavaScript/Projects/project1-Hyuristyle/static/sass/BV_common_header.sass */
+  /* line 121, D:/Base de Conhecimentos/Computer Science/Harvard/CS50 Web Programming with Python and JavaScript/Projects/project1-Hyuristyle/static/sass/BV_common_header.sass */
   .page-container .header .search-bar-container .input-group .input-group-append button {
     width: 100%;
     border-radius: 0 0 10px 10px;
@@ -128,7 +124,7 @@
     color: #fafafa;
     padding: .375rem 1rem;
   }
-  /* line 135, D:/Base de Conhecimentos/Computer Science/Harvard/CS50 Web Programming with Python and JavaScript/Projects/project1-Hyuristyle/static/sass/BV_common_header.sass */
+  /* line 132, D:/Base de Conhecimentos/Computer Science/Harvard/CS50 Web Programming with Python and JavaScript/Projects/project1-Hyuristyle/static/sass/BV_common_header.sass */
   .page-container .header .search-bar-container .input-group .input-group-append .fa-search::after {
     content: " Search";
     font-family: Open Sans;

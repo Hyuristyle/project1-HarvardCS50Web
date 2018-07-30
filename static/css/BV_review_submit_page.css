@@ -90,9 +90,29 @@
   font-weight: bold;
 }
 
-/* line 86, D:/Base de Conhecimentos/Computer Science/Harvard/CS50 Web Programming with Python and JavaScript/Projects/project1-Hyuristyle/static/sass/BV_review_submit_page.sass */
-.popover .arrow:after {
+/* line 85, D:/Base de Conhecimentos/Computer Science/Harvard/CS50 Web Programming with Python and JavaScript/Projects/project1-Hyuristyle/static/sass/BV_review_submit_page.sass */
+.popover .arrow::after {
   border-top-color: gold;
+}
+
+@media (max-width: 425px) {
+  /* line 89, D:/Base de Conhecimentos/Computer Science/Harvard/CS50 Web Programming with Python and JavaScript/Projects/project1-Hyuristyle/static/sass/BV_review_submit_page.sass */
+  .book-section {
+    grid-column-gap: 10px;
+  }
+  /* line 92, D:/Base de Conhecimentos/Computer Science/Harvard/CS50 Web Programming with Python and JavaScript/Projects/project1-Hyuristyle/static/sass/BV_review_submit_page.sass */
+  .details-section {
+    grid-row-gap: 17px;
+  }
+  /* line 95, D:/Base de Conhecimentos/Computer Science/Harvard/CS50 Web Programming with Python and JavaScript/Projects/project1-Hyuristyle/static/sass/BV_review_submit_page.sass */
+  .book-title {
+    margin: -10px 0px;
+  }
+  /* line 98, D:/Base de Conhecimentos/Computer Science/Harvard/CS50 Web Programming with Python and JavaScript/Projects/project1-Hyuristyle/static/sass/BV_review_submit_page.sass */
+  .book-author,
+  .book-year {
+    line-height: 16px;
+  }
 }
 
 /*# sourceMappingURL=../css/BV_review_submit_page.map */
