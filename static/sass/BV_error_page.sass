@@ -28,7 +28,7 @@ body
 
 	.message-heading
 		font-family: HamletOrNot
-		font-size: 2rem
+		font-size: 2em
 
 		color: $darkest
 
@@ -40,4 +40,25 @@ body
 		color: inherit
 		opacity: 0.5
 
-		font-size: 1.2rem
+		font-size: 1.2em
+
+///////////////////////////////////////////////////////////////////////////////
+// Media Queries
+
+// Up to 768px
+@media (max-width: 768px)
+	.content
+		font-size: 80%
+
+// Up to 534px
+@media (max-width: 534px)
+	.content
+		font-size: 75%
+
+	.message-background
+		padding: 40px
+
+// Up to 320px
+@media (max-width: 320px)
+	body
+		font-size: 90%
