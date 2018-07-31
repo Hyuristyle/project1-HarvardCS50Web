@@ -35,11 +35,11 @@
 							<div class="col">
 								<div class="book">
 									<div class="book-cover box-shadow-bottom">
-										<a href="{{ url_for('book', isbn=book.isbn) }}"><img src="{{ book.cover }}"></a>
+										<a href="{{ url_for('book', isbn=book.isbn) }}{% if user_reviews %}#{{ user_reviews[loop.index0] }}{% endif %}"><img src="{{ book.cover }}"></a>
 									</div>
 
 									<div class="book-title">
-										<a href="{{ url_for('book', isbn=book.isbn) }}">{{ book.title }} <span>({{ book.year }})</span></a>
+										<a href="{{ url_for('book', isbn=book.isbn) }}{% if user_reviews %}#{{ user_reviews[loop.index0] }}{% endif %}">{{ book.title }} <span>({{ book.year }})</span></a>
 									</div>
 
 									<div class="book-author">

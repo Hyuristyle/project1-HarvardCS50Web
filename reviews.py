@@ -54,10 +54,12 @@ def get_user_reviews(username):
 	user_id = get_user_id(username)
 
 	books_search = db.execute("SELECT DISTINCT isbn, title, author_id, year FROM books INNER JOIN reviews ON reviews.book_id = books.id WHERE user_id = :user_id", {"user_id": user_id}).fetchall()
-
+	
 	books = []
+	reviews_ids = []
 
 	for book in books_search:
-		books.append(get_book_data(book.isbn, cover_size = "medium"))
-
-	return books
+		books.append(get_book_data(book.isbn, cover_size="medium", get_description=False))
+		reviews_ids.append(get_user_review(book.isbn, username).id)
+	
+	return {"books": books, "reviews_ids": reviews_ids}

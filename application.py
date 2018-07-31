@@ -66,7 +66,7 @@ def search():
 	isbns = get_isbns(search_term)
 
 	for isbn in isbns:
-		books.append(get_book_data(isbn, get_description = False))
+		books.append(get_book_data(isbn, get_description=False))
 
 	authors_ids = get_authors(search_term)
 	
@@ -146,9 +146,9 @@ def year(year):
 
 @app.route("/MyReviews")
 def user_reviews():
-	books = get_user_reviews(session.get("username"))
+	user_reviews = get_user_reviews(session.get("username"))
 
-	return render_template("search_results.html", search_results = books, search_term = "MyReviews")
+	return render_template("search_results.html", search_results=user_reviews["books"], user_reviews=user_reviews["reviews_ids"], search_term="MyReviews")
 
 # @app.route("/Settings")
 # def user_settings():
@@ -199,8 +199,8 @@ def user_logout():
 	return redirect(url_for("index"))
 
 # Errors
-@app.route("/404")
-def content_not_found():
+@app.errorhandler(404)
+def content_not_found(e):
 	return render_template("error_404.html"), 404
 
 #-----------------------------------------------------------------------------------------------------------------------
