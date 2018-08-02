@@ -32,7 +32,7 @@ You can search for authors too and, if your search term appears both in the auth
 Putting "my reviews", "My Reviews", "MyReviews", "myreviews" or any combination of uppercase and lowercase, with or without a space in between "my" and "reviews", redirects you to the "/MyReviews" route.
 
 #### book.html:
-Contains: a "large" cover of the book(provided by OpenLibrary's Cover API); the title of the book; the name of the author of the book(which links you to a page containing all of the books written by that author); the year of publication(which links you to a page containing all of the books written in that year); the ISBN string of the book; a description of the book(provided by Google Books API); a button indicating whether the user has already reviewed the book or not(if they have, clicking on the button scrolls to their review of the book), and a list of all the reviews for the book.
+Contains: a "large" cover of the book(provided by OpenLibrary's Cover API); the title of the book; ratings from Bookviews and from Goodreads; the name of the author of the book(which links you to a page containing all of the books written by that author); the year of publication(which links you to a page containing all of the books written in that year); the ISBN string of the book; a description of the book(provided by Google Books API); a button indicating whether the user has already reviewed the book or not(if they have, clicking on the button scrolls to their review of the book), and a list of all the reviews for the book.
 
 #### review_submission.html:
 Contains reduced book info, and the review submission form. You should provide a rating, in stars(0-5), and a piece of text. Zero for the rating is acceptable.
