@@ -21,8 +21,10 @@
 	grid-column-gap: 20px
 
 	.dropdown-menu-right
+		transform: none !important
+		top: unset !important
 		left: unset !important
-		right: -80px
+		right: -21px
 
 .navbar-brand
 	grid-area: navbar-brand
@@ -133,3 +135,16 @@
 							content: " Search"
 							font-family: Open Sans
 							font-weight: lighter
+
+// Up to 320px
+@media (max-width: 320px)
+	.page-container
+		.header
+			padding: 0px 10px
+
+			.search-bar-container
+				.form-inline
+					margin: 0px -10px
+
+	.dropdown-menu-right
+		right: -11px !important
