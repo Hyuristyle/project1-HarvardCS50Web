@@ -20,11 +20,12 @@ body
 
 		text-shadow: 0px 0px 10px $darkest
 
-.dropdown-menu-right
-	position: absolute !important
-	transform: none !important
-	top: unset !important
-	right: -21px !important
+.header
+	.dropdown-menu-right
+		position: absolute !important
+		transform: none !important
+		top: unset !important
+		right: -21px !important
 
 ///////////////////////////////////////////////////////////////////////////////
 // Media Queries
@@ -34,7 +35,7 @@ body
 	body
 		background-size: unset
 
-	.search-bar-cover
+	.search-bar-home
 		margin: 0px 40px !important
 
 	.navbar-nav
@@ -43,7 +44,7 @@ body
 
 // Up to 534px
 @media (max-width: 534px)
-	.search-bar-cover
+	.search-bar-home
 		margin: 0px 10px !important
 
 		.input-group
@@ -82,7 +83,7 @@ body
 
 // Up to 320px
 @media (max-width: 320px)
-	.search-bar-cover
+	.search-bar-home
 		.input-group
 			input
 				font-size: .9rem
