@@ -45,7 +45,7 @@ Contains a humorous(to me) "404"/"not found" message themed around books.
 Contains a more generic template for errors. Not yet being used.
 
 #### Additional Info:
-- Performance is pretty bad right now. Mainly--it seems--because of the limits imposed by the APIs that were used, particularly Goodreads' and, to a lesser extent, OpenLibrary's API. When there are a lot of results, you'll be waiting several seconds(probably 3-5 seconds per book). I didn't try to optimize this in any way because it was beyond the scope of this project--and I was required to use these APIs anyway;
+- Search is pretty slow right now. Mainly--it seems--because of the limits imposed by the APIs that were used, particularly Goodreads' and, to a lesser extent, OpenLibrary's API. When there are a lot of results, you'll be waiting several seconds(probably 3-5 seconds per book). I didn't try to optimize this in any way because it was beyond the scope of this project--and I was required to use these APIs anyway;
 - I've broken most of the functionality down into their own specific Python files: DB.py, books.py, reviews.py, users.py;
 - I've implemented the registration & login system using "argon2", through "passlib";
 - I used Sass' "Sass" syntax instead of the "Scss" one;
