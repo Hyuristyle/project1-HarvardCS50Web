@@ -4,7 +4,7 @@ Web Programming with Python and JavaScript (Harvard's CS50)
 
 #### About
 Bookviews -- A book review website. Users are able to register, log in, search for books or authors, leave reviews for individual books, and see the reviews made by other people. It uses the third-party APIs by Goodreads for book info and ratings, OpenLibrary Covers for book covers, and Google Books for book descriptions.
-It also provides an API for querying book details by ISBN(/book/<isbn>).
+It also provides an API for querying book details by ISBN("/book/isbn>").
 
 #### master_layout.html:
 Contains the base structure, layout, stylesheets and scripts, shared by every page on the website.
