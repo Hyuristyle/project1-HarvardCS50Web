@@ -71,20 +71,20 @@ def get_book_cover(isbn, size):
 	print("(i) Sleeping for 0.05 seconds, to comply with OpenLibrary's Rate Limiting...")
 	time.sleep(0.05)
 
-	if requests.get(f"http://covers.openlibrary.org/b/isbn/{isbn}-S.jpg?default=false").status_code == 404:
+	if requests.get(f"https://covers.openlibrary.org/b/isbn/{isbn}-S.jpg?default=false").status_code == 404:
 		return url_for("static", filename = "images/no_cover_available.png")
 	
 	if size == "large":
-		return f"http://covers.openlibrary.org/b/isbn/{isbn}-L.jpg"
+		return f"https://covers.openlibrary.org/b/isbn/{isbn}-L.jpg"
 
 	elif size == "medium":
-		return f"http://covers.openlibrary.org/b/isbn/{isbn}-M.jpg"
+		return f"https://covers.openlibrary.org/b/isbn/{isbn}-M.jpg"
 
 	elif size == "small":
-		return f"http://covers.openlibrary.org/b/isbn/{isbn}-S.jpg"
+		return f"https://covers.openlibrary.org/b/isbn/{isbn}-S.jpg"
 
 	elif size == "original":
-		return f"http://covers.openlibrary.org/b/isbn/{isbn}.jpg"
+		return f"https://covers.openlibrary.org/b/isbn/{isbn}.jpg"
 
 # DESCRIPTION:
 # get_description(isbn)-->"Description[...]."
