@@ -4,7 +4,7 @@ Web Programming with Python and JavaScript (Harvard's CS50)
 
 #### About
 Bookviews -- A book review website. Users are able to register, log in, search for books or authors, leave reviews for individual books, and see the reviews made by other people. It uses the third-party APIs by Goodreads for book info and ratings, OpenLibrary Covers for book covers, and Google Books for book descriptions.
-It also provides an API for querying book details by ISBN("/book/<isbn_string>").
+It also provides an API for querying book details by ISBN`("/book/<isbn>").`
 
 #### master_layout.html:
 Contains the base structure, layout, stylesheets and scripts, shared by every page on the website.
@@ -27,7 +27,7 @@ Contains just the code for the header of the home page. This header is included 
 This header contains the username, which is a dropdown menu containing the items "MyReviews" and "Logout".
 
 #### search_results.html:
-This is a generic page. It's used in many routes: When you search on the website, this page is returned with the results of your search query; when you access the "MyReviews" route, this page is returned with a list of books that the currently-logged in user has reviewed; this page also returns all the books of a particular author, when you visit the route "/<author_name>", or all the books published in a particular year, when you visit the route "/<year>".
+This is a generic page. It's used in many routes: When you search on the website, this page is returned with the results of your search query; when you access the "MyReviews" route, this page is returned with a list of books that the currently-logged in user has reviewed; this page also returns all the books of a particular author, when you visit the route "/<author_name>", or all the books published in a particular year, when you visit the route `"/<year>".`
 You can search for authors too and, if your search term appears both in the authors and the books tables, both authors and books will appear on the search_results page--authors first.
 Putting "my reviews", "My Reviews", "MyReviews", "myreviews" or any combination of uppercase and lowercase, with or without a space in between "my" and "reviews", redirects you to the "/MyReviews" route.
 
