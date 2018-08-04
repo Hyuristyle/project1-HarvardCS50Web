@@ -223,7 +223,3 @@ def API_isbn(isbn):
 			"review_count": get_ratings_count(isbn),
 			"average_score": get_average_rating(isbn)
 		})
-
-@app.route("/api/not_found")
-def API_not_found():
-	return jsonify({"error": "isbn not found in our database."}), 422
